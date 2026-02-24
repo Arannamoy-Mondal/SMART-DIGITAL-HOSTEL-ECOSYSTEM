@@ -1,4 +1,4 @@
-```mmd
+```mermaid
 classDiagram
 direction BT
 class complaint {
