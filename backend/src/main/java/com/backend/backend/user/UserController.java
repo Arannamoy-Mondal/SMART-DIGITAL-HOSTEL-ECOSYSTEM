@@ -18,6 +18,9 @@ public class UserController {
     public UserService userService;
 
     @Autowired
+    private JwtService jwtService;
+
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
@@ -33,7 +36,7 @@ public class UserController {
         );
         String result="";
         if (authentication.isAuthenticated()){
-            result= "Success";
+            return ResponseEntity.status(HttpStatus.OK).body(jwtService.generateToken(user.getUserName()));
         }
         else{
             result="Failed";

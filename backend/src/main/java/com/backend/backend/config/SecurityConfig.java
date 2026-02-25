@@ -33,8 +33,6 @@ public class SecurityConfig {
             .permitAll()
             .anyRequest()
             .authenticated())
-        .formLogin(Customizer.withDefaults())
-        .httpBasic(Customizer.withDefaults())
         .sessionManagement(customizer->customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return httpSecurity.build();
     }
