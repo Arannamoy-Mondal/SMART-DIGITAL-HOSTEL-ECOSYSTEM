@@ -1,10 +1,10 @@
 ```mermaid
 flowchart TD
 
-A[React Frontend\n(View Layer)]
-B[Spring Boot Controller\n(REST API)]
-C[Service Layer\n(Business Logic)]
-D[Repository Layer\n(JPA)]
+A[React Frontend (View Layer)]
+B[Spring Boot Controller (REST API)]
+C[Service Layer (Business Logic)]
+D[Repository Layer (JPA)]
 E[(PostgreSQL Database)]
 
 A -->|HTTP Request (JSON)| B
