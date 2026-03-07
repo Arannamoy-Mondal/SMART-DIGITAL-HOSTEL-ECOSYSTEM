@@ -1,4 +1,4 @@
-package com.backend.backend.user;
+package com.backend.backend.controller;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.backend.dto.UserRequest;
 import com.backend.backend.jwt.JwtService;
+import com.backend.backend.model.User;
+import com.backend.backend.service.UserService;
 
 import tools.jackson.databind.ObjectMapper;
 

@@ -1,4 +1,4 @@
-package com.backend.backend.user;
+package com.backend.backend.model;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -6,8 +6,6 @@ import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.backend.backend.model.Role;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,8 +19,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

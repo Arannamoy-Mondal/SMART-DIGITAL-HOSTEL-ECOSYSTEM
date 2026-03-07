@@ -1,4 +1,4 @@
-package com.backend.backend.user;
+package com.backend.backend.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,7 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.backend.dto.UserRequest;
 import com.backend.backend.model.Role;
-import com.backend.backend.service.RoleService;
+import com.backend.backend.model.User;
+import com.backend.backend.repo.UserRepo;
 
 @Service
 public class UserService {
