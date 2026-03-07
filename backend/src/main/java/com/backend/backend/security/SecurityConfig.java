@@ -1,4 +1,4 @@
-package com.backend.backend.config;
+package com.backend.backend.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

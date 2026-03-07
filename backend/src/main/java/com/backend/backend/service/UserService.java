@@ -17,7 +17,10 @@ import com.backend.backend.model.Role;
 import com.backend.backend.model.User;
 import com.backend.backend.repo.UserRepo;
 
+import lombok.extern.log4j.Log4j2;
+
 @Service
+@Log4j2
 public class UserService {
     @Autowired
     private UserRepo userRepo;
@@ -26,9 +29,10 @@ public class UserService {
     private RoleService roleService;
 
     private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
-    public User saveUser(UserRequest userRequest){
+    public User saveUser(UserRequest userRequest) throws Exception{
 
-        User user=User.builder()
+        try {
+            User user=User.builder()
         // .userName(userRequest.getUserName())
         // .password(encoder.encode(userRequest.getPassword()))
         // .roles(userRequest.getRole())
@@ -37,11 +41,11 @@ public class UserService {
 
         for(String role:userRequest.getRole()){
             roles.add(roleService.findByRole(role));
-            System.out.println(roles);
+            // System.out.println(roles);
         }
 
         user.setPassword(encoder.encode(userRequest.getPassword()));
-        System.out.println(user.getPassword());
+        // System.out.println(user.getPassword());
         User new_user=User
         .builder()
         .userName(userRequest.getUserName())
@@ -50,23 +54,37 @@ public class UserService {
         // .profileImage(user.getProfileImage())
         .build();
         return userRepo.save(new_user);
+        } catch (Exception e) {
+            throw new Exception("User signup failed. Please try later.");
+        }
     }
 
 
-    public List<User> getAllUser(){
-        return userRepo.findAll();
+    public List<User> getAllUser() throws Exception{
+        try {
+            List<User> users=userRepo.findAll();
+            if(users.size()>0){
+                return users;
+            }
+            throw new Exception("Please try later.");
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new Exception("Please try later.");
+        }
     }
 
 
-    public ResponseEntity<?> updateUser(Integer id,MultipartFile image){
+    public User updateUser(Integer id,MultipartFile image) throws Exception{
         try{
             User user=userRepo.findById(id).orElse(null);
             user.setProfileImage(image.getBytes());
             userRepo.save(user);
-           return ResponseEntity.status(HttpStatus.OK).body(userRepo.findById(id).orElse(null));
+            return userRepo.findById(user.getId()).orElse(null);
+        //    return ResponseEntity.status(HttpStatus.OK).body(userRepo.findById(id).orElse(null));
         } catch (Exception e) {
-          System.out.println(e.getMessage());
+        //   log.info(e.getMessage());
+          throw new Exception("Image not successful.");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRepo.findById(id).orElse(null));
+        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRepo.findById(id).orElse(null));
     }
 }
