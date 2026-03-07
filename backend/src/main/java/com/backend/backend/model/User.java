@@ -45,9 +45,7 @@ public class User {
     private Integer id;
     @Column(unique = true)
     private String userName;
-    @NotBlank
-    @NotEmpty
-    @Size(max = 14,min = 4,message = "max 14 character and min 4 character")
+    
     private String password;
     @Lob
     private byte[] profileImage;
@@ -61,7 +59,7 @@ public class User {
         joinColumns = @JoinColumn(name="user_id")
         ,inverseJoinColumns = @JoinColumn(name="role_id")
     )
-    @NotEmpty(message = "At least one role is required")
+    
     private Set<Role> roles = new HashSet<>();
 
     @NotBlank(message = "First name Required")
