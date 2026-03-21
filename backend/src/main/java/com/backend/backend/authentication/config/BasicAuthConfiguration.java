@@ -12,10 +12,17 @@ public class BasicAuthConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
         return httpSecurity.authorizeHttpRequests(
-            auth->auth.requestMatchers("/user/signup","/user/login")
+            auth->auth.requestMatchers(
+                "/user/signup",
+                "/user/login",
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/**"
+            )
             .permitAll()
-            .anyRequest()
-            .authenticated()
+            // .anyRequest()
+            // .authenticated()
         )
         .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .csrf(csrf->csrf.disable())
