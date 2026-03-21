@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.backend.dto.RoomTypeRequest;
 import com.backend.backend.service.RoomTypeService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/room-type")
@@ -29,12 +31,16 @@ public class RoomTypeController {
 
     @GetMapping("")
     public ResponseEntity<?> getRoomTypes() {
-
         return roomTypeService.getRoomTypes();
-
     }
 
-    @GetMapping("/{roomTypeId}")
+    @GetMapping("/roomType/{roomType}")
+    public ResponseEntity<?> getRoomTypeByRoomType(@PathVariable("roomType") String roomType) {
+        return roomTypeService.getRoomTypeByRoomType(roomType);
+    }
+    
+
+    @GetMapping("/id/{roomTypeId}")
     public ResponseEntity<?> getRoomTypeById(
             @PathVariable("roomTypeId") Integer roomTypeId) {
         return roomTypeService.getRoomTypeById(roomTypeId);

@@ -1,5 +1,7 @@
 package com.backend.backend.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,21 @@ public class RoomTypeService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+
+    public ResponseEntity<?> getRoomTypeByRoomType(String roomType){
+            try {
+
+                RoomType res=roomTypeRepo.findByRoomType(roomType).orElse(null);
+                System.out.println(res);
+                if(res==null){
+                    return ResponseEntity.status(HttpStatus.OK).body("No room type found with this "+roomType);
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+        }
 
     public ResponseEntity<?> updateRoomType(Integer roomTypeId, RoomTypeRequest roomTypeRequest) {
         try {
