@@ -14,15 +14,15 @@ public class BasicAuthConfiguration {
         return httpSecurity.authorizeHttpRequests(
             auth->auth.requestMatchers(
                 "/user/signup",
-                "/user/login",
-                "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html",
-                "/**"
+                "/user/login"
+                // "/v3/api-docs/**",
+                // "/swagger-ui/**",
+                // "/swagger-ui.html",
+                // "/**"
             )
             .permitAll()
-            // .anyRequest()
-            // .authenticated()
+            .anyRequest()
+            .authenticated()
         )
         .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .csrf(csrf->csrf.disable())

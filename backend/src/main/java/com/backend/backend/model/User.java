@@ -3,7 +3,7 @@ package com.backend.backend.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -66,5 +66,6 @@ public class User {
     private LocalDate birthDate;
     private String permanentAddress;
     private String passportId;
+    
 
 }
