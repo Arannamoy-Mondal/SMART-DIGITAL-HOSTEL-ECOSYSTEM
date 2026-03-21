@@ -1,7 +1,7 @@
 package com.backend.backend.service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -98,7 +98,7 @@ public class RoomService {
             if (room == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found with id " + id);
             }
-            return ResponseEntity.status(HttpStatus.OK).body(room);
+            return ResponseEntity.status(HttpStatus.FOUND).body(room);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -110,7 +110,7 @@ public class RoomService {
             if (room == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found with no " + roomNo);
             }
-            return ResponseEntity.status(HttpStatus.OK).body(room);
+            return ResponseEntity.status(HttpStatus.FOUND).body(room);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -126,7 +126,7 @@ public class RoomService {
             if (rooms.size() < 1) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found with room type " + entity);
             }
-            return ResponseEntity.status(HttpStatus.OK).body(rooms);
+            return ResponseEntity.status(HttpStatus.FOUND).body(rooms);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
