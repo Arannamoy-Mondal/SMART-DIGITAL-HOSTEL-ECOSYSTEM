@@ -1,19 +1,12 @@
 package com.backend.backend.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,33 +17,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+import java.util.*;
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class RoomType {
+public class TransactionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roomTypeId;
+    private Integer transactionId;
+
     @Column(unique = true)
-    private String roomType;
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-    @LastModifiedBy
-    private String updatedBy;
+    private String transactionType;
 
-
-
-    @OneToMany(mappedBy = "roomType")
-    @JsonBackReference
+    @OneToMany(mappedBy = "transactionType")
     @ToString.Exclude
-    List<Room> rooms;
+    private List<Transaction> transactions;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @CreatedBy
+    private String createdBy;
 }
