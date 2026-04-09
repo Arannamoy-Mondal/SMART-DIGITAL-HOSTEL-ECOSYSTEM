@@ -47,7 +47,7 @@ public class User {
     private String userName;
 
     private String password;
-    
+
     @Lob
     private byte[] profileImage;
 
@@ -80,4 +80,15 @@ public class User {
     @ToString.Exclude
     private List<Transaction> transactions;
 
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Complaint> complaints;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Discussion> discussions;
 }

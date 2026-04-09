@@ -20,6 +20,7 @@ public class RoomRentHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomRentHistoryId;
-    private List<User> users;
+
+    // private List<User> users;
 
 }

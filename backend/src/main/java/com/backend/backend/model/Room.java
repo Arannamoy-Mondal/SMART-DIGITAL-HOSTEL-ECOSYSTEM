@@ -73,4 +73,14 @@ public class Room {
     @JsonBackReference
     // @ToString.Exclude
     private List<Transaction> transactions;
+
+
+    @OneToMany(mappedBy = "room")
+    @JsonBackReference
+    private List<Comment> comments;
+
+
+    @OneToMany(mappedBy = "room")
+    @JsonBackReference
+    private List<Discussion> discussions;
 }

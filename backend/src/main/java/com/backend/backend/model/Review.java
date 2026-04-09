@@ -47,11 +47,9 @@ public class Review {
     @LastModifiedBy
     private String updatedBy;
 
-    private User user;
-
-    private Room room;
-
-
     private String description;
 
+    // private User user;
+
+    // private Room room;
 }

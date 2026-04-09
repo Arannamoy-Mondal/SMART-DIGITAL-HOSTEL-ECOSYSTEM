@@ -30,6 +30,6 @@ public class RoomRentInformation {
     private int lifetimeUsedMealToken;
 
 
-    private List<User> users;
+    // private List<User> users;
     // private Room room;
 }

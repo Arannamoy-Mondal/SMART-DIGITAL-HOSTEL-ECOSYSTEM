@@ -49,10 +49,10 @@ public class MealItem {
     private String updatedBy;
 
 
-    private List<MealItem> mealItems;
+    // private List<MealItem> mealItems;
 
-    private Menu menu;
+    // private Menu menu;
 
-    private MealType mealType;
+    // private MealType mealType;
 
 }
