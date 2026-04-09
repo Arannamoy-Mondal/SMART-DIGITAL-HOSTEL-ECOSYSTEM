@@ -41,7 +41,8 @@ public class UserService {
 
         try {
             User user = UserMapper.mapToUser(userRequest);
-            if (userRepo.findByUserName(user.getUserName()) != null) {
+            if (userRepo.findByUserName(user.getUserName()).orElse(null) != null) {
+                
                 return "username already exist";
             }
             user.setPassword(encoder.encode(user.getPassword()));
