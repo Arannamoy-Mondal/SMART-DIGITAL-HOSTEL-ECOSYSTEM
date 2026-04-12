@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DiscussionRequest{
     String description;
-    String roomNo;
-    String userId;
+    Integer roomNo;
+    Integer userId;
 }
