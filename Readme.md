@@ -65,11 +65,11 @@ flowchart TD
 
 ## 🛠️ Tech Stack
 
-* [cite_start]**Backend:** Spring Boot (Java) 
-* [cite_start]**Frontend:** Next.js (Tailwind CSS, Daisy UI) 
+* **Backend:** Spring Boot (Java) 
+* **Frontend:** Next.js (Tailwind CSS, Daisy UI) 
 * **AI Integration:** Spring AI & Ollama
-* [cite_start]**Database:** PostgreSQL 
-* [cite_start]**Tools:** Git, Ubuntu, VS Code 
+* **Database:** PostgreSQL 
+* **Tools:** Git, Ubuntu, VS Code 
 
 ---
 
