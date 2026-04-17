@@ -42,14 +42,13 @@ public class UserService {
         try {
             User user = UserMapper.mapToUser(userRequest);
             if (userRepo.findByUserName(user.getUserName()).orElse(null) != null) {
-                
-                return "username already exist";
+                throw new Exception("username already exist");
             }
             user.setPassword(encoder.encode(user.getPassword()));
             User savedUser = userRepo.save(user);
-            return UserMapper.mapToUserRequest(savedUser);
+            return "Signup successfully.";
         } catch (Exception e) {
-            throw new Exception("User signup failed. Please try later.");
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -62,7 +61,7 @@ public class UserService {
             throw new Exception("Please try later.");
         } catch (Exception e) {
             // TODO: handle exception
-            throw new Exception("Please try later.");
+            throw new Exception(e.getMessage());
         }
     }
 

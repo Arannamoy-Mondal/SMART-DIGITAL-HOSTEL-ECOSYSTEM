@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.backend.dto.RoomTypeRequest;
 import com.backend.backend.service.RoomTypeService;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController

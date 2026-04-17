@@ -1,5 +1,6 @@
 - Swagger UI
 * http://localhost:8000/swagger-ui/index.html
+
 - API
 - Method: Post
 1. http://0.0.0.0:8000/user/signup

@@ -33,6 +33,8 @@ public class UserController {
         }
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.signup(userRequest));
+           
+            
         } catch (Exception e) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
