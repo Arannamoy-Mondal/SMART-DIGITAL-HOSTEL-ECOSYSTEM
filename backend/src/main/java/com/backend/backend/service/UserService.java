@@ -81,7 +81,9 @@ public class UserService {
         // ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRepo.findById(id).orElse(null));
     }
 
-    public @Nullable Object login(LoginRequest loginRequest) {
+    public @Nullable Object login(LoginRequest loginRequest) throws Exception {
+        User user=userRepo.findByUserName(loginRequest.getUserName())
+        .orElseThrow(()->new Exception("username not found."));
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequest.getUserName(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);

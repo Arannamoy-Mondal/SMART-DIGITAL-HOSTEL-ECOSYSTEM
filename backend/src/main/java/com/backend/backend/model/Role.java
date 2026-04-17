@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -35,12 +38,17 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String role;
+    
     @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime addedTime;
+    private LocalDateTime createdAt;
+    
+    @CreatedBy
+    private String createdBy;
+    
+    @LastModifiedBy
+    private String updatedBy;
 
-    @CreatedDate
-    @Column(updatable = true)
+    @LastModifiedDate
     private LocalDateTime updatedTime;
 
     
