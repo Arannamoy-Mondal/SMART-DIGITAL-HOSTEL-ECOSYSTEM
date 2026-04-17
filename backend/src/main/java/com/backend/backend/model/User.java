@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -29,11 +28,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,9 +42,11 @@ import lombok.ToString;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class User {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
+    
     @Column(unique = true)
     private String userName;
 
@@ -52,25 +55,23 @@ public class User {
     @Lob
     private byte[] profileImage;
 
-
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime addedTime;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonManagedReference
     private Set<Role> roles = new HashSet<>();
 
     private String firstName;
-
     private String lastName;
+    
     @Column(unique = true)
-
     private String email;
 
     private String contactNo;
-
     private String emergencyContactNo;
     private LocalDate birthDate;
     private String permanentAddress;
@@ -78,7 +79,6 @@ public class User {
     
     @OneToMany(mappedBy = "user")
     @JsonBackReference
-    @ToString.Exclude
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "user")
@@ -94,5 +94,10 @@ public class User {
     private List<Discussion> discussions;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<RoomRentInformation> roomRentInformations;
 }

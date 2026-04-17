@@ -45,3 +45,8 @@ public class MealTokenHistory {
     @LastModifiedBy
     private String updatedBy;
 }
+
+
+/*
+Unnecessary
+*/

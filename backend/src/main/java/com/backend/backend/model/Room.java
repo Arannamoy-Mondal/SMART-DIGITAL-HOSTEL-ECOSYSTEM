@@ -24,61 +24,59 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Room {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomId;
+    
     @Column(unique = true)
     private int roomNo;
-
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_room_type")
     @JsonManagedReference
-    // @ToString.Exclude
     private RoomType roomType;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_floor")
     @JsonManagedReference
-    // @ToString.Exclude
     private Floor floor;
 
-
     private float perDayRentFee;
+    
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+    
     @CreatedBy
     @Column(updatable = false)
     private String createdBy;
+    
     @LastModifiedDate
     private LocalDateTime updatedAt;
+    
     @LastModifiedBy
     private String updatedBy;
 
     @OneToMany(mappedBy = "room")
     @JsonBackReference
-    // @ToString.Exclude
     private List<Transaction> transactions;
-
 
     @OneToMany(mappedBy = "room")
     @JsonBackReference
     private List<Comment> comments;
-
 
     @OneToMany(mappedBy = "room")
     @JsonBackReference
@@ -89,5 +87,10 @@ public class Room {
     private List<Complaint> complaints;
 
     @OneToMany(mappedBy = "room")
+    @JsonBackReference
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "room")
+    @JsonBackReference
+    private List<RoomRentInformation> roomRentInformations;
 }

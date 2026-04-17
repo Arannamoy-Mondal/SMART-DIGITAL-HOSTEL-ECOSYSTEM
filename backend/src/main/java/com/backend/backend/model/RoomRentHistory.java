@@ -1,6 +1,6 @@
 package com.backend.backend.model;
 
-import java.util.List;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,3 +24,5 @@ public class RoomRentHistory {
     // private List<User> users;
 
 }
+
+/* unnecessary */
