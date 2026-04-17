@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import com.backend.backend.model.PaymentMethod;
 import com.backend.backend.model.Role;
 import com.backend.backend.model.TransactionType;
+import com.backend.backend.repo.PaymentMethodRepo;
 import com.backend.backend.repo.RoleRepo;
 import com.backend.backend.repo.TransactionTypeRepo;
 
@@ -18,6 +20,8 @@ public class DatabaseSeeder implements CommandLineRunner{
     @Autowired
     private TransactionTypeRepo transactionTypeRepo;
     
+    @Autowired
+    private PaymentMethodRepo paymentMethodRepo;
     @Override
     public void run(String... args) throws Exception {
         // TODO Auto-generated method stub
@@ -32,6 +36,13 @@ public class DatabaseSeeder implements CommandLineRunner{
             transactionTypeRepo.save(TransactionType.builder().transactionType("credit").build());
         }
         
+        if(paymentMethodRepo.count()==0){
+            paymentMethodRepo.save(PaymentMethod.builder().paymentMethod("bkash").build());
+            paymentMethodRepo.save(PaymentMethod.builder().paymentMethod("rocket").build());
+            paymentMethodRepo.save(PaymentMethod.builder().paymentMethod("nagad").build());
+            paymentMethodRepo.save(PaymentMethod.builder().paymentMethod("visa").build());
+            paymentMethodRepo.save(PaymentMethod.builder().paymentMethod("master card").build());
+        }
     }
 
 }
