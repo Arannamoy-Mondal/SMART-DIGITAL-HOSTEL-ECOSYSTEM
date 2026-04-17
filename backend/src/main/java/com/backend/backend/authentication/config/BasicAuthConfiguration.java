@@ -29,6 +29,7 @@ public class BasicAuthConfiguration {
         .httpBasic(httpBasic->httpBasic.disable())
         .formLogin(form->form.disable())
         .oauth2ResourceServer(oauth->oauth.jwt(Customizer.withDefaults()))
+        .cors(Customizer.withDefaults())
         .build();
     }
 }
