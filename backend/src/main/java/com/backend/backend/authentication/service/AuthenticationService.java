@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -23,7 +25,8 @@ public class AuthenticationService {
                 .expiresAt(Instant.now().plusSeconds(3600 * 12))
                 .claim("scope", createScope(authentication))
                 .build();
-        JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(claims);
+        JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();
+        JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(jwsHeader, claims);
         return jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
     }
 
