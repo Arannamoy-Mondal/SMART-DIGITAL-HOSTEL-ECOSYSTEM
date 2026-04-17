@@ -23,7 +23,7 @@ public class PaymentMethodService {
 
     public @Nullable Object getPaymentMethodByPaymentMethod(String paymentMethod) throws Exception {
        try {
-            PaymentMethod tmp=paymentMethodRepo.findByPaymentMethod(paymentMethod)
+            PaymentMethod tmp=paymentMethodRepo.findByPaymentMethod(paymentMethod.toLowerCase())
             .orElseThrow(()->new Exception("No payment method found with payment method: "+paymentMethod));
             return tmp;
         } catch (Exception e) {
