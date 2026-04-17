@@ -51,8 +51,15 @@ public class MealItem {
 
     // private List<MealItem> mealItems;
 
+    
     // private Menu menu;
 
     // private MealType mealType;
 
 }
+
+/* 
+
+Unncessary
+
+*/

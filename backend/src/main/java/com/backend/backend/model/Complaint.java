@@ -19,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -59,5 +60,11 @@ public class Complaint {
     @JsonManagedReference
     private User user;
 
-    // private Room room;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private Room room;
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private ComplaintStatus complaintStatus;
 }

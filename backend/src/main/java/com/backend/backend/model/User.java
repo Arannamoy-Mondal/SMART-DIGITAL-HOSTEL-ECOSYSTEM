@@ -91,4 +91,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private List<Discussion> discussions;
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 }

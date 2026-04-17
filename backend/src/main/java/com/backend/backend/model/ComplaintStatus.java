@@ -15,6 +15,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,4 +48,7 @@ public class ComplaintStatus {
 
     @LastModifiedBy
     private String updatedBy;
+
+    @OneToOne(mappedBy = "complaintStatus")
+    private Complaint complaint;
 }

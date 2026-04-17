@@ -10,3 +10,11 @@
 1. http://0.0.0.0:8000/comment/get/all
 2. http://0.0.0.0:8000/comment/get/{id}
 3. http://0.0.0.0:8000/comment/create
+
+- MealType
+1. http://0.0.0.0:8000/mealType/get
+2. http://0.0.0.0:8000/mealType/create
+3. http://0.0.0.0:8000/mealType/update/{mealTypeId}
+4. http://0.0.0.0:8000/mealType/delete/{mealTypeId}
+
+- 

@@ -83,4 +83,11 @@ public class Room {
     @OneToMany(mappedBy = "room")
     @JsonBackReference
     private List<Discussion> discussions;
+
+    @OneToMany(mappedBy = "room")
+    @JsonBackReference
+    private List<Complaint> complaints;
+
+    @OneToMany(mappedBy = "room")
+    private List<Review> reviews;
 }
