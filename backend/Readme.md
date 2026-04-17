@@ -38,3 +38,7 @@
 3. http://0.0.0.0:8000/menu/get
 4. http://0.0.0.0:8000/menu/update/{menuId}
 5. http://0.0.0.0:8000/menu/delete/{menuId}
+
+
+- Room
+1. 

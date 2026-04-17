@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.backend.backend.model.PaymentMethod;
 @Repository
 public interface PaymentMethodRepo extends JpaRepository<PaymentMethod,Integer>{
-
+    
 }
