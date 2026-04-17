@@ -29,7 +29,7 @@ public class MealTypeController {
         @RequestBody MealTypeRequest mealTypeRequest
                 ) {
             try {
-                System.out.println(mealTypeRequest);
+           
                 return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.createMealType(mealTypeRequest));
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -42,6 +42,18 @@ public class MealTypeController {
                 ) {
             try {
                 return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.getAllMealType());
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+    
+        }
+
+    @GetMapping("/get/{mealTypeId}")
+    public ResponseEntity<?> getMealTypeById(
+        @PathVariable("mealTypeId") Integer mealTypeId
+                ) {
+            try {
+                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.getMealTypeById(mealTypeId));
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
             }

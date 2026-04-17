@@ -18,8 +18,12 @@ public class MealTypeService {
 
     public @Nullable Object createMealType(MealTypeRequest mealTypeRequest) throws Exception {
         try {
+            MealType tmp=mealTypeRepo.findByMealType(mealTypeRequest.getMealType().toLowerCase()).orElse(null);
+            if(tmp!=null){
+                throw new Exception("Meal type already exist");
+            }
             MealType mealType = MealType.builder()
-                    .mealType(mealTypeRequest.getMealType()).build();
+                    .mealType(mealTypeRequest.getMealType().toLowerCase()).build();
             MealType savedMealType = mealTypeRepo.save(mealType);
             return savedMealType;
         } catch (Exception e) {
@@ -30,8 +34,8 @@ public class MealTypeService {
 
     public @Nullable Object getAllMealType() throws Exception {
         try {
-            List<MealType> mealTypes=mealTypeRepo.findAll();
-            if(mealTypes.size()<1){
+            List<MealType> mealTypes = mealTypeRepo.findAll();
+            if (mealTypes.size() < 1) {
                 throw new Exception("No MealType available");
             }
             return mealTypes;
@@ -42,31 +46,50 @@ public class MealTypeService {
 
     public @Nullable Object deleteMealType(Integer mealTypeId) throws Exception {
         try {
-           
-            MealType mealType=mealTypeRepo.findById(mealTypeId).orElse(null);
-            if(mealType==null){
-                throw new Exception("No meal type found with id "+mealTypeId);
+
+            MealType mealType = mealTypeRepo.findById(mealTypeId).orElse(null);
+            if (mealType == null) {
+                throw new Exception("No meal type found with id " + mealTypeId);
             }
             mealTypeRepo.deleteById(mealTypeId);
             return "Successfully deleted";
-            
+
         } catch (Exception e) {
-            
+
             throw new Exception(e.getMessage());
         }
     }
 
     public @Nullable Object updateMealType(Integer mealTypeId, MealTypeRequest mealTypeRequest) throws Exception {
         try {
-            MealType mealType=mealTypeRepo.findById(mealTypeId).orElse(null);
-            if(mealType==null){
-                throw new Exception("No meal type found with id "+mealTypeId);
+            MealType mealType = mealTypeRepo.findById(mealTypeId).orElse(null);
+            if (mealType == null) {
+                throw new Exception("No meal type found with id " + mealTypeId);
             }
-            mealType.setMealType(mealTypeRequest.getMealType());
-            MealType savedMealType=mealTypeRepo.save(mealType);
+            if (mealTypeRequest.getMealType() != null && !mealTypeRequest.getMealType().isBlank()) {
+                mealType.setMealType(mealTypeRequest.getMealType().toLowerCase());
+
+            }
+            MealType savedMealType = mealTypeRepo.save(mealType);
             return savedMealType;
 
         } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public @Nullable Object getMealTypeById(Integer mealTypeId) throws Exception {
+        try {
+
+            MealType mealType = mealTypeRepo.findById(mealTypeId).orElse(null);
+            if (mealType == null) {
+                throw new Exception("No meal type found with id " + mealTypeId);
+            }
+
+            return mealType;
+
+        } catch (Exception e) {
+
             throw new Exception(e.getMessage());
         }
     }
