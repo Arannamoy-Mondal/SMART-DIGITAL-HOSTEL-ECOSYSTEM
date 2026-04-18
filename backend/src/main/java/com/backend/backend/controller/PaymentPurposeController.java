@@ -28,17 +28,17 @@ public class PaymentPurposeController {
     }
 
 
-    // @GetMapping("/get/paymentPurpose/{paymentPurpose}")
-    // public ResponseEntity<?> getPaymentPurposeByPaymentPurpose(
-    //     @PathVariable("paymentPurpose") String paymentPurpose
-    //             ) {
-    //         try {
-    //             return ResponseEntity.status(HttpStatus.OK).body(paymentPurposeService.getPaymentPurposeByPaymentPurpose(paymentPurpose));
-    //         } catch (Exception e) {
-    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    //         }
+    @GetMapping("/get/{paymentPurpose}")
+    public ResponseEntity<?> getPaymentPurposeByPaymentPurpose(
+        @PathVariable("paymentPurpose") String paymentPurpose
+                ) {
+            try {
+                return ResponseEntity.status(HttpStatus.OK).body(paymentPurposeService.getPaymentPurposeByPaymentPurpose(paymentPurpose));
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
     
-    //     }
+        }
 
 
     @GetMapping("/get/{paymentPurposeId}")

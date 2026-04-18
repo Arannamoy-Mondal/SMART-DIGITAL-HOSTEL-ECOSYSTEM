@@ -111,3 +111,11 @@ Testing the backend authentication flow via Postman.
 </p>
 
 
+##
+Transaction
+- String userName
+- String roomNo
+- String transactionType
+- String paymentMethod
+- String paymentPurpose
+- BigDecimal amount

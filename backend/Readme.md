@@ -40,5 +40,20 @@
 5. http://0.0.0.0:8000/menu/delete/{menuId}
 
 
-- Room
+#### Transaction
 1. 
+```
+http://0.0.0.0:8000/transaction/create
+```
+2. 
+```
+http://0.0.0.0:8000/transaction/get
+```
+3. 
+```
+http://0.0.0.0:8000/transaction/get/userName/{userName}
+```
+4. 
+```
+http://0.0.0.0:8000/transaction/get/roomNo/{roomNo}
+```

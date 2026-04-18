@@ -3,6 +3,7 @@ package com.backend.backend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
 
 import com.backend.backend.model.PaymentMethod;
 import com.backend.backend.model.PaymentPurpose;
@@ -12,6 +13,7 @@ import com.backend.backend.repo.PaymentMethodRepo;
 import com.backend.backend.repo.PaymentPurposeRepo;
 import com.backend.backend.repo.RoleRepo;
 import com.backend.backend.repo.TransactionTypeRepo;
+import com.backend.backend.repo.UserRepo;
 
 @Configuration
 public class DatabaseSeeder implements CommandLineRunner{
@@ -27,6 +29,10 @@ public class DatabaseSeeder implements CommandLineRunner{
 
     @Autowired
     private PaymentPurposeRepo paymentPurposeRepo;
+
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,10 +57,10 @@ public class DatabaseSeeder implements CommandLineRunner{
         }
 
         if (paymentPurposeRepo.count()==0) {
-            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("room_rent.").build());
-            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("meal_token.").build());
-            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("room_rent_and_meal_token.").build());
-            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("service_charge").build());
+            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("room rent").build());
+            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("meal token").build());
+            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("room rent and meal token").build());
+            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("service charge").build());
         }
     }
 
