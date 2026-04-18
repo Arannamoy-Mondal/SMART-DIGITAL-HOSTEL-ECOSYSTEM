@@ -37,13 +37,13 @@ public class BasicAuthConfiguration {
         .build();
     }
 
-    // BasicAuthConfiguration.java ফাইলে যোগ করুন
+    
 @Bean
 public JwtAuthenticationConverter jwtAuthenticationConverter() {
     JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-    // টোকেন থেকে রোল পড়ার সময় যাতে বাড়তি 'SCOPE_' যোগ না করে সেজন্য প্রিফিক্স খালি রাখুন
+
     grantedAuthoritiesConverter.setAuthorityPrefix(""); 
-    // আপনি টোকেনে "scope" নামেই ক্লেইম সেট করেছেন
+
     grantedAuthoritiesConverter.setAuthoritiesClaimName("scope"); 
 
     JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
