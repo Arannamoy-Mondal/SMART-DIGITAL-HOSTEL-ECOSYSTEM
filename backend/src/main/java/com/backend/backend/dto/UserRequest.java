@@ -16,5 +16,5 @@ public class UserRequest {
     @Size(max = 14,min = 4,message = "password size max 14 characters and min 4 character")
     private String password;
     // @NotEmpty(message = "At least one role.")
-    private List<String> role;
+    private String role;
 }

@@ -1,26 +1,22 @@
 package com.backend.backend.model;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.List;
+
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,8 +48,8 @@ public class Role {
     private LocalDateTime updatedTime;
 
     
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role")
     @JsonBackReference
     @ToString.Exclude
-    private Set<User> users=new HashSet<>();
+    private List<User> users;
 }

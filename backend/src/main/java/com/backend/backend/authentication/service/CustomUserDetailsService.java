@@ -1,6 +1,9 @@
 package com.backend.backend.authentication.service;
 
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,15 +19,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepo.findByUserName(userName).orElse(null);
-        if(user==null)
-            {
-                new UsernameNotFoundException("User not found with username: " + userName);
-            }
-
+        User user = userRepo.findByUserName(userName)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + userName));
+        String roleName = "ROLE_"+user.getRole().getRole().toUpperCase();
+        System.out.println(roleName);
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUserName())
                 .password(user.getPassword())
+                .authorities(Collections.singletonList(new SimpleGrantedAuthority(roleName)))
                 .build();
     }
 

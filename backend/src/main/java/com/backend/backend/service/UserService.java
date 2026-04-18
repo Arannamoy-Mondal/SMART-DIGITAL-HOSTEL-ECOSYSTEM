@@ -15,8 +15,9 @@ import com.backend.backend.authentication.service.AuthenticationService;
 import com.backend.backend.dto.LoginRequest;
 import com.backend.backend.dto.UserRequest;
 import com.backend.backend.mapper.UserMapper;
-
+import com.backend.backend.model.Role;
 import com.backend.backend.model.User;
+import com.backend.backend.repo.RoleRepo;
 import com.backend.backend.repo.UserRepo;
 
 import jakarta.annotation.Nullable;
@@ -37,14 +38,23 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private RoleRepo roleRepo;
     public @Nullable Object signup(UserRequest userRequest) throws Exception {
 
         try {
-            User user = UserMapper.mapToUser(userRequest);
+            Role role=roleRepo.findByRole(userRequest.getRole()).orElseThrow(
+                ()->new Exception("role not found: "+userRequest.getRole())
+            );
+            User user = User.builder()
+            .userName(userRequest.getUserName())
+            .role(role)
+            .build();
             if (userRepo.findByUserName(user.getUserName()).orElse(null) != null) {
                 throw new Exception("username already exist");
             }
-            user.setPassword(encoder.encode(user.getPassword()));
+            user.setPassword(encoder.encode(userRequest.getPassword()));
+            System.out.println(user);
             User savedUser = userRepo.save(user);
             return "Signup successfully.";
         } catch (Exception e) {

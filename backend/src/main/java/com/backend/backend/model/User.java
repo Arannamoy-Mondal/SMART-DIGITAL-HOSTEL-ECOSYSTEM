@@ -25,7 +25,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,10 +64,9 @@ public class User {
     private LocalDateTime addedTime;
 
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonManagedReference
-    private Set<Role> roles = new HashSet<>();
+    private Role role;
 
     private String firstName;
     private String lastName;

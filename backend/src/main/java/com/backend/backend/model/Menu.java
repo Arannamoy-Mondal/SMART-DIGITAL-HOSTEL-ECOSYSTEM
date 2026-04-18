@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -65,12 +66,12 @@ public class Menu {
     @Enumerated(EnumType.STRING)
     private Day day;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "meal_type_id")
     @JsonManagedReference
     private MealType mealType;
 
-    @ManyToMany(fetch = FetchType.EAGER) 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE) 
     @JoinTable(
         name = "menu_items_mapping", 
         joinColumns = @JoinColumn(name = "menu_id"), 
