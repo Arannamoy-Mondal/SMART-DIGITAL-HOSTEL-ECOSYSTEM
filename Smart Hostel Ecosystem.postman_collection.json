@@ -1,0 +1,1629 @@
+{
+	"info": {
+		"_postman_id": "e963b2f7-bd00-47d7-ae95-c2612bc373c1",
+		"name": "Smart Hostel Ecosystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "52244612",
+		"_collection_link": "https://darwald2024-739883.postman.co/workspace/Aranna's-Workspace~d26b4e06-b97d-41c2-8c6d-589fe433d721/collection/52244612-e963b2f7-bd00-47d7-ae95-c2612bc373c1?action=share&source=collection_link&creator=52244612"
+	},
+	"item": [
+		{
+			"name": "User Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"admin\",\n    \"password\": \"1234\",\n    \"role\": \"admin\",\n    \"contactNo\":\"0123456789\",\n    \"firstName\":\"user\",\n    \"lastName\":\"One\",\n    \"permanentAddress\":\"Dhaka\",\n    \"email\":\"user2@user.com\",\n    \"emergencyContactNo\":\"0123456777\",\n    \"birthDate\":\"2004-07-26\",\n    \"passportId\":\"A985652585\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/user/signup",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"admin\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/user/login",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Role Create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjUyODIsImlhdCI6MTc3NjU4MjA4Miwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.dUHeQOJB3yZ19yZD3xQLEsDb6wk8uhvehXNrWPwwSHI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"role\":\"BaRishta\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/role/create",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"role",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction Create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY1NDkyMzQsImlhdCI6MTc3NjUwNjAzNCwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.H6BcVGbWqqJr1lHGc0rFjxQ5iLGGuTb74HR8EaajAc4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":210,\n    \"transactionType\":\"debit\",\n    \"paymentMethod\":\"bkash\",\n    \"paymentPurpose\":\"room rent\",\n    \"amount\":\"10000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/transaction/create",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"transaction",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Transaction",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY1NTA4MjAsImlhdCI6MTc3NjUwNzYyMCwic2NvcGUiOiJST0xFX1dBUkRFTiBGQUNUT1JfUEFTU1dPUkQifQ.qzvr3kiLoqnRJ6h8bPAj6Gpcf3SpE4BthhyBeSErJDQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":210,\n    \"transactionType\":\"debit\",\n    \"paymentMethod\":\"bkash\",\n    \"paymentPurpose\":\"room_rent\",\n    \"amount\":\"10000\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/transaction/get",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"transaction",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transaction By UserName",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY1NDkyMzQsImlhdCI6MTc3NjUwNjAzNCwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.H6BcVGbWqqJr1lHGc0rFjxQ5iLGGuTb74HR8EaajAc4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":210,\n    \"transactionType\":\"debit\",\n    \"paymentMethod\":\"bkash\",\n    \"paymentPurpose\":\"room_rent\",\n    \"amount\":\"10000\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/transaction/get/userName/admin",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"transaction",
+						"get",
+						"userName",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transaction By RoomNo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY1NDkyMzQsImlhdCI6MTc3NjUwNjAzNCwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.H6BcVGbWqqJr1lHGc0rFjxQ5iLGGuTb74HR8EaajAc4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":210,\n    \"transactionType\":\"debit\",\n    \"paymentMethod\":\"bkash\",\n    \"paymentPurpose\":\"room_rent\",\n    \"amount\":\"10000\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/transaction/get/roomNo/210",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"transaction",
+						"get",
+						"roomNo",
+						"210"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjUwODcsImlhdCI6MTc3NjU4MTg4Nywic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.WQMX9qsWUUbiu_m0_xq_RFaHoHphkeH-5inI8T74tUM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/user/all",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjUyODIsImlhdCI6MTc3NjU4MjA4Miwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.dUHeQOJB3yZ19yZD3xQLEsDb6wk8uhvehXNrWPwwSHI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/role/get",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"role",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Role By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjUyODIsImlhdCI6MTc3NjU4MjA4Miwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.dUHeQOJB3yZ19yZD3xQLEsDb6wk8uhvehXNrWPwwSHI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/role/get/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"role",
+						"get",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjUyODIsImlhdCI6MTc3NjU4MjA4Miwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.dUHeQOJB3yZ19yZD3xQLEsDb6wk8uhvehXNrWPwwSHI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"role\":\"chef\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/role/update/4",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"role",
+						"update",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Role",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjUyODIsImlhdCI6MTc3NjU4MjA4Miwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.dUHeQOJB3yZ19yZD3xQLEsDb6wk8uhvehXNrWPwwSHI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"role\":\"chef\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/role/delete/4",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"role",
+						"delete",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Room Type",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjkxNDgsImlhdCI6MTc3NjU4NTk0OCwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3Elv62pPeBsuziGA7ba8lt1litHQHeyKkAuXC4UoEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomType\":\"single seater\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/roomType/create",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomType",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Room Type",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomType\":\"triple seater\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/roomType/get/all",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomType",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get RoomType By Type",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/roomType/get/roomType/single%20seater",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomType",
+						"get",
+						"roomType",
+						"single%20seater"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Room Type By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/roomType/get/id/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomType",
+						"get",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Room Type By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomType\":\"single seater\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/roomType/update/1",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomType",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Floor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"floorNo\":\"2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/floor/create",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"floor",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Floor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"floorNo\":\"2\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/floor/get",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"floor",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get By Floor No",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"floorNo\":\"2\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/floor/get/floorNo/2",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"floor",
+						"get",
+						"floorNo",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Room",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"roomNo\":\"210\",\n    \"roomType\":\"single seater\",\n    \"floorNo\":\"2\",\n    \"perDayRentFee\":\"150\",\n    \"totalSeat\":\"3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/room/create",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"room",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Room",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/room/get/all",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"room",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Room By RoomNo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8001/room/get/roomNo/210",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"room",
+						"get",
+						"roomNo",
+						"210"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Room",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"roomNo\":\"210\",\n    \"roomType\":\"single seater\",\n    \"floorNo\":\"2\",\n    \"perDayRentFee\":\"170\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/room/update/roomNo/210",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"room",
+						"update",
+						"roomNo",
+						"210"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create MealType",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"mealType\":\"Breakfast\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealType/create",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealType",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Meal Type",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"mealType\":\"Breakfast\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealType/get/all",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealType",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get MealType By MealType",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"mealType\":\"Breakfast\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealType/get/mealType/breakfast",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealType",
+						"get",
+						"mealType",
+						"breakfast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update MealType",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"mealType\":\"lunch\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealType/update/mealType/breakfast",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealType",
+						"update",
+						"mealType",
+						"breakfast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Menu Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"itemName\":\"rice\",\n  \"description\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/menuItem/create",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menuItem",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Menu Item By Name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"itemName\":\"rice\",\n  \"description\":\"\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/menuItem/get/itemName/egg%20curry",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menuItem",
+						"get",
+						"itemName",
+						"egg%20curry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Menu",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"day\":\"saturday\",\n  \"mealType\":\"dinner\",\n  \"menuItems\":[\n    \"lentils\",\"rice\",\"fish curry\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/menu/create",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menu",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Menu",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"day\":\"saturday\",\n  \"mealType\":\"breakfast\",\n  \"menuItems\":[\n    \"lentils\",\"rice\",\"egg curry\"\n  ]\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/menu/get/all",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menu",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Menu By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjkxNDgsImlhdCI6MTc3NjU4NTk0OCwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3Elv62pPeBsuziGA7ba8lt1litHQHeyKkAuXC4UoEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "0.0.0.0:8001/menu/get/menuId/1",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menu",
+						"get",
+						"menuId",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Menu By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjkxNDgsImlhdCI6MTc3NjU4NTk0OCwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3Elv62pPeBsuziGA7ba8lt1litHQHeyKkAuXC4UoEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"day\":\"saturday\",\n  \"mealType\":\"dinner\",\n  \"menuItems\":[\n    \"lentils\",\"rice\",\"fish curry\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/menu/update/menuId/1",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menu",
+						"update",
+						"menuId",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Room Booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MzkzMjUsImlhdCI6MTc3NjU5NjEyNSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.KJDce7g9mMNaS73qeShEPLXQjuEhPGHRQnHsQ-K8uhM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":\"210\",\n    \"startDate\":\"2026-09-27\",\n    \"endDate\":\"2026-10-27\",\n    \"paymentMethod\":\"visa\",\n    \"amount\":\"100.00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/roomBooking/create",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomBooking",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Room Booking",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MzkzMjUsImlhdCI6MTc3NjU5NjEyNSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.KJDce7g9mMNaS73qeShEPLXQjuEhPGHRQnHsQ-K8uhM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":\"210\",\n    \"startDate\":\"2026-07-26\",\n    \"endDate\":\"2026-08-26\",\n    \"totalMealToken\":\"45\",\n    \"totalPayment\":\"100\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/roomBooking/get/all",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"roomBooking",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Meal Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MzkzMjUsImlhdCI6MTc3NjU5NjEyNSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.KJDce7g9mMNaS73qeShEPLXQjuEhPGHRQnHsQ-K8uhM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":\"210\",\n    \"tokenAmount\":\"200\",\n    \"amount\":\"200\",\n    \"paymentMethod\":\"visa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealToken/create",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealToken",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Meal Token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MzkzMjUsImlhdCI6MTc3NjU5NjEyNSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.KJDce7g9mMNaS73qeShEPLXQjuEhPGHRQnHsQ-K8uhM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":\"210\",\n    \"tokenAmount\":\"200\",\n    \"amount\":\"200\",\n    \"paymentMethod\":\"visa\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealToken/get/all",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealToken",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Meal Token By User Name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MzkzMjUsImlhdCI6MTc3NjU5NjEyNSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.KJDce7g9mMNaS73qeShEPLXQjuEhPGHRQnHsQ-K8uhM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"admin\",\n    \"roomNo\":\"210\",\n    \"tokenAmount\":\"200\",\n    \"amount\":\"200\",\n    \"paymentMethod\":\"visa\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/mealToken/get/userName/admin",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"mealToken",
+						"get",
+						"userName",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Floor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjY5NzksImlhdCI6MTc3NjU4Mzc3OSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.S3vlYx6ZGle7sf-MtPSg8AUGx7WqJ7QolWn4lvanfJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"roomNo\":\"210\",\n    \"roomType\":\"single seater\",\n    \"floorNo\":\"2\",\n    \"perDayRentFee\":\"150\"\n}"
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8001/floor/delete/1",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"floor",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Discussion",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Menu Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzY2MjU4OTEsImlhdCI6MTc3NjU4MjY5MSwic2NvcGUiOiJST0xFX0FETUlOIEZBQ1RPUl9QQVNTV09SRCJ9.Yjr8ZMrsM12BMQvGUUll1euiFTRhiRHtyvHjKyQ6lpI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"mealType\":\"Breakfast\"\n}"
+				},
+				"url": {
+					"raw": "0.0.0.0:8001/menuItem/delete/menuItemId/5",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8001",
+					"path": [
+						"menuItem",
+						"delete",
+						"menuItemId",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

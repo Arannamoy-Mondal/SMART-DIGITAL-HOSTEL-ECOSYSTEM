@@ -68,6 +68,8 @@ http://0.0.0.0:8001/role/get/{id}
 
 3. post
 
+`NB: Only for admin role`
+
 http://0.0.0.0:8001/role/create
 
 
@@ -90,6 +92,7 @@ http://0.0.0.0:8001/role/update/{id}
 ```
 
 5. delete
+`NB: Only for admin role`
 
 http://0.0.0.0:8001/role/delete/{id}
 
@@ -135,7 +138,7 @@ http://0.0.0.0:8001/roomType/get/id/1
 ```
 
 5. put
-
+`NB: Only for admin role`
 ```
 0.0.0.0:8001/roomType/update/{id}
 ```
@@ -153,7 +156,7 @@ http://0.0.0.0:8001/roomType/get/id/1
 #### Floor
 
 1. post
-
+`NB: Only for admin role`
 ```
 http://0.0.0.0:8001/floor/create
 ```
@@ -175,8 +178,16 @@ http://0.0.0.0:8001/floor/get
 http://0.0.0.0:8001/floor/get/floorNo/{floorNo}
 ```
 
+4. delete
+
+`NB: Only for admin role`
+```
+http://0.0.0.0:8001/floor/delete/{floorId}
+```
+
 #### Room
 
+`NB: Only for admin role`
 1. post
 
 ```
@@ -198,7 +209,7 @@ http://0.0.0.0:8001/room/create
 http://0.0.0.0:8001/room/get/all
 ```
 
-3. 
+3. get
 
 ```
 http://0.0.0.0:8001/room/get/roomNo/{roomNo}
@@ -206,6 +217,7 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 
 4. put
 
+`NB: Only for admin role`
 ```
 0.0.0.0:8001/room/update/{roomNo}
 ```
@@ -247,6 +259,7 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 
 1. 
 
+`NB: Only for admin role`
 ```
 0.0.0.0:8001/menuItem/create
 ```
@@ -269,6 +282,7 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 #### Menu 
 
 1. post
+`NB: Only for admin role`
 
 ```
 0.0.0.0:8001/menu/create
@@ -297,12 +311,19 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 ```
 
 3. put
-
+`NB: Only for admin role`
 ```
 0.0.0.0:8001/menu/update/menuId/{menuId}
 ```
 
 ```json
+{
+  "day":"saturday",
+  "mealType":"breakfast",
+  "menuItems":[
+    "lentils","rice","egg curry"
+  ]
+}
 ```
 
 #### room booking
@@ -354,5 +375,5 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 3. get
 
 ```
-0.0.0.0:8001/mealToken/get/userName/admin
+0.0.0.0:8001/mealToken/get/userName/{userName}
 ```

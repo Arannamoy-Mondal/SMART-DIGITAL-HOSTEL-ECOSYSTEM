@@ -60,7 +60,6 @@ public class User {
     private byte[] profileImage;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime addedTime;
 
     

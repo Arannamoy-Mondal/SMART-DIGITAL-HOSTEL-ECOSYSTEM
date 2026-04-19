@@ -47,10 +47,8 @@ public class Floor {
 
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
     @LastModifiedDate
     private LocalDateTime updatedAt;

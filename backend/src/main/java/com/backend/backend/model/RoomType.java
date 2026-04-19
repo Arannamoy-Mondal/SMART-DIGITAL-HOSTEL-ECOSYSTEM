@@ -37,10 +37,8 @@ public class RoomType {
     @Column(unique = true)
     private String roomType;
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
     @LastModifiedDate
     private LocalDateTime updatedAt;

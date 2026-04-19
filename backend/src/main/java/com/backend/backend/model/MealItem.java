@@ -34,11 +34,9 @@ public class MealItem {
     private Integer mealItemId;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
 
 

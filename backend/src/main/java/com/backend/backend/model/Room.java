@@ -61,11 +61,9 @@ public class Room {
     private float perDayRentFee;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
 
     @LastModifiedDate

@@ -36,11 +36,9 @@ public class MenuItem {
     private Integer menuItemId;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
 
 

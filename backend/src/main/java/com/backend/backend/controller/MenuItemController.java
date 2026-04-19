@@ -3,6 +3,7 @@ package com.backend.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ public class MenuItemController {
     private MenuItemService menuItemService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createMenuItem(
             @RequestBody MenuItemRequest menuItemRequest) {
         try {
@@ -43,6 +45,7 @@ public class MenuItemController {
     }
 
     @PutMapping("/update/menuItemId/{menuItemId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateMenuItem(
             @PathVariable("menuItemId") Integer menuItemId,
             @RequestBody MenuItemRequest menuItemRequest) {
@@ -56,6 +59,7 @@ public class MenuItemController {
     }
 
     @DeleteMapping("/delete/menuItemId/{menuItemId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteMenuItem(
             @PathVariable("menuItemId") Integer menuItemId) {
         try {

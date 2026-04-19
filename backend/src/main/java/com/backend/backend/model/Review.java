@@ -36,11 +36,9 @@ public class Review {
     private Integer reviewId;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
 
 
