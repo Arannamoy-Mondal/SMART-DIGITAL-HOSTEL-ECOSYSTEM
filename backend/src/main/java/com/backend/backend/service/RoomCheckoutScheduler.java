@@ -21,27 +21,20 @@ public class RoomCheckoutScheduler {
     @Autowired
     private RoomRepo roomRepo;
 
-  
-    @Scheduled(cron = "0 0 0 * * ?") 
+   
+    @Scheduled(initialDelay = 0, fixedDelay = 3600000) 
     @Transactional
     public void autoReleaseExpiredRooms() {
         LocalDate today = LocalDate.now();
         
-    
         List<RoomRentInformation> expiredBookings = roomRentInformationRepo.findByEndDateBeforeAndIsActiveTrue(today);
-
 
         for (RoomRentInformation booking : expiredBookings) {
             Room room = booking.getRoom();
-
      
             room.setAvailableSeat(room.getAvailableSeat() + 1);
-            
-    
             room.setOccupied(false); 
- 
             roomRepo.save(room);
-
           
             booking.setActive(false);
             roomRentInformationRepo.save(booking);
