@@ -1,3 +1,5 @@
+>> Project is currently running.
+
 # Smart Digital Hostel Ecosystem 🏨
 
 The **Smart Digital Hostel Ecosystem** is a robust, scalable management platform designed to digitize manual hostel operations. Built for modern student housing like **Shagorika Girls Hostel**, this system enhances transparency, automates financial tracking, and provides real-time administrative oversight.
