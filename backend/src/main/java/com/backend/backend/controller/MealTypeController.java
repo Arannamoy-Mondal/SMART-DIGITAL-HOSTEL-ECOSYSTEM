@@ -3,6 +3,7 @@ package com.backend.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ public class MealTypeController {
 
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createMealType(
         @RequestBody MealTypeRequest mealTypeRequest
                 ) {
@@ -37,7 +39,7 @@ public class MealTypeController {
     
         }
 
-    @GetMapping("/get")
+    @GetMapping("/get/all")
     public ResponseEntity<?> getMealType(
                 ) {
             try {
@@ -48,25 +50,28 @@ public class MealTypeController {
     
         }
 
-    @GetMapping("/get/{mealTypeId}")
-    public ResponseEntity<?> getMealTypeById(
-        @PathVariable("mealTypeId") Integer mealTypeId
+    @GetMapping("/get/mealType/{mealType}")
+    public ResponseEntity<?> getMealTypeByMealType(
+        @PathVariable("mealType") String mealType
                 ) {
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.getMealTypeById(mealTypeId));
+               
+                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.getMealTypeByMealType(mealType));
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
             }
     
         }
     
-    @PutMapping("/update/{mealTypeId}")
+    // @PutMapping("/update/mealType/{mealType}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateMealType(
-    @PathVariable("mealTypeId") Integer mealTypeId,
+    @PathVariable("mealType") String mealType,
     @RequestBody MealTypeRequest mealTypeRequest            
     ) {
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.updateMealType(mealTypeId,mealTypeRequest));
+                System.out.println(mealType);
+                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.updateMealType(mealType,mealTypeRequest));
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
             }
@@ -74,12 +79,13 @@ public class MealTypeController {
         }
 
 
-    @DeleteMapping("/delete/{mealTypeId}")
+    @DeleteMapping("/delete/mealType/{mealType}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteMealType(
-        @PathVariable("mealTypeId") Integer mealTypeId
+        @PathVariable("mealType") String mealType
                 ) {
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.deleteMealType(mealTypeId));
+                return ResponseEntity.status(HttpStatus.OK).body(mealTypeService.deleteMealType(mealType));
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
             }

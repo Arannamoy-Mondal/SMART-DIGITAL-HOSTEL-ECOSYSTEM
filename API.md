@@ -193,4 +193,94 @@ http://0.0.0.0:8001/room/get/all
 http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 ```
 
+4. put
+
+```
+0.0.0.0:8001/room/update/{roomNo}
+```
+```json
+{
+   "roomNo":"210",
+    "roomType":"single seater",
+    "floorNo":"2",
+    "perDayRentFee":"170"
+}
+```
+
+#### MealType
+1. post
+```
+0.0.0.0:8001/mealType/create
+```
+```json
+{
+   "mealType":"Breakfast"
+}
+```
+
+2. get
+
+```
+0.0.0.0:8001/mealType/get/all
+```
+
+3. get
+```
+0.0.0.0:8001/mealType/get/mealType/{mealType}
+```
+
 4. 
+
+
+#### MenuItem
+
+1. 
+
+```
+0.0.0.0:8001/menuItem/create
+```
+
+```json
+{
+  "itemName":"rice",
+  "description":""
+}
+```
+
+2. 
+
+```
+0.0.0.0:8001/menuItem/get/itemName/{menuItemName}
+```
+
+3. 
+
+#### Menu 
+
+1. post
+
+```
+0.0.0.0:8001/menu/create
+```
+
+```json
+{
+  "day":"saturday",
+  "mealType":"breakfast",
+  "menuItems":[
+    "lentils","rice","egg curry"
+  ]
+}
+```
+
+2. get
+
+```
+0.0.0.0:8001/menu/get/all
+```
+
+2. 
+
+```
+
+```

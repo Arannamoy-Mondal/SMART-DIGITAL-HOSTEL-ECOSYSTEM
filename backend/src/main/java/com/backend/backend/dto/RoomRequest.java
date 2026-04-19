@@ -12,4 +12,5 @@ public class RoomRequest {
     private String roomType;
     private Integer floorNo;
     private Float perDayRentFee;
+    private Integer totalSeat;
 }

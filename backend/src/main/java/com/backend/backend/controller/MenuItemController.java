@@ -23,61 +23,68 @@ public class MenuItemController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createMenuItem(
-        @RequestBody MenuItemRequest menuItemRequest
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(menuItemService.createMenuItem(menuItemRequest));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
+            @RequestBody MenuItemRequest menuItemRequest) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(menuItemService.createMenuItem(menuItemRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-    @GetMapping("/get")
-    public ResponseEntity<?> getMenuItem(
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(menuItemService.getMenuItem());
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getMenuItem() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(menuItemService.getMenuItem());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-    @PutMapping("/update/{menuItemId}")
+    }
+
+    @PutMapping("/update/menuItemId/{menuItemId}")
     public ResponseEntity<?> updateMenuItem(
-        @PathVariable("menuItemId") Integer menuItemId,
-        @RequestBody MenuItemRequest menuItemRequest
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(menuItemService.updateMenuItem(menuItemId,menuItemRequest));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
+            @PathVariable("menuItemId") Integer menuItemId,
+            @RequestBody MenuItemRequest menuItemRequest) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(menuItemService.updateMenuItem(menuItemId, menuItemRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-    @DeleteMapping("/delete/{menuItemId}")
+    }
+
+    @DeleteMapping("/delete/menuItemId/{menuItemId}")
     public ResponseEntity<?> deleteMenuItem(
-        @PathVariable("menuItemId") Integer menuItemId
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(menuItemService.deleteMenuItem(menuItemId));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
+            @PathVariable("menuItemId") Integer menuItemId) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(menuItemService.deleteMenuItem(menuItemId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-    @GetMapping("/get/{menuItemId}")
+    }
+
+    @GetMapping("/get/menuItemId/{menuItemId}")
     public ResponseEntity<?> getMenuItemById(
-        @PathVariable("menuItemId") Integer menuItemId
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(menuItemService.getMenuItemById(menuItemId));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
+            @PathVariable("menuItemId") Integer menuItemId) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(menuItemService.getMenuItemById(menuItemId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+
+    }
+
+    @GetMapping("/get/itemName/{menuItem}")
+    public ResponseEntity<?> getMenuItemByMenuItem(
+            @PathVariable("menuItem") String menuItem) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(menuItemService.getMenuItemByItem(menuItem));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+    }
 }

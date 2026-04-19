@@ -89,4 +89,16 @@ public class MenuItemService {
         }
     }
 
+    public @Nullable Object getMenuItemByItem(String menuItem) throws Exception{
+        try {
+            MenuItem res=menuItemRepo.findByItemName(menuItem).orElseThrow(
+                ()-> new Exception("No menu item found with menu item: "+menuItem)
+            );    
+            return res;
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new Exception(e.getMessage());
+        }
+    }
+
 }

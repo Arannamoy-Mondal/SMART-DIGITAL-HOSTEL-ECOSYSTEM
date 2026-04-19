@@ -29,6 +29,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Builder.Default;
 
 @Entity
 @Getter
@@ -39,11 +40,11 @@ import lombok.ToString;
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Room {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomId;
-    
+
     @Column(unique = true)
     private Integer roomNo;
 
@@ -58,18 +59,18 @@ public class Room {
     private Floor floor;
 
     private float perDayRentFee;
-    
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
+
     @CreatedBy
     @Column(updatable = false)
     private String createdBy;
-    
+
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    
+
     @LastModifiedBy
     private String updatedBy;
 
@@ -96,4 +97,10 @@ public class Room {
     @OneToMany(mappedBy = "room")
     @JsonBackReference
     private List<RoomRentInformation> roomRentInformations;
+
+    private Integer totalSeat;
+
+    private  Integer availableSeat;
+    
+    private boolean occupied;
 }

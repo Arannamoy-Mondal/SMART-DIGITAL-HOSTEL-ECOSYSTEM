@@ -51,6 +51,9 @@ public class RoomService {
                     .roomType(roomType)
                     .floor(floor)
                     .perDayRentFee(roomRequest.getPerDayRentFee())
+                    .totalSeat(roomRequest.getTotalSeat())
+                    .availableSeat(roomRequest.getTotalSeat())
+                    .occupied(false)
                     .build();
             Room savedRoom = roomRepo.save(room);
             return ResponseEntity.status(HttpStatus.OK).body(savedRoom);

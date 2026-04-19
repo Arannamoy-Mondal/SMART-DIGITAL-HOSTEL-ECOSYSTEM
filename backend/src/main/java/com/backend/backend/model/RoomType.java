@@ -48,7 +48,6 @@ public class RoomType {
     private String updatedBy;
 
 
-
     @OneToMany(mappedBy = "roomType")
     @JsonBackReference
     @ToString.Exclude

@@ -3,6 +3,7 @@ package com.backend.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ public class MenuController {
     private MenuService menuService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createMenu(
             @RequestBody MenuRequest menuRequest) {
         try {
@@ -32,7 +34,7 @@ public class MenuController {
 
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/all")
     public ResponseEntity<?> getMenu() {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(menuService.getMenu());
@@ -42,7 +44,7 @@ public class MenuController {
 
     }
 
-    @GetMapping("/get/{menuId}")
+    @GetMapping("/get/menuId/{menuId}")
     public ResponseEntity<?> getMenuId(
             @PathVariable("menuId") Integer menuId) {
         try {
@@ -53,7 +55,8 @@ public class MenuController {
 
     }
 
-    @PutMapping("/update/{menuId}")
+    @PutMapping("/update/menuId/{menuId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateMenu(
             @PathVariable("menuId") Integer menuId,
             @RequestBody MenuRequest menuRequest) {
@@ -66,7 +69,8 @@ public class MenuController {
     }
 
 
-    @DeleteMapping("/delete/{menuId}")
+    @DeleteMapping("/delete/menuId/{menuId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteMenu(
         @PathVariable("menuId") Integer menuId
                 ) {

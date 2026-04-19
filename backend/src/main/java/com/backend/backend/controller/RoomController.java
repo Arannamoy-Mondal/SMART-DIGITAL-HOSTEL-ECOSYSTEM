@@ -50,7 +50,7 @@ public class RoomController {
         return roomService.getRoomByRoomType(roomType);
     }
 
-    @PutMapping("/update/{roomNo}")
+    @PutMapping("/update/roomNo/{roomNo}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateRoom(@PathVariable("roomNo") Integer roomNo, @RequestBody RoomRequest entity) {
         return roomService.updateRoom(roomNo, entity);

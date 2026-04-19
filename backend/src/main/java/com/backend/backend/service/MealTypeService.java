@@ -44,14 +44,14 @@ public class MealTypeService {
         }
     }
 
-    public @Nullable Object deleteMealType(Integer mealTypeId) throws Exception {
+    public @Nullable Object deleteMealType(String type) throws Exception {
         try {
 
-            MealType mealType = mealTypeRepo.findById(mealTypeId).orElse(null);
+            MealType mealType = mealTypeRepo.findByMealType(type).orElse(null);
             if (mealType == null) {
-                throw new Exception("No meal type found with id " + mealTypeId);
+                throw new Exception("No meal type found with id " + type);
             }
-            mealTypeRepo.deleteById(mealTypeId);
+            mealTypeRepo.deleteById(mealType.getMealTypeId());
             return "Successfully deleted";
 
         } catch (Exception e) {
@@ -60,11 +60,11 @@ public class MealTypeService {
         }
     }
 
-    public @Nullable Object updateMealType(Integer mealTypeId, MealTypeRequest mealTypeRequest) throws Exception {
+    public @Nullable Object updateMealType(String type, MealTypeRequest mealTypeRequest) throws Exception {
         try {
-            MealType mealType = mealTypeRepo.findById(mealTypeId).orElse(null);
+            MealType mealType = mealTypeRepo.findByMealType(type).orElse(null);
             if (mealType == null) {
-                throw new Exception("No meal type found with id " + mealTypeId);
+                throw new Exception("No meal type found with type " + type);
             }
             if (mealTypeRequest.getMealType() != null && !mealTypeRequest.getMealType().isBlank()) {
                 mealType.setMealType(mealTypeRequest.getMealType().toLowerCase());
@@ -78,12 +78,12 @@ public class MealTypeService {
         }
     }
 
-    public @Nullable Object getMealTypeById(Integer mealTypeId) throws Exception {
+    public @Nullable Object getMealTypeByMealType(String type) throws Exception {
         try {
 
-            MealType mealType = mealTypeRepo.findById(mealTypeId).orElse(null);
+            MealType mealType = mealTypeRepo.findByMealType(type).orElse(null);
             if (mealType == null) {
-                throw new Exception("No meal type found with id " + mealTypeId);
+                throw new Exception("No meal type found with meal type: " + type);
             }
 
             return mealType;

@@ -10,6 +10,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,8 +42,10 @@ public class RoomRentInformation {
     private int roomRentDays;
     private LocalDate startDate;
     private LocalDate endDate;
-    private boolean mealStatus;
-    private int totalMealCount;
+    
+    // private boolean mealStatus;
+    // private int totalMealCount;
+    
     /* remove due to tracking daily meal status */
     // private int usedMealCount; 
     /* unnecessary */
@@ -60,9 +65,16 @@ public class RoomRentInformation {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonManagedReference
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "room_id", nullable = false)
+    @JsonManagedReference
     private Room room;
+
+
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JsonManagedReference
+    private Transaction transaction;
 }
