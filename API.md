@@ -1,3 +1,14 @@
+- [User](#user)
+- [Role](#role)
+- [Floor](#floor)
+- [Room type](#room-type)
+- [Room](#room)
+- [Meal type](#mealtype)
+- [Menu Item](#menuitem)
+- [Menu](#menu)
+- [Room booking](#room-booking)
+- [Meal Token](#meal-token)
+
 #### User
 1. post:
 ```
@@ -279,8 +290,69 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 0.0.0.0:8001/menu/get/all
 ```
 
-2. 
+2. get
 
 ```
+0.0.0.0:8001/menu/get/menuId/{menuId}
+```
 
+3. put
+
+```
+0.0.0.0:8001/menu/update/menuId/{menuId}
+```
+
+```json
+```
+
+#### room booking
+
+1. post
+
+```
+0.0.0.0:8001/roomBooking/create
+```
+
+```json
+{
+    "userName":"admin",
+    "roomNo":"210",
+    "startDate":"2026-07-26",
+    "endDate":"2026-08-26",
+    "paymentMethod":"visa",
+    "amount":"100.00"
+}
+```
+
+2. get
+```
+0.0.0.0:8001/roomBooking/get/all
+```
+
+#### meal token
+1. post
+```
+0.0.0.0:8001/mealToken/create
+```
+
+```json
+{
+    "userName":"admin",
+    "roomNo":"210",
+    "tokenAmount":"200",
+    "amount":"200",
+    "paymentMethod":"visa"
+}
+```
+
+2. get
+
+```
+0.0.0.0:8001/mealToken/get/all
+```
+
+3. get
+
+```
+0.0.0.0:8001/mealToken/get/userName/admin
 ```

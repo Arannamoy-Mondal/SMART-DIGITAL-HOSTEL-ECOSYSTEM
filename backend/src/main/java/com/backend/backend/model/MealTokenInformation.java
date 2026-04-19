@@ -8,16 +8,23 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -25,17 +32,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Builder
-public class MealTokenHistory {
+public class MealTokenInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer mealTypeId;
+    private Integer mealTokenInformationId;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
     private String createdBy;
 
 
@@ -44,9 +49,26 @@ public class MealTokenHistory {
 
     @LastModifiedBy
     private String updatedBy;
+
+    private Integer tokenAmount;
+
+    private Integer availableToken;
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JsonManagedReference
+    @ToString.Exclude
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JsonManagedReference
+    @ToString.Exclude
+    private Room room;
+
+
+    @OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE)
+    @JsonManagedReference
+    @ToString.Exclude
+    private Transaction transaction;
 }
 
 
-/*
-Unnecessary
-*/

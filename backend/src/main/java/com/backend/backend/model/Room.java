@@ -103,4 +103,10 @@ public class Room {
     private  Integer availableSeat;
     
     private boolean occupied;
+
+
+
+    @OneToMany(mappedBy = "room")
+    @JsonBackReference
+    private List<MealTokenInformation> mealTokenInformations;
 }

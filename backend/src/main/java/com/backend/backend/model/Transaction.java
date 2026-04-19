@@ -78,5 +78,7 @@ public class Transaction {
     @JsonBackReference
     private RoomRentInformation roomRentInformation;
 
-
+    @OneToOne(mappedBy = "transaction")
+    @JsonBackReference
+    private MealTokenInformation mealTokenInformation;
 }

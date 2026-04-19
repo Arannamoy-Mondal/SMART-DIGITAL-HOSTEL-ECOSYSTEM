@@ -103,4 +103,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private List<RoomRentInformation> roomRentInformations;
+
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<MealTokenInformation> mealTokenInformations;
+
+    public Integer mealTokenAmount;
 }
