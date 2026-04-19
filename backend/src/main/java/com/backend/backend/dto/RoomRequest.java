@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomRequest {
-    private int roomNo;
+    private Integer roomNo;
     private String roomType;
-    private int floorNo;
-    private float perDayRentFee;
+    private Integer floorNo;
+    private Float perDayRentFee;
 }

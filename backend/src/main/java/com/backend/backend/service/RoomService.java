@@ -2,7 +2,6 @@ package com.backend.backend.service;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,21 +71,26 @@ public class RoomService {
         }
     }
 
-    public ResponseEntity<?> updateRoom(Integer id, RoomRequest entity) {
+    public ResponseEntity<?> updateRoom(Integer roomNo, RoomRequest entity) {
         try {
-            Room room = roomRepo.findById(id).orElse(null);
-            Floor floor = floorRepo.findByFloorNo(entity.getFloorNo()).orElse(null);
-            RoomType roomType = roomTypeRepo.findByRoomType(entity.getRoomType()).orElse(null);
-            if (room == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found with id " + id);
-            }
-            room.setRoomNo(entity.getRoomNo());
-            room.setRoomType(roomType);
-            room.setFloor(floor);
-            room.setPerDayRentFee(entity.getPerDayRentFee());
-            roomRepo.save(room);
+            Room room = roomRepo.findByRoomNo(roomNo).orElseThrow(
+                    () -> new Exception("No room found with room no: " + roomNo));
 
-            return ResponseEntity.status(HttpStatus.OK).body(roomRepo.findById(id));
+            if (entity.getFloorNo() != null) {
+                Floor floor = floorRepo.findByFloorNo(entity.getFloorNo()).orElseThrow(
+                        () -> new Exception("No floor found with floor no: " + entity.getFloorNo()));
+                room.setFloor(floor);
+            }
+            if (entity.getRoomType() != null) {
+                RoomType roomType = roomTypeRepo.findByRoomType(entity.getRoomType()).orElseThrow(
+                        () -> new Exception("No room type found with type: " + entity.getRoomType()));
+                room.setRoomType(roomType);
+            }
+            if (entity.getPerDayRentFee() != null) {
+                room.setPerDayRentFee(entity.getPerDayRentFee());
+            }
+            roomRepo.save(room);
+            return ResponseEntity.status(HttpStatus.OK).body(roomRepo.findByRoomNo(roomNo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -139,7 +143,7 @@ public class RoomService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found with roomId " + roomId);
             }
             roomRepo.deleteById(roomId);
-            return ResponseEntity.status(HttpStatus.OK).body("RoomType deleted successfully with id "+roomId);
+            return ResponseEntity.status(HttpStatus.OK).body("RoomType deleted successfully with id " + roomId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

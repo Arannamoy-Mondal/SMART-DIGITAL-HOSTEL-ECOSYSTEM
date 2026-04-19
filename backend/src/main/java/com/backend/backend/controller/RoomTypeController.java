@@ -2,6 +2,7 @@ package com.backend.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,30 +18,32 @@ import com.backend.backend.service.RoomTypeService;
 
 
 @RestController
-@RequestMapping("/room-type")
+@RequestMapping("/roomType")
 public class RoomTypeController {
     @Autowired
     private RoomTypeService roomTypeService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createRoomType(
             @RequestBody RoomTypeRequest roomTypeRequest) {
 
         return roomTypeService.createRoomType(roomTypeRequest);
     }
 
-    @GetMapping("")
+    @GetMapping("/get/all")
     public ResponseEntity<?> getRoomTypes() {
         return roomTypeService.getRoomTypes();
     }
 
-    @GetMapping("/roomType/{roomType}")
+    @GetMapping("/get/roomType/{roomType}")
     public ResponseEntity<?> getRoomTypeByRoomType(@PathVariable("roomType") String roomType) {
+        System.out.println(roomType);
         return roomTypeService.getRoomTypeByRoomType(roomType);
     }
     
 
-    @GetMapping("/id/{roomTypeId}")
+    @GetMapping("/get/id/{roomTypeId}")
     public ResponseEntity<?> getRoomTypeById(
             @PathVariable("roomTypeId") Integer roomTypeId) {
         return roomTypeService.getRoomTypeById(roomTypeId);
@@ -56,6 +59,7 @@ public class RoomTypeController {
     }
 
     @DeleteMapping("/delete/{roomTypeId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteRoomTypeById(
             @PathVariable("roomTypeId") Integer roomTypeId) {
         return roomTypeService.deleteRoomTypeById(roomTypeId);

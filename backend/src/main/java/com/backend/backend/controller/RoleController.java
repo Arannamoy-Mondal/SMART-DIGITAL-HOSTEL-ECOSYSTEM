@@ -3,6 +3,7 @@ package com.backend.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,17 +26,20 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/get")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> findAll(){
        return roleService.findAll();
     }
 
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
         return roleService.findById(id);
     }
     
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createRole(
         @RequestBody RoleRequest roleRequest
                 ) {
@@ -48,6 +52,7 @@ public class RoleController {
         }
 
     @PutMapping("/update/{roleId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateRole(
         @PathVariable("roleId") Integer roleId,
         @RequestBody RoleRequest roleRequest
@@ -62,6 +67,7 @@ public class RoleController {
         }
 
     @DeleteMapping("/delete/{roleId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteRole(
         @PathVariable("roleId") Integer roleId
                 ) {

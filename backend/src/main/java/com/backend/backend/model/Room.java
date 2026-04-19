@@ -28,6 +28,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -35,6 +36,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Room {
     
@@ -43,7 +45,7 @@ public class Room {
     private Integer roomId;
     
     @Column(unique = true)
-    private int roomNo;
+    private Integer roomNo;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "room_room_type")

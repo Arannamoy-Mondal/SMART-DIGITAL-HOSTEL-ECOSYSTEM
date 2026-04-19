@@ -41,11 +41,11 @@ public class FloorService {
         }
     }
 
-    public ResponseEntity<?> getFloorById(Integer floorId) {
+    public ResponseEntity<?> getFloorById(Integer floorNo) {
         try {
-            var floor = floorRepo.findById(floorId).orElse(null);
+            var floor = floorRepo.findByFloorNo(floorNo).orElse(null);
             if (floor == null) {
-                return ResponseEntity.status(HttpStatus.OK).body("Floor not found with id " + floorId);
+                return ResponseEntity.status(HttpStatus.OK).body("Floor not found with id " + floorNo);
             }
             return ResponseEntity.status(HttpStatus.OK).body(floor);
         } catch (Exception e) {
@@ -53,16 +53,16 @@ public class FloorService {
         }
     }
 
-    public ResponseEntity<?> deleteFloor(Integer floorId) {
+    public ResponseEntity<?> deleteFloor(Integer floorNo) {
         try {
 
-            var floor = floorRepo.findById(floorId).orElse(null);
+            var floor = floorRepo.findByFloorNo(floorNo).orElse(null);
             if (floor == null) {
-                return ResponseEntity.status(HttpStatus.OK).body("Floor not found with id " + floorId);
+                return ResponseEntity.status(HttpStatus.OK).body("Floor not found with id " + floorNo);
             }
             // var deletedFloor=
-            floorRepo.deleteById(floorId);
-            return ResponseEntity.status(HttpStatus.OK).body("Floor deleted successfully with id " + floorId);
+            floorRepo.deleteById(floorNo);
+            return ResponseEntity.status(HttpStatus.OK).body("Floor deleted successfully with id " + floorNo);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

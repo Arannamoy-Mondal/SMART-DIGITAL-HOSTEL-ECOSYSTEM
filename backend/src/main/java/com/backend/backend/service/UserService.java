@@ -48,7 +48,15 @@ public class UserService {
             );
             User user = User.builder()
             .userName(userRequest.getUserName())
+            .firstName(userRequest.getFirstName())
+            .lastName(userRequest.getLastName())
+            .contactNo(userRequest.getContactNo())
+            .emergencyContactNo(userRequest.getEmergencyContactNo())
+            .permanentAddress(userRequest.getPermanentAddress())
+            .email(userRequest.getEmail())
             .role(role)
+            .birthDate(userRequest.getBirthDate())
+            .passportId(userRequest.getPassportId())
             .build();
             if (userRepo.findByUserName(user.getUserName()).orElse(null) != null) {
                 throw new Exception("username already exist");

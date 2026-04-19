@@ -18,9 +18,9 @@ public class RoomTypeService {
         try {
             RoomType roomType = RoomTypeMapper.mapToRoomType(roomTypeRequest);
             roomType.setRoomType(roomType.getRoomType().toLowerCase());
-            // if (roomTypeRepo.findByRoomType(roomType.getRoomType().toLowerCase()) != null) {
-            //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("room type already exist");
-            // }
+            if (roomTypeRepo.findByRoomType(roomType.getRoomType().toLowerCase()).orElse(null) != null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("room type already exist");
+            }
             var savedUser = roomTypeRepo.save(roomType);
             return ResponseEntity.status(HttpStatus.OK).body(savedUser);
         } catch (Exception e) {
@@ -55,11 +55,10 @@ public class RoomTypeService {
             try {
 
                 RoomType res=roomTypeRepo.findByRoomType(roomType).orElse(null);
-                System.out.println(res);
                 if(res==null){
                     return ResponseEntity.status(HttpStatus.OK).body("No room type found with this "+roomType);
                 }
-                return ResponseEntity.status(HttpStatus.OK).body(null);
+                return ResponseEntity.status(HttpStatus.OK).body(res);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
             }
