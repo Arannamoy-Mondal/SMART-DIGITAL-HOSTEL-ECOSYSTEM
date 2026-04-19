@@ -77,4 +77,8 @@ public class RoomRentInformation {
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JsonManagedReference
     private Transaction transaction;
+
+
+    @Column(columnDefinition = "boolean default true")
+    private boolean isActive;
 }

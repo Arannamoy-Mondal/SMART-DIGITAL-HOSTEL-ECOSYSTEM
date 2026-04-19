@@ -60,7 +60,7 @@ public class RoomRentInformationService {
                .roomRentDays(roomRentInformationRequest.roomRentDays())
                .startDate(roomRentInformationRequest.startDate())
                .endDate(roomRentInformationRequest.endDate())
-               .mealStatus(roomRentInformationRequest.mealStatus())
+               // .mealStatus(roomRentInformationRequest.mealStatus())
                .user(user)
                .room(room)
                .build();
