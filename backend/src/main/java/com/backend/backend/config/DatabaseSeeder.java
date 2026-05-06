@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.User;
 
+import com.backend.backend.dto.UserRequest;
 import com.backend.backend.model.MealType;
 import com.backend.backend.model.MenuItem;
 import com.backend.backend.model.PaymentMethod;
@@ -22,6 +23,7 @@ import com.backend.backend.repo.PaymentPurposeRepo;
 import com.backend.backend.repo.RoleRepo;
 import com.backend.backend.repo.TransactionTypeRepo;
 import com.backend.backend.repo.UserRepo;
+import com.backend.backend.service.UserService;
 
 @Configuration
 public class DatabaseSeeder implements CommandLineRunner{
@@ -48,6 +50,10 @@ public class DatabaseSeeder implements CommandLineRunner{
 
     @Autowired
     private MenuItemRepo menuItemRepo;
+
+    @Autowired
+    private UserService userService;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -102,6 +108,13 @@ public class DatabaseSeeder implements CommandLineRunner{
             );
         }
 
+        if(userRepo.count()==0){
+            UserRequest userRequest=new UserRequest();
+            userRequest.setUserName("admin");
+            userRequest.setRole("admin");
+            userRequest.setPassword("1234");
+            userService.signup(userRequest);
+        }
     }
 
 }
