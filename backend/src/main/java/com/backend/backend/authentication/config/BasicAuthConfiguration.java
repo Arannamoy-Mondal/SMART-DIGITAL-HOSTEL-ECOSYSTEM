@@ -18,7 +18,8 @@ public class BasicAuthConfiguration {
         return httpSecurity.authorizeHttpRequests(
                 auth -> auth.requestMatchers(
                         "/user/signup",
-                        "/user/login"
+                        "/user/login",
+                        "/role/get"
                 // "/v3/api-docs/**",
                 // "/swagger-ui/**",
                 // "/swagger-ui.html",

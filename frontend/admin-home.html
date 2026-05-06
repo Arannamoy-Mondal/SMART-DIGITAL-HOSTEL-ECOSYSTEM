@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hostel Ecosystem | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-base-200 min-h-screen pb-10">
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
+        </div>
+        <div class="flex-none">
+            <ul id="navMenu" class="menu menu-horizontal px-1 items-center gap-2">
+                </ul>
+        </div>
+    </div>
+
+    <div id="toastAlert" class="toast toast-top toast-end z-[100] hidden">
+        <div class="alert alert-info text-white shadow-lg">
+            <span id="toastMessage">Message</span>
+        </div>
+    </div>
+
+    <div class="container mx-auto mt-8 p-4 text-center">
+        <h1 class="text-4xl font-bold">Dashboard Overview</h1>
+    </div>
+<div class="container mx-auto px-4 mt-6">
+        <div class="stats shadow w-full bg-base-100 flex flex-col md:flex-row">
+            
+            <div class="stat place-items-center">
+                <div class="stat-title font-bold">Daily Revenue</div>
+                <div class="stat-value text-primary" id="dailyRev">৳ 0</div>
+                <div class="stat-desc text-gray-500 font-semibold mt-1">Today</div>
+            </div>
+            
+            <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
+                <div class="stat-title font-bold">Weekly Revenue</div>
+                <div class="stat-value text-secondary" id="weeklyRev">৳ 0</div>
+                <div class="stat-desc text-gray-500 font-semibold mt-1">Last 7 Days</div>
+            </div>
+            
+            <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
+                <div class="stat-title font-bold">Monthly Revenue</div>
+                <div class="stat-value text-accent" id="monthlyRev">৳ 0</div>
+                <div class="stat-desc text-gray-500 font-semibold mt-1">This Month</div>
+            </div>
+            
+            <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
+                <div class="stat-title font-bold">Yearly Revenue</div>
+                <div class="stat-value text-info" id="yearlyRev">৳ 0</div>
+                <div class="stat-desc text-gray-500 font-semibold mt-1">This Year</div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container mx-auto px-4 mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card bg-blue-600 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">👥 Users</h2>
+                    <p class="text-3xl font-bold mt-2" id="totalUsersCount">--</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewUsersModal()">View All</button>
+                        <a href="/signup.html" class="btn btn-sm btn-accent">Add User +</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-purple-600 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🏢 Floors</h2>
+                    <p class="text-3xl font-bold mt-2">Manage</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewFloorsModal()">View All</button>
+                        <button class="btn btn-sm btn-accent" onclick="add_floor_modal.showModal()">Add Floor +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-emerald-600 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🛏️ Rooms</h2>
+                    <p class="text-3xl font-bold mt-2">Manage</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewRoomsModal()">View All</button>
+                        <button class="btn btn-sm btn-accent" onclick="add_room_modal.showModal()">Add Room +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-teal-600 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🔖 Room Types</h2>
+                    <p class="text-3xl font-bold mt-2">Manage</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewRoomTypesModal()">View All</button>
+                        <button class="btn btn-sm btn-accent" onclick="add_roomType_modal.showModal()">Add Type +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-orange-500 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🍽️ Meals & Menus</h2>
+                    <p class="text-3xl font-bold mt-2">Manage</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewMenusModal()">View Menus</button>
+                        <div class="dropdown dropdown-end">
+                            <label tabindex="0" class="btn btn-sm btn-accent">Manage +</label>
+                            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold">
+                                <li><a onclick="add_mealType_modal.showModal()">Add Meal Type</a></li>
+                                <li><a onclick="create_menu_modal.showModal()">Create Menu</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-red-500 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🍲 Menu Items</h2>
+                    <p class="text-3xl font-bold mt-2">Manage</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewMenuItemsModal()">View All</button>
+                        <button class="btn btn-sm btn-accent" onclick="add_menuItem_modal.showModal()">Add Item +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-indigo-600 text-white shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">📝 Room Bookings</h2>
+                    <p class="text-3xl font-bold mt-2">Manage</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white" onclick="openViewBookingsModal()">View All</button>
+                        <button class="btn btn-sm btn-accent" onclick="add_booking_modal.showModal()">Book Room +</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="view_users_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">👥 All Users List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Name</th><th>Username</th><th>Role</th><th>Contact</th><th>Actions</th></tr></thead><tbody id="userTableBody"><tr><td colspan="6" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="room_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🛏️ All Rooms List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Room No</th><th>Room Type</th><th>Floor No</th><th>Rent/Day</th><th>Seats</th><th>Status</th><th>Actions</th></tr></thead><tbody id="roomTableBody"><tr><td colspan="7" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="floor_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🏢 All Floors List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Floor ID</th><th>Floor Number</th><th>Created At</th><th>Actions</th></tr></thead><tbody id="floorTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="meal_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🍽️ Weekly Menu List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Menu Name</th><th>Day</th><th>Meal Type</th><th>Menu Items</th><th>Actions</th></tr></thead><tbody id="menuTableBody"><tr><td colspan="5" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="roomType_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🔖 All Room Types</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Room Type</th><th>Created At</th><th>Actions</th></tr></thead><tbody id="roomTypeTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="menuItem_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🍲 All Menu Items</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Item Name</th><th>Description</th><th>Actions</th></tr></thead><tbody id="menuItemTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="booking_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">📝 All Room Bookings</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Booking ID</th><th>Username</th><th>Room No</th><th>Duration</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead><tbody id="bookingTableBody"><tr><td colspan="7" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+
+
+    <dialog id="add_floor_modal" class="modal"><div class="modal-box"><h3 class="font-bold text-lg mb-4">🏢 Add New Floor</h3><form id="formAddFloor" class="space-y-4"><div class="form-control"><label class="label"><span class="label-text">Floor Number</span></label><input type="number" id="floorNo" class="input input-bordered" required /></div><div class="modal-action"><button type="button" class="btn" onclick="add_floor_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
+    <dialog id="add_roomType_modal" class="modal"><div class="modal-box"><h3 class="font-bold text-lg mb-4">🔖 Add Room Type</h3><form id="formAddRoomType" class="space-y-4"><div class="form-control"><label class="label"><span class="label-text">Room Type Name</span></label><input type="text" id="roomTypeName" class="input input-bordered" required /></div><div class="modal-action"><button type="button" class="btn" onclick="add_roomType_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
+    <dialog id="add_room_modal" class="modal"><div class="modal-box w-11/12 max-w-2xl"><h3 class="font-bold text-lg mb-4">🛏️ Add New Room</h3><form id="formAddRoom" class="grid grid-cols-2 gap-4"><div class="form-control"><label class="label"><span class="label-text">Room Number</span></label><input type="number" id="r_roomNo" class="input input-bordered" required /></div><div class="form-control"><label class="label"><span class="label-text">Room Type</span></label><select id="r_roomType" class="select select-bordered" required></select></div><div class="form-control"><label class="label"><span class="label-text">Floor Number</span></label><select id="r_floorNo" class="select select-bordered" required></select></div><div class="form-control"><label class="label"><span class="label-text">Rent Fee</span></label><input type="number" id="r_rentFee" class="input input-bordered" required /></div><div class="form-control col-span-2"><label class="label"><span class="label-text">Total Seats</span></label><input type="number" id="r_totalSeat" class="input input-bordered" required /></div><div class="modal-action col-span-2 justify-end"><button type="button" class="btn" onclick="add_room_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
+    <dialog id="add_mealType_modal" class="modal"><div class="modal-box"><h3 class="font-bold text-lg mb-4">⏳ Add Meal Type</h3><form id="formAddMealType" class="space-y-4"><div class="form-control"><label class="label"><span class="label-text">Meal Type</span></label><input type="text" id="mealTypeName" class="input input-bordered" required /></div><div class="modal-action"><button type="button" class="btn" onclick="add_mealType_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
+    <dialog id="add_menuItem_modal" class="modal"><div class="modal-box"><h3 class="font-bold text-lg mb-4">🍲 Add Menu Item</h3><form id="formAddMenuItem" class="space-y-4"><div class="form-control"><label class="label"><span class="label-text">Item Name</span></label><input type="text" id="itemName" class="input input-bordered" required /></div><div class="form-control"><label class="label"><span class="label-text">Description</span></label><input type="text" id="itemDesc" class="input input-bordered" /></div><div class="modal-action"><button type="button" class="btn" onclick="add_menuItem_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
+
+    <dialog id="create_menu_modal" class="modal"><div class="modal-box w-11/12 max-w-2xl"><h3 class="font-bold text-lg mb-4">📋 Create Menu</h3><form id="formCreateMenu" class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="form-control"><label class="label"><span class="label-text">Day</span></label><select id="m_day" class="select select-bordered" required><option value="" disabled selected>Select Day</option><option value="saturday">Saturday</option><option value="sunday">Sunday</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option></select></div><div class="form-control"><label class="label"><span class="label-text">Meal Type</span></label><input type="text" id="m_mealType" class="input input-bordered" placeholder="e.g. dinner" required /></div><div class="form-control md:col-span-2"><label class="label"><span class="label-text font-bold">Select Menu Items</span></label><div id="m_menuItemsContainer" class="flex flex-wrap gap-3 p-4 border rounded-lg max-h-48 overflow-y-auto bg-base-100"><span class="text-gray-500">Loading items...</span></div></div><div class="modal-action col-span-2 justify-end mt-4"><button type="button" class="btn" onclick="create_menu_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Create Menu</button></div></form></div></dialog>
+
+    <dialog id="update_menu_modal" class="modal"><div class="modal-box w-11/12 max-w-2xl"><h3 class="font-bold text-lg mb-4">✏️ Update Menu</h3><form id="formUpdateMenu" class="grid grid-cols-1 md:grid-cols-2 gap-4"><input type="hidden" id="u_menuId" /><div class="form-control"><label class="label"><span class="label-text">Day</span></label><select id="u_day" class="select select-bordered" required><option value="saturday">Saturday</option><option value="sunday">Sunday</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option></select></div><div class="form-control"><label class="label"><span class="label-text">Meal Type</span></label><input type="text" id="u_mealType" class="input input-bordered" required /></div><div class="form-control md:col-span-2"><label class="label"><span class="label-text font-bold">Update Menu Items</span></label><div id="u_menuItemsContainer" class="flex flex-wrap gap-3 p-4 border rounded-lg max-h-48 overflow-y-auto bg-base-100"><span class="text-gray-500">Loading items...</span></div></div><div class="modal-action col-span-2 justify-end mt-4"><button type="button" class="btn" onclick="update_menu_modal.close()">Cancel</button><button type="submit" class="btn btn-accent text-white">Save Changes</button></div></form></div></dialog>
+
+
+    <dialog id="add_booking_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4">📝 Book a Room</h3>
+            <form id="formAddBooking" class="grid grid-cols-2 gap-4">
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Select User</span></label>
+                    <select id="b_userName" class="select select-bordered" required>
+                        <option value="" disabled selected>Loading Users...</option>
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Available Rooms</span></label>
+                    <select id="b_roomNo" class="select select-bordered" required>
+                        <option value="" disabled selected>Loading Rooms...</option>
+                    </select>
+                </div>
+                
+                <div class="form-control"><label class="label"><span class="label-text">Start Date</span></label><input type="date" id="b_startDate" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">End Date</span></label><input type="date" id="b_endDate" class="input input-bordered" required /></div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Payment Method</span></label>
+                    <select id="b_paymentMethod" class="select select-bordered" required>
+                        <option value="visa">Visa / MasterCard</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bkash">bKash</option>
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Total Amount (৳)</span></label>
+                    <input type="number" id="b_amount" class="input input-bordered bg-base-200 text-lg font-bold text-green-700" readonly required placeholder="Auto Calculated" />
+                </div>
+                
+                <div class="modal-action col-span-2 justify-end gap-2 mt-4">
+                    <button type="button" class="btn" onclick="add_booking_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Proceed to Pay ➔</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="payment_simulation_modal" class="modal">
+        <div class="modal-box text-center">
+            <div class="mb-6"><h3 class="font-bold text-2xl text-blue-600">Secure Payment</h3><p class="text-sm text-gray-500">Complete your transaction</p></div>
+            <div class="bg-base-200 p-6 rounded-lg mb-6 text-left shadow-inner">
+                <p class="flex justify-between font-semibold text-lg border-b pb-2 mb-2"><span>Total Amount:</span> <span id="payAmountDisplay" class="text-green-600">৳ 0</span></p>
+                <p class="flex justify-between text-gray-600"><span>Payment Method:</span> <span id="payMethodDisplay" class="uppercase font-bold">VISA</span></p>
+                <p class="flex justify-between text-gray-600 mt-2"><span>Status:</span> <span class="badge badge-warning">Pending</span></p>
+            </div>
+            <div class="modal-action justify-center gap-4">
+                <button class="btn btn-outline" onclick="payment_simulation_modal.close(); add_booking_modal.showModal();">Cancel</button>
+                <button id="confirmPaymentBtn" class="btn btn-success text-white w-32" onclick="processPayment()">Pay Now</button>
+            </div>
+        </div>
+    </dialog>
+
+
+    <script>
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toastAlert');
+            const alertBox = toast.querySelector('.alert');
+            document.getElementById('toastMessage').textContent = message;
+            alertBox.className = `alert text-white shadow-lg ${type === 'success' ? 'alert-success' : 'alert-error'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        const getToken = () => localStorage.getItem("jwtToken");
+        const getHeaders = () => ({ "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` });
+
+        let currentLoadedMenus = [];
+
+        // ==========================================
+        //         VIEW FUNCTIONS (VIEW ALL)
+        // ==========================================
+
+        async function openViewUsersModal() { /* ... */ view_users_modal.showModal(); const tbody = document.getElementById('userTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const users = await res.json(); document.getElementById('totalUsersCount').textContent = users.length; if (users.length === 0) return tbody.innerHTML = '<tr><td colspan="6" class="text-center">No data found.</td></tr>'; let html = ""; users.forEach(u => { const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim(); const roleName = u.role ? u.role.role : "N/A"; html += `<tr><td>${u.userId}</td><td class="font-semibold">${fullName}</td><td>${u.userName}</td><td><span class="badge badge-outline">${roleName}</span></td><td>${u.contactNo || 'N/A'}</td><td><button class="btn btn-xs btn-info text-white">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="6" class="text-center text-error">Error</td></tr>'; } }
+        async function openViewRoomsModal() { /* ... */ room_list_modal.showModal(); const tbody = document.getElementById('roomTableBody'); tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const rooms = await res.json(); if (rooms.length === 0) return tbody.innerHTML = '<tr><td colspan="7" class="text-center">No data found.</td></tr>'; let html = ""; rooms.forEach(r => { const typeName = r.roomType ? r.roomType.roomType : 'N/A'; const floorNum = r.floor ? r.floor.floorNo : 'N/A'; const statusBadge = r.occupied ? '<span class="badge badge-error text-white">Full</span>' : '<span class="badge badge-success text-white">Available</span>'; html += `<tr><td class="font-bold text-lg">${r.roomNo || 'N/A'}</td><td><span class="badge badge-primary badge-outline">${typeName}</span></td><td class="font-semibold">Floor - ${floorNum}</td><td>৳ ${r.perDayRentFee || '0'}</td><td class="text-center font-bold">${r.availableSeat || '0'} / ${r.totalSeat || '0'}</td><td>${statusBadge}</td><td><button class="btn btn-xs btn-info text-white">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="7" class="text-center text-error">Error</td></tr>'; } }
+        async function openViewFloorsModal() { /* ... */ floor_list_modal.showModal(); const tbody = document.getElementById('floorTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/floor/get", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const floors = await res.json(); if (floors.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center">No data found.</td></tr>'; let html = ""; floors.forEach(f => { html += `<tr><td class="font-bold">${f.floorId || 'N/A'}</td><td><span class="badge badge-accent badge-outline font-semibold">Floor - ${f.floorNo || 'N/A'}</span></td><td class="text-sm opacity-80">${new Date(f.createdAt).toLocaleDateString()}</td><td><button class="btn btn-xs btn-info text-white">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; } }
+        async function openViewRoomTypesModal() { /* ... */ roomType_list_modal.showModal(); const tbody = document.getElementById('roomTypeTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/roomType/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const rTypes = await res.json(); if (rTypes.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>'; let html = ""; rTypes.forEach(rt => { html += `<tr><td class="font-bold">${rt.roomTypeId || 'N/A'}</td><td class="capitalize"><span class="badge badge-outline">${rt.roomType || 'N/A'}</span></td><td class="text-sm opacity-80">${new Date(rt.createdAt).toLocaleDateString()}</td><td><button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; } }
+        async function openViewMenuItemsModal() { /* ... */ menuItem_list_modal.showModal(); const tbody = document.getElementById('menuItemTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/menuItem/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const items = await res.json(); if (items.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>'; let html = ""; items.forEach(it => { html += `<tr><td class="font-bold">${it.menuItemId || 'N/A'}</td><td class="font-semibold text-primary capitalize">${it.itemName || 'N/A'}</td><td class="text-sm opacity-80">${it.description || '-'}</td><td><button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; } }
+        async function openViewMenusModal() { /* ... */ meal_list_modal.showModal(); const tbody = document.getElementById('menuTableBody'); tbody.innerHTML = '<tr><td colspan="5" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/menu/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); currentLoadedMenus = await res.json(); if (currentLoadedMenus.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500">No data found.</td></tr>'; let html = ""; currentLoadedMenus.forEach(m => { const mealType = m.mealType ? m.mealType.mealType : 'N/A'; const itemsHtml = m.menuItems && m.menuItems.length > 0 ? m.menuItems.map(item => `<span class="badge badge-primary badge-outline m-1">${item.itemName}</span>`).join("") : '<span class="text-gray-400">No items</span>'; html += `<tr><td class="font-bold">${m.menuName || 'N/A'}</td><td class="capitalize font-semibold">${m.day || 'N/A'}</td><td class="capitalize text-orange-600 font-bold">${mealType}</td><td>${itemsHtml}</td><td><button class="btn btn-xs btn-info text-white" onclick="openUpdateMenuModal(${m.menuId})">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="5" class="text-center text-error">Error</td></tr>'; } }
+
+
+        // ==========================================
+        //         CREATE & UPDATE FUNCTIONS
+        // ==========================================
+
+        document.getElementById('formAddFloor').addEventListener('submit', async (e) => { e.preventDefault(); const p = { floorNo: document.getElementById('floorNo').value }; try { const r = await fetch("http://localhost:8001/floor/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Floor added!"); document.getElementById('formAddFloor').reset(); add_floor_modal.close(); loadFloors(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddRoomType').addEventListener('submit', async (e) => { e.preventDefault(); const p = { roomType: document.getElementById('roomTypeName').value }; try { const r = await fetch("http://localhost:8001/roomType/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Room Type added!"); document.getElementById('formAddRoomType').reset(); add_roomType_modal.close(); loadRoomTypes(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddMenuItem').addEventListener('submit', async (e) => { e.preventDefault(); const p = { itemName: document.getElementById('itemName').value, description: document.getElementById('itemDesc').value }; try { const r = await fetch("http://localhost:8001/menuItem/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Menu Item added!"); document.getElementById('formAddMenuItem').reset(); add_menuItem_modal.close(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddMealType').addEventListener('submit', async (e) => { e.preventDefault(); const p = { mealType: document.getElementById('mealTypeName').value }; try { const r = await fetch("http://localhost:8001/mealType/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Meal Type added!"); document.getElementById('formAddMealType').reset(); add_mealType_modal.close(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddRoom').addEventListener('submit', async (e) => { e.preventDefault(); const payload = { roomNo: document.getElementById('r_roomNo').value, roomType: document.getElementById('r_roomType').value, floorNo: document.getElementById('r_floorNo').value, perDayRentFee: document.getElementById('r_rentFee').value, totalSeat: document.getElementById('r_totalSeat').value }; try { const res = await fetch("http://localhost:8001/room/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok) { showToast("Room added successfully!"); document.getElementById('formAddRoom').reset(); add_room_modal.close(); } else throw new Error(""); } catch (err) { showToast("Error adding room", "error"); } });
+        document.getElementById('formCreateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const checkedBoxes = document.querySelectorAll('input[name="createMenuCheckbox"]:checked'); const selectedItemsArray = Array.from(checkedBoxes).map(cb => cb.value); if (selectedItemsArray.length === 0) return showToast("Select at least one menu item!", "error"); const payload = { day: document.getElementById('m_day').value, mealType: document.getElementById('m_mealType').value, menuItems: selectedItemsArray }; try { const res = await fetch("http://localhost:8001/menu/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok) { showToast("Menu created successfully!"); document.getElementById('formCreateMenu').reset(); create_menu_modal.close(); } else throw new Error(""); } catch (err) { showToast("Error creating menu", "error"); } });
+        document.getElementById('formUpdateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const menuId = document.getElementById('u_menuId').value; const checkedBoxes = document.querySelectorAll('input[name="updateMenuCheckbox"]:checked'); const selectedItemsArray = Array.from(checkedBoxes).map(cb => cb.value); if (selectedItemsArray.length === 0) return showToast("Select at least one menu item!", "error"); const payload = { day: document.getElementById('u_day').value, mealType: document.getElementById('u_mealType').value, menuItems: selectedItemsArray }; try { const res = await fetch(`http://localhost:8001/menu/update/menuId/${menuId}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok) { showToast("Menu updated successfully!"); update_menu_modal.close(); openViewMenusModal(); } else throw new Error(""); } catch (err) { showToast("Error updating menu", "error"); } });
+
+
+        // ==========================================
+        //     ROOM BOOKING & PAYMENT CALCULATION
+        // ==========================================
+
+        let tempBookingPayload = null;
+
+        // 1. Fetch Users Dropdown
+        async function loadUsersForBooking() {
+            try {
+                const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("");
+                const users = await res.json();
+                const userSelect = document.getElementById('b_userName');
+                userSelect.innerHTML = '<option value="" disabled selected>Select User</option>';
+                users.forEach(u => {
+                    const option = document.createElement("option");
+                    option.value = u.userName;
+                    const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim();
+                    option.textContent = `${u.userName} (${fullName})`;
+                    userSelect.appendChild(option);
+                });
+            } catch (error) { document.getElementById('b_userName').innerHTML = '<option value="" disabled selected>Error loading users</option>'; }
+        }
+
+        // 2. Fetch Available Rooms Dropdown
+        async function loadRoomsForBooking() {
+            try {
+                const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("");
+                const rooms = await res.json();
+                
+                const roomSelect = document.getElementById('b_roomNo');
+                roomSelect.innerHTML = '<option value="" disabled selected>Select an Available Room</option>';
+                
+                // ফিল্টার: শুধুমাত্র যেগুলো দখল করা হয়নি এবং সিট ফাঁকা আছে
+                const availableRooms = rooms.filter(r => r.occupied === false && r.availableSeat > 0);
+                
+                if(availableRooms.length === 0){
+                    roomSelect.innerHTML = '<option value="" disabled selected>No rooms available</option>';
+                    return;
+                }
+
+                availableRooms.forEach(r => {
+                    const option = document.createElement("option");
+                    option.value = r.roomNo;
+                    // ক্যালকুলেশনের জন্য data-rent এ ভাড়া সেভ করে রাখা হলো
+                    option.dataset.rent = r.perDayRentFee || 0;
+                    const rType = r.roomType ? r.roomType.roomType : '';
+                    option.textContent = `Room ${r.roomNo} - ${rType} (৳${r.perDayRentFee}/day)`;
+                    roomSelect.appendChild(option);
+                });
+            } catch (error) { document.getElementById('b_roomNo').innerHTML = '<option value="" disabled selected>Error loading rooms</option>'; }
+        }
+
+        // 3. Auto Calculate Payment Amount
+        function calculateBookingAmount() {
+            const startDateStr = document.getElementById('b_startDate').value;
+            const endDateStr = document.getElementById('b_endDate').value;
+            const roomSelect = document.getElementById('b_roomNo');
+            const amountInput = document.getElementById('b_amount');
+
+            if (!startDateStr || !endDateStr || !roomSelect.value) {
+                amountInput.value = '';
+                return;
+            }
+
+            const startDate = new Date(startDateStr);
+            const endDate = new Date(endDateStr);
+            
+            if (endDate <= startDate) {
+                showToast("End date must be after start date", "error");
+                amountInput.value = '';
+                document.getElementById('b_endDate').value = '';
+                return;
+            }
+
+            // দিন হিসাব করা (মিলিসেকেন্ড থেকে দিনে রূপান্তর)
+            const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+            const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+
+            // সিলেক্ট করা রুমের ডাটা-এট্রিবিউট থেকে perDayRent বের করে আনা
+            const selectedOption = roomSelect.options[roomSelect.selectedIndex];
+            const perDayRent = parseFloat(selectedOption.dataset.rent || 0);
+
+            // মোট টাকা হিসাব করা
+            const totalAmount = diffDays * perDayRent;
+            amountInput.value = totalAmount.toFixed(2);
+        }
+
+        // 4. Attach Event Listeners to inputs for calculation
+        document.getElementById('b_startDate').addEventListener('change', calculateBookingAmount);
+        document.getElementById('b_endDate').addEventListener('change', calculateBookingAmount);
+        document.getElementById('b_roomNo').addEventListener('change', calculateBookingAmount);
+
+        // 5. Booking View Modal
+       // ==========================================
+        //         VIEW BOOKINGS MODAL (UPDATED)
+        // ==========================================
+        async function openViewBookingsModal() {
+            booking_list_modal.showModal();
+            const tbody = document.getElementById('bookingTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="loading loading-spinner"></span> Loading Bookings...</td></tr>';
+            
+            try {
+                const res = await fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("Failed to fetch bookings");
+                const bookings = await res.json();
+                
+                if (bookings.length === 0) return tbody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-500">No bookings found.</td></tr>';
+                
+                let html = "";
+                bookings.forEach(b => {
+                    // Nested Object থেকে সাবধানে ডাটা বের করা
+                    const bookingId = b.roomRentInformationId || 'N/A';
+                    const userName = b.user ? b.user.userName : 'N/A';
+                    const roomNo = b.room ? b.room.roomNo : 'N/A';
+                    
+                    // Transaction থেকে ডাটা বের করা
+                    const amount = b.transaction ? b.transaction.amount : '0';
+                    const payMethod = b.transaction && b.transaction.paymentMethod ? b.transaction.paymentMethod.paymentMethod : 'N/A';
+                    
+                    // Active স্ট্যাটাস ব্যাজ
+                    const statusBadge = b.active 
+                        ? '<span class="badge badge-success text-white badge-sm mt-1">Active</span>' 
+                        : '<span class="badge badge-neutral badge-sm mt-1">Inactive</span>';
+
+                    html += `
+                    <tr>
+                        <td class="font-bold text-lg">#${bookingId}</td>
+                        <td class="font-semibold text-primary">${userName}</td>
+                        <td class="font-bold">Room ${roomNo}</td>
+                        <td class="text-sm">
+                            ${b.startDate} to ${b.endDate} <br/>
+                            <span class="text-xs text-gray-500 font-bold">(${b.roomRentDays} Days)</span>
+                        </td>
+                        <td class="font-bold text-green-600">৳ ${amount}</td>
+                        <td>
+                            <span class="uppercase font-bold text-xs">${payMethod}</span><br/>
+                            ${statusBadge}
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-error text-white">Cancel</button>
+                        </td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) { 
+                console.error("Booking load error:", error);
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-error">Error loading data. Check console.</td></tr>'; 
+            }
+        }
+
+        // 6. Submit Booking Form -> Payment Modal
+        document.getElementById('formAddBooking').addEventListener('submit', (e) => {
+            e.preventDefault();
+            tempBookingPayload = {
+                userName: document.getElementById('b_userName').value,
+                roomNo: document.getElementById('b_roomNo').value,
+                startDate: document.getElementById('b_startDate').value,
+                endDate: document.getElementById('b_endDate').value,
+                paymentMethod: document.getElementById('b_paymentMethod').value,
+                amount: document.getElementById('b_amount').value
+            };
+            document.getElementById('payAmountDisplay').textContent = `৳ ${tempBookingPayload.amount}`;
+            document.getElementById('payMethodDisplay').textContent = tempBookingPayload.paymentMethod;
+            add_booking_modal.close();
+            payment_simulation_modal.showModal();
+        });
+
+        // 7. Process Payment
+        async function processPayment() {
+            const btn = document.getElementById('confirmPaymentBtn');
+            btn.innerHTML = '<span class="loading loading-spinner"></span> Processing...';
+            btn.disabled = true;
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                const res = await fetch("http://localhost:8001/roomBooking/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(tempBookingPayload) });
+                if (res.ok) {
+                    showToast("Payment Successful & Room Booked!", "success");
+                    document.getElementById('formAddBooking').reset(); 
+                    payment_simulation_modal.close(); 
+                    tempBookingPayload = null; 
+                } else throw new Error("API failed");
+            } catch (error) { showToast("Payment Failed. Please try again.", "error");
+            } finally { btn.innerHTML = 'Pay Now'; btn.disabled = false; }
+        }
+
+
+        // ==========================================
+        //         HELPERS & INITIALIZATION
+        // ==========================================
+
+        async function loadMenuItemsAsCheckboxes(containerId, checkboxName, preCheckedItems = []) { /*...অপরিবর্তিত...*/ try { const res = await fetch("http://localhost:8001/menuItem/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const items = await res.json(); const container = document.getElementById(containerId); container.innerHTML = ''; if (items.length === 0) return container.innerHTML = '<span class="text-error">No items found.</span>'; items.forEach(item => { const label = item.itemName.charAt(0).toUpperCase() + item.itemName.slice(1); const isChecked = preCheckedItems.includes(item.itemName) ? 'checked' : ''; const html = `<label class="cursor-pointer label flex items-center gap-2 bg-base-200 px-3 py-2 rounded-lg border hover:bg-base-300"><input type="checkbox" name="${checkboxName}" value="${item.itemName}" class="checkbox checkbox-sm checkbox-primary" ${isChecked} /><span class="label-text font-medium">${label}</span></label>`; container.insertAdjacentHTML('beforeend', html); }); } catch (error) { document.getElementById(containerId).innerHTML = '<span class="text-error">Error</span>'; } }
+        function openUpdateMenuModal(menuId) { /*...অপরিবর্তিত...*/ const menu = currentLoadedMenus.find(m => m.menuId === menuId); if (!menu) return; document.getElementById('u_menuId').value = menu.menuId; document.getElementById('u_day').value = menu.day.toLowerCase(); document.getElementById('u_mealType').value = menu.mealType ? menu.mealType.mealType : ''; const existingItems = menu.menuItems.map(item => item.itemName); loadMenuItemsAsCheckboxes('u_menuItemsContainer', 'updateMenuCheckbox', existingItems); update_menu_modal.showModal(); }
+        async function loadRoomTypes() { /*...অপরিবর্তিত...*/ try { const res = await fetch("http://localhost:8001/roomType/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const roomTypes = await res.json(); const typeSelect = document.getElementById('r_roomType'); typeSelect.innerHTML = '<option value="" disabled selected>Select Room Type</option>'; roomTypes.forEach(rt => { const option = document.createElement("option"); option.value = rt.roomType; option.textContent = rt.roomType.charAt(0).toUpperCase() + rt.roomType.slice(1); typeSelect.appendChild(option); }); } catch (error) { console.error("Error"); } }
+        async function loadFloors() { /*...অপরিবর্তিত...*/ try { const res = await fetch("http://localhost:8001/floor/get", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const floors = await res.json(); const floorSelect = document.getElementById('r_floorNo'); floorSelect.innerHTML = '<option value="" disabled selected>Select Floor</option>'; floors.forEach(f => { const option = document.createElement("option"); option.value = f.floorNo; option.textContent = `Floor - ${f.floorNo}`; floorSelect.appendChild(option); }); } catch (error) { console.error("Error"); } }
+
+        const logout = () => { localStorage.removeItem("jwtToken"); window.location.href = "/login.html"; };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const navMenu = document.getElementById("navMenu");
+            if (getToken()) {
+                navMenu.innerHTML = `<li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>`;
+
+                // Load Initial Data
+                loadUsersForBooking();
+                loadRoomsForBooking();
+
+                document.querySelector('[onclick="add_room_modal.showModal()"]').addEventListener('click', () => { loadRoomTypes(); loadFloors(); });
+                document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', () => { loadMenuItemsAsCheckboxes('m_menuItemsContainer', 'createMenuCheckbox'); });
+            } else {
+                navMenu.innerHTML = `<li><a href="/login.html" class="btn btn-primary btn-sm text-white ml-2">Login</a></li>`;
+                window.location.href = "/login.html";
+            }
+        });
+// ==========================================
+        //         CALCULATE REVENUE SUMMARY
+        // ==========================================
+        async function calculateRevenueSummary() {
+            try {
+                const res = await fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("Failed to fetch bookings for revenue");
+                const bookings = await res.json();
+                
+                let daily = 0, weekly = 0, monthly = 0, yearly = 0;
+                
+                // বর্তমান দিন, মাস ও বছর বের করে নেওয়া হচ্ছে
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                const currentMonth = now.getMonth();
+                const currentDate = now.getDate();
+                
+                // ৭ দিন আগের তারিখ (Weekly হিসাব করার জন্য)
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(now.getDate() - 7);
+
+                bookings.forEach(b => {
+                    // যদি ট্রানজেকশন অ্যামাউন্ট এবং ক্রিয়েট হওয়ার সময় থাকে
+                    if(b.transaction && b.transaction.amount && b.transaction.createdAt) {
+                        const amount = parseFloat(b.transaction.amount);
+                        const txDate = new Date(b.transaction.createdAt);
+
+                        // Yearly Calculate
+                        if(txDate.getFullYear() === currentYear) {
+                            yearly += amount;
+                        }
+
+                        // Monthly Calculate
+                        if(txDate.getFullYear() === currentYear && txDate.getMonth() === currentMonth) {
+                            monthly += amount;
+                        }
+
+                        // Weekly Calculate (গত ৭ দিনে)
+                        if(txDate >= sevenDaysAgo && txDate <= now) {
+                            weekly += amount;
+                        }
+
+                        // Daily Calculate (আজকের ইনকাম)
+                        if(txDate.getFullYear() === currentYear && txDate.getMonth() === currentMonth && txDate.getDate() === currentDate) {
+                            daily += amount;
+                        }
+                    }
+                });
+
+                // UI তে ডাটাগুলো বসিয়ে দেওয়া
+                // toLocaleString() দিয়ে কমা (,) বসানো হচ্ছে যাতে টাকা দেখতে সুন্দর লাগে (যেমন: 50,000)
+                document.getElementById('dailyRev').textContent = `৳ ${daily.toLocaleString()}`;
+                document.getElementById('weeklyRev').textContent = `৳ ${weekly.toLocaleString()}`;
+                document.getElementById('monthlyRev').textContent = `৳ ${monthly.toLocaleString()}`;
+                document.getElementById('yearlyRev').textContent = `৳ ${yearly.toLocaleString()}`;
+
+            } catch (error) {
+                console.error("Revenue calculation error:", error);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            const navMenu = document.getElementById("navMenu");
+            if (getToken()) {
+                navMenu.innerHTML = `<li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>`;
+
+                // Load Initial Data
+                loadUsersForBooking();
+                loadRoomsForBooking();
+                
+                // --- এই নতুন লাইনটি যোগ করুন ---
+                calculateRevenueSummary(); 
+
+                // Dropdowns for Add Room Modal
+                document.querySelector('[onclick="add_room_modal.showModal()"]').addEventListener('click', () => { loadRoomTypes(); loadFloors(); });
+                // Load checkboxes for Create Menu Modal
+                document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', () => { loadMenuItemsAsCheckboxes('m_menuItemsContainer', 'createMenuCheckbox'); });
+            } else {
+                navMenu.innerHTML = `<li><a href="/login.html" class="btn btn-primary btn-sm text-white ml-2">Login</a></li>`;
+                window.location.href = "/login.html";
+            }
+        });
+    </script>
+</body>
+</html>

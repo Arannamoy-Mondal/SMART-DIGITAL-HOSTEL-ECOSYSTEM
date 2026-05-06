@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hostel Ecosystem | Login</title>
+    <!-- Tailwind & DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-base-200 min-h-screen pb-10">
+
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
+        </div>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-1 font-medium">
+                <li><a href="/signup.html">Signup</a></li>
+                <li><a href="/login.html" class="active">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Login Form Section -->
+    <div class="container mx-auto px-4 mt-20 flex justify-center">
+        <div class="card bg-base-100 w-full max-w-md shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title text-3xl font-bold justify-center mb-6">Welcome Back</h2>
+
+                <!-- Alert Box -->
+                <div id="alertBox" class="hidden alert mb-4">
+                    <span id="alertMessage"></span>
+                </div>
+
+                <form id="loginForm" class="space-y-4">
+
+                    <!-- Username -->
+                    <div class="form-control">
+                        <label class="label"><span class="label-text font-semibold">Username</span></label>
+                        <input type="text" id="username" name="userName" placeholder="Enter your username"
+                            class="input input-bordered w-full" required />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-control">
+                        <label class="label"><span class="label-text font-semibold">Password</span></label>
+                        <input type="password" id="password" name="password" placeholder="••••••••"
+                            class="input input-bordered w-full" required />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-control mt-6">
+                        <button type="submit" id="submitBtn" class="btn btn-primary w-full text-lg">Login</button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="text-sm">Don't have an account? <a href="/signup.html" class="link link-primary">Sign
+                                up here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const alertBox = document.getElementById('alertBox');
+            const alertMessage = document.getElementById('alertMessage');
+
+            const payload = {
+                userName: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+
+
+            submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Logging in...';
+            submitBtn.disabled = true;
+
+            let isSuccess = false;
+
+            try {
+                const response = await fetch("http://0.0.0.0:8001/user/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const token = await response.text();
+
+                    if (token) {
+                        localStorage.setItem("jwtToken", token);
+                    }
+
+                    alertBox.className = "alert alert-success mb-4 block text-white";
+                    alertMessage.textContent = "Login Successful! Redirecting...";
+                    isSuccess = true;
+                    setTimeout(() => {
+                        window.location.href = "/admin-home.html";
+                    }, 1500);
+
+                } else {
+                    alertBox.className = "alert alert-error mb-4 block text-white";
+                    alertMessage.textContent = "Invalid username or password!";
+                }
+            } catch (error) {
+                console.error("Login Error:", error);
+                alertBox.className = "alert alert-error mb-4 block text-white";
+                alertMessage.textContent = "Network error. Make sure your server is running.";
+            } finally {
+                submitBtn.innerHTML = 'Login';
+                submitBtn.disabled = false;
+                setTimeout(() => {
+                    if (!isSuccess) alertBox.classList.add("hidden");
+                }, 5000);
+            }
+        });
+        const checkAuthorization = () => {
+            const token = localStorage.getItem("jwtToken");
+            if (token) {
+                window.location.href="/tenant-home.html"
+            }
+        }
+        window.onload = checkAuthorization;
+    </script>
+</body>
+
+</html>

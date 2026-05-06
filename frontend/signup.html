@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hostel Ecosystem | Signup</title>
+    <!-- Tailwind & DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-base-200 min-h-screen pb-10">
+    
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
+        </div>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-1 font-medium">
+                <li><a href="/signup.html" class="active">Signup</a></li>
+                <li><a href="/login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Signup Form Section -->
+    <div class="container mx-auto px-4 mt-10 flex justify-center">
+        <div class="card bg-base-100 w-full max-w-4xl shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title text-3xl font-bold justify-center mb-6">Create an Account</h2>
+                
+                <!-- Alert Box for Success/Error Messages -->
+                <div id="alertBox" class="hidden alert mb-4">
+                    <span id="alertMessage"></span>
+                </div>
+
+                <form id="signupForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- First Name -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">First Name</span></label>
+                            <input type="text" id="firstName" placeholder="John" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Last Name</span></label>
+                            <input type="text" id="lastName" placeholder="Doe" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Username -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Username</span></label>
+                            <input type="text" id="username" placeholder="johndoe" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Email</span></label>
+                            <input type="email" id="email" placeholder="john@example.com" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Contact No -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Contact No</span></label>
+                            <input type="text" id="contactNo" placeholder="01XXXXXXXXX" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Emergency Contact No -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Emergency Contact No</span></label>
+                            <input type="text" id="emergencyContactNo" placeholder="01XXXXXXXXX" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Permanent Address -->
+                        <div class="form-control md:col-span-2">
+                            <label class="label"><span class="label-text font-semibold">Permanent Address</span></label>
+                            <input type="text" id="permanentAddress" placeholder="Dhaka, Bangladesh" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Passport ID -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Passport / NID ID</span></label>
+                            <input type="text" id="passportId" placeholder="A985652585" class="input input-bordered w-full"/>
+                        </div>
+
+                        <!-- Birth Date -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Birth Date</span></label>
+                            <input type="date" id="birthDate" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Role Selection -->
+                        <div class="form-control md:col-span-2">
+                            <label class="label"><span class="label-text font-semibold">Role</span></label>
+                            <!-- Changed div to select -->
+                            <select id="role" class="select select-bordered w-full" required>
+                                <option value="" disabled selected>Loading roles...</option>
+                            </select>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Password</span></label>
+                            <input type="password" id="password" placeholder="••••••••" class="input input-bordered w-full" required />
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-control">
+                            <label class="label"><span class="label-text font-semibold">Confirm Password</span></label>
+                            <input type="password" id="confirmPassword" placeholder="••••••••" class="input input-bordered w-full" required />
+                        </div>
+
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-control mt-6">
+                        <button type="submit" id="submitBtn" class="btn btn-primary w-full text-lg">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+// 1. Load Roles into the Select Option
+const loadRole = async () => {
+    try {
+        const response = await fetch("http://0.0.0.0:8001/role/get");
+        const roles = await response.json();
+
+        const roleSelect = document.getElementById("role");
+        roleSelect.innerHTML = '<option value="" disabled selected>Select a role</option>';
+
+        roles.forEach(roleData => {
+            const option = document.createElement("option");
+            
+            // value হিসেবে role এর নাম পাঠানো হচ্ছে (যাতে API তে "admin" হিসেবে যায়)
+            option.value = roleData.role; 
+            
+            const roleName = roleData.role;
+            option.textContent = roleName.charAt(0).toUpperCase() + roleName.slice(1); 
+            if(roleName=="tenant"){
+                roleSelect.appendChild(option);
+            }
+            
+        });
+
+    } catch (error) {
+        console.error("Error loading roles:", error);
+        document.getElementById("role").innerHTML = '<option value="" disabled selected>Failed to load roles</option>';
+    }
+}
+
+// 2. Handle Form Submission
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // পেজ রিলোড বন্ধ করা
+
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const submitBtn = document.getElementById('submitBtn');
+    const alertBox = document.getElementById('alertBox');
+    const alertMessage = document.getElementById('alertMessage');
+
+    // Password Match Validation
+    if (password !== confirmPassword) {
+        alertBox.className = "alert alert-error mb-4 block";
+        alertMessage.textContent = "Passwords do not match!";
+        return;
+    }
+
+    // JSON Payload তৈরি করা
+    const payload = {
+        userName: document.getElementById('username').value,
+        password: password,
+        role: document.getElementById('role').value,
+        contactNo: document.getElementById('contactNo').value,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        permanentAddress: document.getElementById('permanentAddress').value,
+        email: document.getElementById('email').value,
+        emergencyContactNo: document.getElementById('emergencyContactNo').value,
+        birthDate: document.getElementById('birthDate').value,
+        passportId: document.getElementById('passportId').value
+    };
+
+    // লোডিং স্টেট দেখানো
+    submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Creating Account...';
+    submitBtn.disabled = true;
+
+    try {
+        // POST Request
+        const response = await fetch("http://0.0.0.0:8001/user/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alertBox.className = "alert alert-success mb-4 block text-white";
+            alertMessage.textContent = "Signup Successful! You can now log in.";
+            document.getElementById('signupForm').reset(); // ফর্ম ক্লিয়ার করা
+        } else {
+            const errorData = await response.json();
+            alertBox.className = "alert alert-error mb-4 block text-white";
+            alertMessage.textContent = errorData.message || "Signup failed. Please try again.";
+        }
+    } catch (error) {
+        console.error("Signup Error:", error);
+        alertBox.className = "alert alert-error mb-4 block text-white";
+        alertMessage.textContent = "Network error. Make sure your Spring Boot server is running.";
+    } finally {
+        submitBtn.innerHTML = 'Sign Up';
+        submitBtn.disabled = false;
+        setTimeout(() => {
+            alertBox.classList.add("hidden");
+        }, 5000);
+    }
+});
+const checkAuthorization=()=>{
+        const token = localStorage.getItem("jwtToken");
+        if(token){
+            window.location.href="/tenant-home.html"
+        }
+    }
+window.onload = loadRole;
+window.onload =checkAuthorization;
+</script>
+</body>
+</html>

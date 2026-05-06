@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hostel Ecosystem</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="navbar bg-base-100 shadow-sm">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
+        </div>
+        <div class="flex-none">
+            <!-- id="navMenu" যোগ করা হয়েছে যাতে JS দিয়ে কন্ট্রোল করা যায় -->
+            <ul id="navMenu" class="menu menu-horizontal px-1 items-center gap-2">
+                <!-- JavaScript এর মাধ্যমে এখানে বাটনগুলো লোড হবে -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content (Optional) -->
+    <div class="container mx-auto mt-10 p-4 text-center">
+        <h1 class="text-4xl font-bold">Welcome to Smart Hostel Ecosystem</h1>
+        <p class="mt-4 text-gray-600">Manage your hostel efficiently and securely.</p>
+    </div>
+</body>
+
+<script>
+    // পেজ লোড হওয়ার সাথে সাথে মেনু আপডেট করার ফাংশন
+    const updateNavbar = () => {
+        const navMenu = document.getElementById("navMenu");
+        const token = localStorage.getItem("jwtToken");
+
+        if (token) {
+            // ইউজার লগইন করা থাকলে: শুধু Dashboard এবং Logout বাটন দেখাবে
+            navMenu.innerHTML = `
+                <li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>
+            `;
+        } else {
+            // ইউজার লগইন করা না থাকলে: Signup এবং Login বাটন দেখাবে
+            navMenu.innerHTML = `
+                <li><a href="/signup.html">Signup</a></li>
+                <li><a href="/login.html" class="btn btn-primary btn-sm text-white ml-2">Login</a></li>
+            `;
+        }
+    };
+
+    // লগআউট ফাংশন
+    const logout = () => {
+        // LocalStorage থেকে টোকেন রিমুভ করা
+        localStorage.removeItem("jwtToken");
+        
+        // পেজ রিলোড করা যাতে নেভবার সাথে সাথে আপডেট হয়ে যায়
+        window.location.reload(); 
+        
+        // অথবা সরাসরি লগইন পেজে পাঠিয়ে দিতে পারেন:
+        // window.location.href = "/login.html";
+    };
+    document.addEventListener("DOMContentLoaded", updateNavbar);
+
+</script>
+</html>
