@@ -4,63 +4,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Hostel Ecosystem</title>
+    <title>Smart Hostel | Tenant Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
-    <div class="navbar bg-base-100 shadow-sm">
+<body class="bg-base-200 min-h-screen pb-10">
+    <div class="navbar bg-primary text-primary-content shadow-sm sticky top-0 z-50">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
+            <a class="btn btn-ghost text-xl" href="#">My Hostel Account</a>
         </div>
-        <div class="flex-none">
-            <!-- id="navMenu" যোগ করা হয়েছে যাতে JS দিয়ে কন্ট্রোল করা যায় -->
-            <ul id="navMenu" class="menu menu-horizontal px-1 items-center gap-2">
-                <!-- JavaScript এর মাধ্যমে এখানে বাটনগুলো লোড হবে -->
-            </ul>
+        <div class="flex-none gap-2">
+            <span id="navUserName" class="font-bold mr-2">Welcome, Tenant</span>
+            <button onclick="logout()" class="btn btn-error btn-sm text-white">Logout</button>
         </div>
     </div>
 
-    <!-- Main Content (Optional) -->
-    <div class="container mx-auto mt-10 p-4 text-center">
-        <h1 class="text-4xl font-bold">Welcome to Smart Hostel Ecosystem</h1>
-        <p class="mt-4 text-gray-600">Manage your hostel efficiently and securely.</p>
+    <div id="toastAlert" class="toast toast-top toast-end z-[100] hidden">
+        <div class="alert text-white shadow-lg"><span id="toastMessage">Message</span></div>
     </div>
-</body>
 
-<script>
-    // পেজ লোড হওয়ার সাথে সাথে মেনু আপডেট করার ফাংশন
-    const updateNavbar = () => {
-        const navMenu = document.getElementById("navMenu");
-        const token = localStorage.getItem("jwtToken");
+    <div class="container mx-auto px-4 mt-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div class="lg:col-span-1">
+                <div class="card bg-base-100 shadow-xl border-t-4 border-primary">
+                    <div class="card-body text-center">
+                        <div class="avatar placeholder mx-auto mb-4">
+                            <div class="bg-neutral text-neutral-content rounded-full w-24">
+                                <span class="text-3xl">👤</span>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold" id="p_fullName">Loading...</h2>
+                        <p class="text-gray-500 font-semibold mb-4">@<span id="p_userName">username</span></p>
+                        
+                        <div class="text-left space-y-2 mt-4 bg-base-200 p-4 rounded-lg">
+                            <p><strong>Email:</strong> <span id="p_email">--</span></p>
+                            <p><strong>Phone:</strong> <span id="p_phone">--</span></p>
+                            <p><strong>Address:</strong> <span id="p_address">--</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        if (token) {
-            // ইউজার লগইন করা থাকলে: শুধু Dashboard এবং Logout বাটন দেখাবে
-            navMenu.innerHTML = `
-                <li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>
-            `;
-        } else {
-            // ইউজার লগইন করা না থাকলে: Signup এবং Login বাটন দেখাবে
-            navMenu.innerHTML = `
-                <li><a href="/signup.html">Signup</a></li>
-                <li><a href="/login.html" class="btn btn-primary btn-sm text-white ml-2">Login</a></li>
-            `;
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="card bg-indigo-600 text-white shadow-lg">
+                        <div class="card-body">
+                            <h2 class="card-title text-2xl">Need a Room?</h2>
+                            <p>Book your perfect room today.</p>
+                            <div class="card-actions justify-end mt-2">
+                                <button class="btn btn-accent" onclick="add_booking_modal.showModal()">Book Room Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-orange-500 text-white shadow-lg">
+                        <div class="card-body">
+                            <h2 class="card-title text-2xl">Dining Menu</h2>
+                            <p>Check what's cooking this week.</p>
+                            <div class="card-actions justify-end mt-2">
+                                <button class="btn btn-outline text-white" onclick="openViewMenusModal()">View Menu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title text-xl border-b pb-2 mb-2">📅 My Booking History</h2>
+                        <div class="overflow-x-auto">
+                            <table class="table table-zebra w-full">
+                                <thead>
+                                    <tr class="bg-base-200">
+                                        <th>Booking ID</th>
+                                        <th>Room No</th>
+                                        <th>Duration</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myBookingsTableBody">
+                                    <tr><td colspan="5" class="text-center">Loading your bookings...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <dialog id="add_booking_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4">📝 Book a Room</h3>
+            <form id="formAddBooking" class="grid grid-cols-2 gap-4">
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Username</span></label>
+                    <input type="text" id="b_userName" class="input input-bordered font-bold bg-base-200 text-primary" readonly />
+                </div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Available Rooms</span></label>
+                    <select id="b_roomNo" class="select select-bordered" required>
+                        <option value="" disabled selected>Loading Rooms...</option>
+                    </select>
+                </div>
+                
+                <div class="form-control"><label class="label"><span class="label-text">Start Date</span></label><input type="date" id="b_startDate" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">End Date</span></label><input type="date" id="b_endDate" class="input input-bordered" required /></div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Payment Method</span></label>
+                    <select id="b_paymentMethod" class="select select-bordered" required>
+                        <option value="visa">Visa / MasterCard</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bkash">bKash</option>
+                    </select>
+                </div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Total Amount (৳)</span></label>
+                    <input type="number" id="b_amount" class="input input-bordered bg-base-200 text-lg font-bold text-green-700" readonly required placeholder="Auto Calculated" />
+                </div>
+                
+                <div class="modal-action col-span-2 justify-end gap-2 mt-4">
+                    <button type="button" class="btn" onclick="add_booking_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Proceed to Pay ➔</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="meal_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-2xl mb-4 border-b pb-2">🍽️ Weekly Menu</h3>
+            <div class="overflow-x-auto h-96">
+                <table class="table table-zebra table-pin-rows">
+                    <thead><tr class="bg-base-200"><th>Menu Name</th><th>Day</th><th>Meal Type</th><th>Menu Items</th></tr></thead>
+                    <tbody id="menuTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody>
+                </table>
+            </div>
+            <div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div>
+        </div>
+    </dialog>
+
+    <script>
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toastAlert');
+            const alertBox = toast.querySelector('.alert');
+            document.getElementById('toastMessage').textContent = message;
+            alertBox.className = `alert text-white shadow-lg ${type === 'success' ? 'alert-success' : 'alert-error'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
         }
-    };
 
-    // লগআউট ফাংশন
-    const logout = () => {
-        // LocalStorage থেকে টোকেন রিমুভ করা
-        localStorage.removeItem("jwtToken");
-        
-        // পেজ রিলোড করা যাতে নেভবার সাথে সাথে আপডেট হয়ে যায়
-        window.location.reload(); 
-        
-        // অথবা সরাসরি লগইন পেজে পাঠিয়ে দিতে পারেন:
-        // window.location.href = "/login.html";
-    };
-    document.addEventListener("DOMContentLoaded", updateNavbar);
+        const getToken = () => localStorage.getItem("jwtToken");
+        // 로그인 করার সময় অবশ্যই localStorage-এ "loggedInUsername" সেভ করে রাখবেন!
+        const getLoggedInUsername = () => localStorage.getItem("loggedInUsername") || "user1"; // Fallback to 'user1' for testing
+        const getHeaders = () => ({ "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` });
 
-</script>
+        // 1. Load User Profile Data
+        async function loadUserProfile() {
+            const username = getLoggedInUsername();
+            document.getElementById('navUserName').textContent = `Welcome, ${username}`;
+            document.getElementById('b_userName').value = username; // Auto-fill booking form
+
+            try {
+                // আমরা সব ইউজার আনছি এবং ফিল্টার করছি (যদি আপনার user/username API থাকে তবে সেটি ব্যবহার করতে পারেন)
+                const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok) throw new Error("Failed to load profile");
+                const allUsers = await res.json();
+                
+                const myProfile = allUsers.find(u => u.userName === username);
+                if(myProfile) {
+                    document.getElementById('p_fullName').textContent = `${myProfile.firstName || ''} ${myProfile.lastName || ''}`.trim() || 'No Name';
+                    document.getElementById('p_userName').textContent = myProfile.userName;
+                    document.getElementById('p_email').textContent = myProfile.email || 'N/A';
+                    document.getElementById('p_phone').textContent = myProfile.contactNo || 'N/A';
+                    document.getElementById('p_address').textContent = myProfile.permanentAddress || 'N/A';
+                }
+            } catch (error) { console.error("Error loading profile"); }
+        }
+
+        // 2. Load Only MY Bookings
+        async function loadMyBookings() {
+            const username = getLoggedInUsername();
+            const tbody = document.getElementById('myBookingsTableBody');
+            
+            try {
+                const res = await fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("Failed to fetch bookings");
+                const allBookings = await res.json();
+                
+                // শুধুমাত্র এই ইউজারের বুকিং ফিল্টার করা হচ্ছে
+                const myBookings = allBookings.filter(b => b.user && b.user.userName === username);
+                
+                if (myBookings.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500">You have no bookings yet.</td></tr>';
+                
+                let html = "";
+                myBookings.forEach(b => {
+                    const roomNo = b.room ? b.room.roomNo : 'N/A';
+                    const amount = b.transaction ? b.transaction.amount : '0';
+                    const statusBadge = b.active 
+                        ? '<span class="badge badge-success text-white badge-sm">Active</span>' 
+                        : '<span class="badge badge-neutral badge-sm">Past</span>';
+
+                    html += `<tr>
+                        <td class="font-bold">#${b.roomRentInformationId || 'N/A'}</td>
+                        <td class="font-bold text-primary">Room ${roomNo}</td>
+                        <td class="text-sm">${b.startDate} to ${b.endDate} <br/><span class="text-xs text-gray-500 font-bold">(${b.roomRentDays} Days)</span></td>
+                        <td class="font-bold text-green-600">৳ ${amount}</td>
+                        <td>${statusBadge}</td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) { tbody.innerHTML = '<tr><td colspan="5" class="text-center text-error">Error loading bookings.</td></tr>'; }
+        }
+
+        // 3. Load Available Rooms (Same as Admin)
+        async function loadRoomsForBooking() {
+            try {
+                const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("");
+                const rooms = await res.json();
+                const roomSelect = document.getElementById('b_roomNo');
+                roomSelect.innerHTML = '<option value="" disabled selected>Select an Available Room</option>';
+                const availableRooms = rooms.filter(r => r.occupied === false && r.availableSeat > 0);
+                
+                if(availableRooms.length === 0) return roomSelect.innerHTML = '<option value="" disabled selected>No rooms available</option>';
+
+                availableRooms.forEach(r => {
+                    const option = document.createElement("option"); option.value = r.roomNo;
+                    option.dataset.rent = r.perDayRentFee || 0;
+                    option.textContent = `Room ${r.roomNo} - ${r.roomType ? r.roomType.roomType : ''} (৳${r.perDayRentFee}/day)`;
+                    roomSelect.appendChild(option);
+                });
+            } catch (error) { document.getElementById('b_roomNo').innerHTML = '<option value="" disabled selected>Error loading rooms</option>'; }
+        }
+
+        // 4. View Menus (Tenant Version - No Edit/Delete Buttons)
+        async function openViewMenusModal() {
+            meal_list_modal.showModal(); 
+            const tbody = document.getElementById('menuTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span> Loading Menus...</td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/menu/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("");
+                const menus = await res.json();
+                if (menus.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>';
+                let html = "";
+                menus.forEach(m => {
+                    const mealType = m.mealType ? m.mealType.mealType : 'N/A';
+                    const itemsHtml = m.menuItems && m.menuItems.length > 0 ? m.menuItems.map(item => `<span class="badge badge-primary badge-outline m-1">${item.itemName}</span>`).join("") : '<span class="text-gray-400">No items</span>';
+                    html += `<tr><td class="font-bold">${m.menuName || 'N/A'}</td><td class="capitalize font-semibold">${m.day || 'N/A'}</td><td class="capitalize text-orange-600 font-bold">${mealType}</td><td>${itemsHtml}</td></tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; }
+        }
+
+        // 5. Booking Calculation & Submission
+        function calculateBookingAmount() {
+            const startDateStr = document.getElementById('b_startDate').value;
+            const endDateStr = document.getElementById('b_endDate').value;
+            const roomSelect = document.getElementById('b_roomNo');
+            const amountInput = document.getElementById('b_amount');
+
+            if (!startDateStr || !endDateStr || !roomSelect.value) { amountInput.value = ''; return; }
+            const startDate = new Date(startDateStr); const endDate = new Date(endDateStr);
+            if (endDate <= startDate) { showToast("End date must be after start date", "error"); amountInput.value = ''; document.getElementById('b_endDate').value = ''; return; }
+            
+            const diffDays = Math.ceil(Math.abs(endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)); 
+            const perDayRent = parseFloat(roomSelect.options[roomSelect.selectedIndex].dataset.rent || 0);
+            amountInput.value = (diffDays * perDayRent).toFixed(2);
+        }
+
+        document.getElementById('b_startDate').addEventListener('change', calculateBookingAmount);
+        document.getElementById('b_endDate').addEventListener('change', calculateBookingAmount);
+        document.getElementById('b_roomNo').addEventListener('change', calculateBookingAmount);
+
+        document.getElementById('formAddBooking').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pendingBookingPayload = {
+                userName: document.getElementById('b_userName').value, // Auto filled
+                roomNo: document.getElementById('b_roomNo').value,
+                startDate: document.getElementById('b_startDate').value,
+                endDate: document.getElementById('b_endDate').value,
+                paymentMethod: document.getElementById('b_paymentMethod').value,
+                amount: document.getElementById('b_amount').value
+            };
+            localStorage.setItem("pendingBookingInfo", JSON.stringify(pendingBookingPayload));
+            
+            // Payment পেজ থেকে যাতে tenant-dashboard.html এ ফেরত আসে তার জন্য flag সেভ করা
+            localStorage.setItem("returnTo", "/tenant-dashboard.html");
+            window.location.href = "/payment.html"; 
+        });
+
+        // Init
+        const logout = () => { localStorage.removeItem("jwtToken"); localStorage.removeItem("loggedInUsername"); window.location.href = "/login.html"; };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (!getToken()) {
+                window.location.href = "/login.html";
+                return;
+            }
+            loadUserProfile();
+            loadMyBookings();
+            loadRoomsForBooking();
+        });
+    </script>
+</body>
 </html>

@@ -561,6 +561,29 @@
                 window.location.href = "/login.html";
             }
         });
+        // ==========================================
+        //     ROOM BOOKING (REDIRECT TO PAYMENT PAGE)
+        // ==========================================
+
+        document.getElementById('formAddBooking').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // ফর্ম থেকে ডাটা নিয়ে একটি অবজেক্ট তৈরি করা
+            const pendingBookingPayload = {
+                userName: document.getElementById('b_userName').value,
+                roomNo: document.getElementById('b_roomNo').value,
+                startDate: document.getElementById('b_startDate').value,
+                endDate: document.getElementById('b_endDate').value,
+                paymentMethod: document.getElementById('b_paymentMethod').value,
+                amount: document.getElementById('b_amount').value
+            };
+
+            // ডাটাগুলো localStorage এ সেভ করে রাখা হচ্ছে, যাতে পেমেন্ট পেজ এই ডাটাগুলো নিতে পারে
+            localStorage.setItem("pendingBookingInfo", JSON.stringify(pendingBookingPayload));
+
+            // পেমেন্ট পেজে রিডাইরেক্ট করা
+            window.location.href = "/payment.html"; 
+        });
     </script>
 </body>
 </html>
