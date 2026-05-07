@@ -1,5 +1,6 @@
 package com.backend.backend.config;
 
+import com.backend.backend.repo.ComplaintStatusRepo;
 import com.backend.backend.repo.FloorRepo;
 import com.backend.backend.repo.MealItemRepo;
 
@@ -11,18 +12,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.User;
 
 import com.backend.backend.dto.UserRequest;
+import com.backend.backend.model.ComplaintStatus;
 import com.backend.backend.model.Floor;
 import com.backend.backend.model.MealType;
 import com.backend.backend.model.MenuItem;
 import com.backend.backend.model.PaymentMethod;
 import com.backend.backend.model.PaymentPurpose;
 import com.backend.backend.model.Role;
+import com.backend.backend.model.RoomType;
 import com.backend.backend.model.TransactionType;
 import com.backend.backend.repo.MealTypeRepo;
 import com.backend.backend.repo.MenuItemRepo;
 import com.backend.backend.repo.PaymentMethodRepo;
 import com.backend.backend.repo.PaymentPurposeRepo;
 import com.backend.backend.repo.RoleRepo;
+import com.backend.backend.repo.RoomTypeRepo;
 import com.backend.backend.repo.TransactionTypeRepo;
 import com.backend.backend.repo.UserRepo;
 import com.backend.backend.service.UserService;
@@ -59,6 +63,13 @@ public class DatabaseSeeder implements CommandLineRunner{
     @Autowired
     private FloorRepo floorRepo;
 
+
+    @Autowired
+    private RoomTypeRepo roomTypeRepo;
+
+    @Autowired
+    private ComplaintStatusRepo complaintStatusRepo;
+
     @Override
     public void run(String... args) throws Exception {
         // TODO Auto-generated method stub
@@ -93,6 +104,7 @@ public class DatabaseSeeder implements CommandLineRunner{
             paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("meal token").build());
             paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("room rent and meal token").build());
             paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("service charge").build());
+            paymentPurposeRepo.save(PaymentPurpose.builder().paymentPurpose("refund meal token").build());
         }
 
 
@@ -126,6 +138,22 @@ public class DatabaseSeeder implements CommandLineRunner{
             userRequest.setPassword("1234");
             userService.signup(userRequest);
         }
+
+
+        if(roomTypeRepo.count()==0){
+            roomTypeRepo.save(RoomType.builder().roomType("single seater").build());
+        }
+
+        if(complaintStatusRepo.count()==0){
+            complaintStatusRepo.saveAll(
+                List.of(
+                   ComplaintStatus.builder().status("Investigating").build() ,
+                   ComplaintStatus.builder().status("In-progress").build(),
+                   ComplaintStatus.builder().status("Resolved").build()
+                )
+            );
+        }
+
     }
 
 }

@@ -27,7 +27,7 @@
 
     const checkAuthorization = () => {
             const token = localStorage.getItem("jwtToken");
-            const role = localStorage.getItem("role")
+            const role = localStorage.getItem("userRole")
             if (token && role == "tenant") {
                 window.location.href = "/tenant-home.html"
             }

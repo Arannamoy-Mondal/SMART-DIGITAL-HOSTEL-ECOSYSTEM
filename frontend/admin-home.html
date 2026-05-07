@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Hostel Ecosystem | Dashboard</title>
+    <title>Smart Hostel Ecosystem | Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -27,91 +27,103 @@
     </div>
 
     <div class="container mx-auto mt-8 p-4 text-center">
-        <h1 class="text-4xl font-bold">Dashboard Overview</h1>
+        <h1 class="text-4xl font-bold">Admin Dashboard</h1>
     </div>
-<div class="container mx-auto px-4 mt-6">
-        <div class="stats shadow w-full bg-base-100 flex flex-col md:flex-row">
-            
+
+    <div class="container mx-auto px-4 mt-2 space-y-4">
+        
+        <div class="stats shadow w-full bg-base-100 flex flex-col md:flex-row border-t-4 border-primary">
             <div class="stat place-items-center">
-                <div class="stat-title font-bold">Daily Revenue</div>
-                <div class="stat-value text-primary" id="dailyRev">৳ 0</div>
-                <div class="stat-desc text-gray-500 font-semibold mt-1">Today</div>
+                <div class="stat-title font-bold text-gray-500">Total Tenants</div>
+                <div class="stat-value text-primary" id="statTotalTenants">0</div>
+                <div class="stat-desc font-bold mt-1">Registered Users</div>
             </div>
-            
             <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
-                <div class="stat-title font-bold">Weekly Revenue</div>
-                <div class="stat-value text-secondary" id="weeklyRev">৳ 0</div>
-                <div class="stat-desc text-gray-500 font-semibold mt-1">Last 7 Days</div>
+                <div class="stat-title font-bold text-gray-500">Total Rooms</div>
+                <div class="stat-value text-secondary" id="statTotalRooms">0</div>
+                <div class="stat-desc text-secondary font-bold mt-1" id="statAvailableRooms">0 Available</div>
             </div>
-            
             <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
-                <div class="stat-title font-bold">Monthly Revenue</div>
-                <div class="stat-value text-accent" id="monthlyRev">৳ 0</div>
-                <div class="stat-desc text-gray-500 font-semibold mt-1">This Month</div>
+                <div class="stat-title font-bold text-gray-500">Meal Tokens Sold</div>
+                <div class="stat-value text-accent" id="statTotalTokens">0</div>
+                <div class="stat-desc font-bold mt-1">Total Tokens Taken</div>
             </div>
-            
-            <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
-                <div class="stat-title font-bold">Yearly Revenue</div>
-                <div class="stat-value text-info" id="yearlyRev">৳ 0</div>
-                <div class="stat-desc text-gray-500 font-semibold mt-1">This Year</div>
-            </div>
-            
         </div>
+
+        <div class="stats shadow w-full bg-base-100 flex flex-col md:flex-row border-t-4 border-success">
+            <div class="stat place-items-center">
+                <div class="stat-title font-bold text-gray-500">Room Rent Revenue</div>
+                <div class="stat-value text-indigo-500" id="statRoomRev">৳ 0</div>
+                <div class="stat-desc text-indigo-500 font-bold mt-1" id="statRoomTx">0 Transactions</div>
+            </div>
+            <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
+                <div class="stat-title font-bold text-gray-500">Meal Token Revenue</div>
+                <div class="stat-value text-rose-500" id="statTokenRev">৳ 0</div>
+                <div class="stat-desc text-rose-500 font-bold mt-1" id="statTokenTx">0 Transactions</div>
+            </div>
+            <div class="stat place-items-center border-t md:border-t-0 md:border-l border-base-300">
+                <div class="stat-title font-bold text-gray-500">Total Revenue</div>
+                <div class="stat-value text-success" id="statTotalRev">৳ 0</div>
+                <div class="stat-desc text-success font-bold mt-1" id="statTotalTx">0 Total Transactions</div>
+            </div>
+        </div>
+
     </div>
+
     <div class="container mx-auto px-4 mt-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="card bg-blue-600 text-white shadow-xl">
+
+            <div class="card bg-blue-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
                 <div class="card-body">
                     <h2 class="card-title text-2xl">👥 Users</h2>
-                    <p class="text-3xl font-bold mt-2" id="totalUsersCount">--</p>
+                    <p class="text-lg font-semibold mt-2 opacity-80">Manage Tenants</p>
                     <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewUsersModal()">View All</button>
-                        <a href="/signup.html" class="btn btn-sm btn-accent">Add User +</a>
+                        <button class="btn btn-sm btn-outline text-white w-full" onclick="openViewUsersModal()">View All</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card bg-purple-600 text-white shadow-xl">
+            <div class="card bg-purple-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
                 <div class="card-body">
                     <h2 class="card-title text-2xl">🏢 Floors</h2>
-                    <p class="text-3xl font-bold mt-2">Manage</p>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewFloorsModal()">View All</button>
-                        <button class="btn btn-sm btn-accent" onclick="add_floor_modal.showModal()">Add Floor +</button>
+                    <p class="text-xl font-bold mt-2 opacity-80">Manage Levels</p>
+                    <div class="card-actions justify-end mt-4 flex-nowrap">
+                        <button class="btn btn-sm btn-outline text-white flex-1 mr-1" onclick="openViewFloorsModal()">View</button>
+                        <button class="btn btn-sm btn-accent flex-1 ml-1" onclick="add_floor_modal.showModal()">Add +</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card bg-emerald-600 text-white shadow-xl">
-                <div class="card-body">
-                    <h2 class="card-title text-2xl">🛏️ Rooms</h2>
-                    <p class="text-3xl font-bold mt-2">Manage</p>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewRoomsModal()">View All</button>
-                        <button class="btn btn-sm btn-accent" onclick="add_room_modal.showModal()">Add Room +</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card bg-teal-600 text-white shadow-xl">
+            <div class="card bg-teal-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
                 <div class="card-body">
                     <h2 class="card-title text-2xl">🔖 Room Types</h2>
-                    <p class="text-3xl font-bold mt-2">Manage</p>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewRoomTypesModal()">View All</button>
-                        <button class="btn btn-sm btn-accent" onclick="add_roomType_modal.showModal()">Add Type +</button>
+                    <p class="text-xl font-bold mt-2 opacity-80">Categories</p>
+                    <div class="card-actions justify-end mt-4 flex-nowrap">
+                        <button class="btn btn-sm btn-outline text-white flex-1 mr-1" onclick="openViewRoomTypesModal()">View</button>
+                        <button class="btn btn-sm btn-accent flex-1 ml-1" onclick="add_roomType_modal.showModal()">Add +</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card bg-orange-500 text-white shadow-xl">
+            <div class="card bg-emerald-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
                 <div class="card-body">
-                    <h2 class="card-title text-2xl">🍽️ Meals & Menus</h2>
-                    <p class="text-3xl font-bold mt-2">Manage</p>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewMenusModal()">View Menus</button>
-                        <div class="dropdown dropdown-end">
-                            <label tabindex="0" class="btn btn-sm btn-accent">Manage +</label>
+                    <h2 class="card-title text-2xl">🛏️ Rooms</h2>
+                    <p class="text-xl font-bold mt-2 opacity-80">Manage Spaces</p>
+                    <div class="card-actions justify-end mt-4 flex-nowrap">
+                        <button class="btn btn-sm btn-outline text-white flex-1 mr-1" onclick="openViewRoomsModal()">View</button>
+                        <button class="btn btn-sm btn-accent flex-1 ml-1" onclick="add_room_modal.showModal()">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-orange-500 text-white shadow-xl hover:scale-105 transition-transform duration-200">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🍽️ Menus</h2>
+                    <p class="text-xl font-bold mt-2 opacity-80">Weekly Plans</p>
+                    <div class="card-actions justify-end mt-4 flex-nowrap">
+                        <button class="btn btn-sm btn-outline text-white flex-1 mr-1" onclick="openViewMenusModal()">View</button>
+                        <div class="dropdown dropdown-top dropdown-end flex-1 ml-1">
+                            <label tabindex="0" class="btn btn-sm btn-accent w-full">Manage +</label>
                             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold">
                                 <li><a onclick="add_mealType_modal.showModal()">Add Meal Type</a></li>
                                 <li><a onclick="create_menu_modal.showModal()">Create Menu</a></li>
@@ -121,37 +133,105 @@
                 </div>
             </div>
 
-            <div class="card bg-red-500 text-white shadow-xl">
+            <div class="card bg-red-500 text-white shadow-xl hover:scale-105 transition-transform duration-200">
                 <div class="card-body">
-                    <h2 class="card-title text-2xl">🍲 Menu Items</h2>
-                    <p class="text-3xl font-bold mt-2">Manage</p>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewMenuItemsModal()">View All</button>
-                        <button class="btn btn-sm btn-accent" onclick="add_menuItem_modal.showModal()">Add Item +</button>
+                    <h2 class="card-title text-2xl">🍲 Food Items</h2>
+                    <p class="text-xl font-bold mt-2 opacity-80">Inventory</p>
+                    <div class="card-actions justify-end mt-4 flex-nowrap">
+                        <button class="btn btn-sm btn-outline text-white flex-1 mr-1" onclick="openViewMenuItemsModal()">View</button>
+                        <button class="btn btn-sm btn-accent flex-1 ml-1" onclick="add_menuItem_modal.showModal()">Add +</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card bg-indigo-600 text-white shadow-xl">
+            <div class="card bg-indigo-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
                 <div class="card-body">
-                    <h2 class="card-title text-2xl">📝 Room Bookings</h2>
-                    <p class="text-3xl font-bold mt-2">Manage</p>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-sm btn-outline text-white" onclick="openViewBookingsModal()">View All</button>
-                        <button class="btn btn-sm btn-accent" onclick="add_booking_modal.showModal()">Book Room +</button>
+                    <h2 class="card-title text-2xl">📝 Bookings</h2>
+                    <p class="text-xl font-bold mt-2 opacity-80">Room Rents</p>
+                    <div class="card-actions justify-end mt-4 flex-nowrap">
+                        <button class="btn btn-sm btn-outline text-white flex-1 mr-1" onclick="openViewBookingsModal()">View</button>
+                        <button class="btn btn-sm btn-accent flex-1 ml-1" onclick="add_booking_modal.showModal()">Book +</button>
                     </div>
                 </div>
             </div>
+
+            <div class="card bg-pink-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">🎟️ Meal Tokens</h2>
+                    <p class="text-xl font-bold mt-2 opacity-80">All Tenant Tokens</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-outline text-white w-full font-bold" onclick="openViewAllTokensModal()">View Token History</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-rose-600 text-white shadow-xl hover:scale-105 transition-transform duration-200">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl">⚠️ Complaints</h2>
+                    <p class="text-xl font-bold mt-2 opacity-80">Tenant Issues</p>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-sm btn-warning w-full font-bold" onclick="openViewComplaintsModal()">View & Resolve</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <dialog id="view_users_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">👥 All Users List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Name</th><th>Username</th><th>Role</th><th>Contact</th><th>Actions</th></tr></thead><tbody id="userTableBody"><tr><td colspan="6" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
-    <dialog id="room_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🛏️ All Rooms List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Room No</th><th>Room Type</th><th>Floor No</th><th>Rent/Day</th><th>Seats</th><th>Status</th><th>Actions</th></tr></thead><tbody id="roomTableBody"><tr><td colspan="7" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
-    <dialog id="floor_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🏢 All Floors List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Floor ID</th><th>Floor Number</th><th>Created At</th><th>Actions</th></tr></thead><tbody id="floorTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
-    <dialog id="meal_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🍽️ Weekly Menu List</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Menu Name</th><th>Day</th><th>Meal Type</th><th>Menu Items</th><th>Actions</th></tr></thead><tbody id="menuTableBody"><tr><td colspan="5" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
-    <dialog id="roomType_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🔖 All Room Types</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Room Type</th><th>Created At</th><th>Actions</th></tr></thead><tbody id="roomTypeTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
-    <dialog id="menuItem_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🍲 All Menu Items</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Item Name</th><th>Description</th><th>Actions</th></tr></thead><tbody id="menuItemTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
-    <dialog id="booking_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">📝 All Room Bookings</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Booking ID</th><th>Username</th><th>Room No</th><th>Duration</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead><tbody id="bookingTableBody"><tr><td colspan="7" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="view_users_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">👥 All Users</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Name</th><th>Username</th><th>Role</th><th>Contact</th><th>Actions</th></tr></thead><tbody id="userTableBody"><tr><td colspan="6" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="room_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🛏️ All Rooms</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Room No</th><th>Room Type</th><th>Floor No</th><th>Rent/Day</th><th>Seats</th><th>Status</th><th>Actions</th></tr></thead><tbody id="roomTableBody"><tr><td colspan="7" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="floor_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🏢 All Floors</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Floor ID</th><th>Floor Number</th><th>Created At</th><th>Actions</th></tr></thead><tbody id="floorTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="meal_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🍽️ Weekly Menu</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Menu Name</th><th>Day</th><th>Meal Type</th><th>Menu Items</th><th>Actions</th></tr></thead><tbody id="menuTableBody"><tr><td colspan="5" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="roomType_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🔖 Room Types</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Room Type</th><th>Created At</th><th>Actions</th></tr></thead><tbody id="roomTypeTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="menuItem_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">🍲 Menu Items</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Item Name</th><th>Description</th><th>Actions</th></tr></thead><tbody id="menuItemTableBody"><tr><td colspan="4" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+    <dialog id="booking_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl"><h3 class="font-bold text-2xl mb-4 border-b pb-2">📝 Room Bookings</h3><div class="overflow-x-auto h-96"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Booking ID</th><th>Username</th><th>Room No</th><th>Duration</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead><tbody id="bookingTableBody"><tr><td colspan="7" class="text-center">Loading Data...</td></tr></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div></div></dialog>
+
+    <dialog id="all_tokens_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-2xl mb-4 border-b pb-2 text-pink-600">🎟️ All Meal Tokens History</h3>
+            <div class="overflow-x-auto h-96">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th>ID & Date</th>
+                            <th>Tenant</th>
+                            <th>Room No</th>
+                            <th>Tokens Bought</th>
+                            <th>Amount Paid</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allTokenTableBody">
+                        <tr><td colspan="6" class="text-center">Loading history...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div>
+        </div>
+    </dialog>
+
+    <dialog id="complaint_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-2xl mb-4 border-b pb-2 text-rose-600">⚠️ Tenant Complaints</h3>
+            <div class="overflow-x-auto h-96">
+                <table class="table table-zebra table-pin-rows">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th>ID & Date</th>
+                            <th>Tenant & Room</th>
+                            <th>Issue Details</th>
+                            <th>Status</th>
+                            <th>Update Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintTableBody">
+                        <tr><td colspan="5" class="text-center">Loading Complaints...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action"><form method="dialog"><button class="btn">Close</button></form></div>
+        </div>
+    </dialog>
 
 
     <dialog id="add_floor_modal" class="modal"><div class="modal-box"><h3 class="font-bold text-lg mb-4">🏢 Add New Floor</h3><form id="formAddFloor" class="space-y-4"><div class="form-control"><label class="label"><span class="label-text">Floor Number</span></label><input type="number" id="floorNo" class="input input-bordered" required /></div><div class="modal-action"><button type="button" class="btn" onclick="add_floor_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
@@ -161,71 +241,28 @@
     <dialog id="add_menuItem_modal" class="modal"><div class="modal-box"><h3 class="font-bold text-lg mb-4">🍲 Add Menu Item</h3><form id="formAddMenuItem" class="space-y-4"><div class="form-control"><label class="label"><span class="label-text">Item Name</span></label><input type="text" id="itemName" class="input input-bordered" required /></div><div class="form-control"><label class="label"><span class="label-text">Description</span></label><input type="text" id="itemDesc" class="input input-bordered" /></div><div class="modal-action"><button type="button" class="btn" onclick="add_menuItem_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div></form></div></dialog>
 
     <dialog id="create_menu_modal" class="modal"><div class="modal-box w-11/12 max-w-2xl"><h3 class="font-bold text-lg mb-4">📋 Create Menu</h3><form id="formCreateMenu" class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="form-control"><label class="label"><span class="label-text">Day</span></label><select id="m_day" class="select select-bordered" required><option value="" disabled selected>Select Day</option><option value="saturday">Saturday</option><option value="sunday">Sunday</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option></select></div><div class="form-control"><label class="label"><span class="label-text">Meal Type</span></label><input type="text" id="m_mealType" class="input input-bordered" placeholder="e.g. dinner" required /></div><div class="form-control md:col-span-2"><label class="label"><span class="label-text font-bold">Select Menu Items</span></label><div id="m_menuItemsContainer" class="flex flex-wrap gap-3 p-4 border rounded-lg max-h-48 overflow-y-auto bg-base-100"><span class="text-gray-500">Loading items...</span></div></div><div class="modal-action col-span-2 justify-end mt-4"><button type="button" class="btn" onclick="create_menu_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Create Menu</button></div></form></div></dialog>
-
     <dialog id="update_menu_modal" class="modal"><div class="modal-box w-11/12 max-w-2xl"><h3 class="font-bold text-lg mb-4">✏️ Update Menu</h3><form id="formUpdateMenu" class="grid grid-cols-1 md:grid-cols-2 gap-4"><input type="hidden" id="u_menuId" /><div class="form-control"><label class="label"><span class="label-text">Day</span></label><select id="u_day" class="select select-bordered" required><option value="saturday">Saturday</option><option value="sunday">Sunday</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option></select></div><div class="form-control"><label class="label"><span class="label-text">Meal Type</span></label><input type="text" id="u_mealType" class="input input-bordered" required /></div><div class="form-control md:col-span-2"><label class="label"><span class="label-text font-bold">Update Menu Items</span></label><div id="u_menuItemsContainer" class="flex flex-wrap gap-3 p-4 border rounded-lg max-h-48 overflow-y-auto bg-base-100"><span class="text-gray-500">Loading items...</span></div></div><div class="modal-action col-span-2 justify-end mt-4"><button type="button" class="btn" onclick="update_menu_modal.close()">Cancel</button><button type="submit" class="btn btn-accent text-white">Save Changes</button></div></form></div></dialog>
-
 
     <dialog id="add_booking_modal" class="modal">
         <div class="modal-box w-11/12 max-w-2xl">
             <h3 class="font-bold text-lg mb-4">📝 Book a Room</h3>
             <form id="formAddBooking" class="grid grid-cols-2 gap-4">
-                
-                <div class="form-control">
-                    <label class="label"><span class="label-text">Select User</span></label>
-                    <select id="b_userName" class="select select-bordered" required>
-                        <option value="" disabled selected>Loading Users...</option>
-                    </select>
-                </div>
-                
-                <div class="form-control">
-                    <label class="label"><span class="label-text">Available Rooms</span></label>
-                    <select id="b_roomNo" class="select select-bordered" required>
-                        <option value="" disabled selected>Loading Rooms...</option>
-                    </select>
-                </div>
-                
+                <div class="form-control"><label class="label"><span class="label-text">Select User</span></label><select id="b_userName" class="select select-bordered" required><option value="" disabled selected>Loading Users...</option></select></div>
+                <div class="form-control"><label class="label"><span class="label-text">Available Rooms</span></label><select id="b_roomNo" class="select select-bordered" required><option value="" disabled selected>Loading Rooms...</option></select></div>
                 <div class="form-control"><label class="label"><span class="label-text">Start Date</span></label><input type="date" id="b_startDate" class="input input-bordered" required /></div>
                 <div class="form-control"><label class="label"><span class="label-text">End Date</span></label><input type="date" id="b_endDate" class="input input-bordered" required /></div>
-                
-                <div class="form-control">
-                    <label class="label"><span class="label-text">Payment Method</span></label>
-                    <select id="b_paymentMethod" class="select select-bordered" required>
-                        <option value="visa">Visa / MasterCard</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="bkash">bKash</option>
-                    </select>
-                </div>
-                
-                <div class="form-control">
-                    <label class="label"><span class="label-text">Total Amount (৳)</span></label>
-                    <input type="number" id="b_amount" class="input input-bordered bg-base-200 text-lg font-bold text-green-700" readonly required placeholder="Auto Calculated" />
-                </div>
-                
-                <div class="modal-action col-span-2 justify-end gap-2 mt-4">
-                    <button type="button" class="btn" onclick="add_booking_modal.close()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Proceed to Pay ➔</button>
-                </div>
+                <div class="form-control"><label class="label"><span class="label-text">Payment Method</span></label><select id="b_paymentMethod" class="select select-bordered" required><option value="visa">Visa / MasterCard</option><option value="paypal">PayPal</option><option value="bkash">bKash</option></select></div>
+                <div class="form-control"><label class="label"><span class="label-text">Total Amount (৳)</span></label><input type="number" id="b_amount" class="input input-bordered bg-base-200 text-lg font-bold text-green-700" readonly required placeholder="Auto Calculated" /></div>
+                <div class="modal-action col-span-2 justify-end gap-2 mt-4"><button type="button" class="btn" onclick="add_booking_modal.close()">Cancel</button><button type="submit" class="btn btn-primary">Proceed to Pay ➔</button></div>
             </form>
-        </div>
-    </dialog>
-
-    <dialog id="payment_simulation_modal" class="modal">
-        <div class="modal-box text-center">
-            <div class="mb-6"><h3 class="font-bold text-2xl text-blue-600">Secure Payment</h3><p class="text-sm text-gray-500">Complete your transaction</p></div>
-            <div class="bg-base-200 p-6 rounded-lg mb-6 text-left shadow-inner">
-                <p class="flex justify-between font-semibold text-lg border-b pb-2 mb-2"><span>Total Amount:</span> <span id="payAmountDisplay" class="text-green-600">৳ 0</span></p>
-                <p class="flex justify-between text-gray-600"><span>Payment Method:</span> <span id="payMethodDisplay" class="uppercase font-bold">VISA</span></p>
-                <p class="flex justify-between text-gray-600 mt-2"><span>Status:</span> <span class="badge badge-warning">Pending</span></p>
-            </div>
-            <div class="modal-action justify-center gap-4">
-                <button class="btn btn-outline" onclick="payment_simulation_modal.close(); add_booking_modal.showModal();">Cancel</button>
-                <button id="confirmPaymentBtn" class="btn btn-success text-white w-32" onclick="processPayment()">Pay Now</button>
-            </div>
         </div>
     </dialog>
 
 
     <script>
+        // ==========================================
+        //         UTILITIES
+        // ==========================================
         function showToast(message, type = "success") {
             const toast = document.getElementById('toastAlert');
             const alertBox = toast.querySelector('.alert');
@@ -239,363 +276,500 @@
         const getHeaders = () => ({ "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` });
 
         let currentLoadedMenus = [];
+        let availableComplaintStatuses = [];
+
+        // ==========================================
+        //  LOAD DASHBOARD STATS (Hostel & Finance)
+        // ==========================================
+        async function loadDashboardStats() {
+            try {
+                const [userRes, roomRes, tokenRes, bookingRes] = await Promise.all([
+                    fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() }),
+                    fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() }),
+                    fetch("http://localhost:8001/mealToken/get/all", { method: "GET", headers: getHeaders() }),
+                    fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() })
+                ]);
+
+                const users = (userRes.ok || userRes.status === 302) ? await userRes.json() : [];
+                const rooms = (roomRes.ok || roomRes.status === 302) ? await roomRes.json() : [];
+                const tokens = (tokenRes.ok || tokenRes.status === 302) ? await tokenRes.json() : [];
+                const bookings = (bookingRes.ok || bookingRes.status === 302) ? await bookingRes.json() : [];
+
+                const totalTenants = users.length;
+                const totalRooms = rooms.length;
+                const availableRooms = rooms.filter(r => r.occupied === false && r.availableSeat > 0).length;
+
+                let totalTokensBought = 0;
+                let tokenRev = 0;
+                let tokenTxCount = 0;
+                tokens.forEach(t => {
+                    totalTokensBought += (t.tokenAmount || 0);
+                    if(t.transaction && t.transaction.amount) {
+                        tokenRev += parseFloat(t.transaction.amount);
+                        tokenTxCount++;
+                    }
+                });
+
+                let roomRev = 0;
+                let roomTxCount = 0;
+                bookings.forEach(b => {
+                    if(b.transaction && b.transaction.amount) {
+                        roomRev += parseFloat(b.transaction.amount);
+                        roomTxCount++;
+                    }
+                });
+
+                document.getElementById('statTotalTenants').textContent = totalTenants;
+                document.getElementById('statTotalRooms').textContent = totalRooms;
+                document.getElementById('statAvailableRooms').textContent = `${availableRooms} Available`;
+                document.getElementById('statTotalTokens').textContent = totalTokensBought;
+
+                document.getElementById('statRoomRev').textContent = `৳ ${roomRev.toLocaleString()}`;
+                document.getElementById('statRoomTx').textContent = `${roomTxCount} Transactions`;
+                
+                document.getElementById('statTokenRev').textContent = `৳ ${tokenRev.toLocaleString()}`;
+                document.getElementById('statTokenTx').textContent = `${tokenTxCount} Transactions`;
+
+                document.getElementById('statTotalRev').textContent = `৳ ${(roomRev + tokenRev).toLocaleString()}`;
+                document.getElementById('statTotalTx').textContent = `${roomTxCount + tokenTxCount} Total Transactions`;
+
+            } catch (error) { console.error("Error calculating dashboard stats", error); }
+        }
+
 
         // ==========================================
         //         VIEW FUNCTIONS (VIEW ALL)
         // ==========================================
 
-        async function openViewUsersModal() { /* ... */ view_users_modal.showModal(); const tbody = document.getElementById('userTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const users = await res.json(); document.getElementById('totalUsersCount').textContent = users.length; if (users.length === 0) return tbody.innerHTML = '<tr><td colspan="6" class="text-center">No data found.</td></tr>'; let html = ""; users.forEach(u => { const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim(); const roleName = u.role ? u.role.role : "N/A"; html += `<tr><td>${u.userId}</td><td class="font-semibold">${fullName}</td><td>${u.userName}</td><td><span class="badge badge-outline">${roleName}</span></td><td>${u.contactNo || 'N/A'}</td><td><button class="btn btn-xs btn-info text-white">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="6" class="text-center text-error">Error</td></tr>'; } }
-        async function openViewRoomsModal() { /* ... */ room_list_modal.showModal(); const tbody = document.getElementById('roomTableBody'); tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const rooms = await res.json(); if (rooms.length === 0) return tbody.innerHTML = '<tr><td colspan="7" class="text-center">No data found.</td></tr>'; let html = ""; rooms.forEach(r => { const typeName = r.roomType ? r.roomType.roomType : 'N/A'; const floorNum = r.floor ? r.floor.floorNo : 'N/A'; const statusBadge = r.occupied ? '<span class="badge badge-error text-white">Full</span>' : '<span class="badge badge-success text-white">Available</span>'; html += `<tr><td class="font-bold text-lg">${r.roomNo || 'N/A'}</td><td><span class="badge badge-primary badge-outline">${typeName}</span></td><td class="font-semibold">Floor - ${floorNum}</td><td>৳ ${r.perDayRentFee || '0'}</td><td class="text-center font-bold">${r.availableSeat || '0'} / ${r.totalSeat || '0'}</td><td>${statusBadge}</td><td><button class="btn btn-xs btn-info text-white">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="7" class="text-center text-error">Error</td></tr>'; } }
-        async function openViewFloorsModal() { /* ... */ floor_list_modal.showModal(); const tbody = document.getElementById('floorTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/floor/get", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const floors = await res.json(); if (floors.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center">No data found.</td></tr>'; let html = ""; floors.forEach(f => { html += `<tr><td class="font-bold">${f.floorId || 'N/A'}</td><td><span class="badge badge-accent badge-outline font-semibold">Floor - ${f.floorNo || 'N/A'}</span></td><td class="text-sm opacity-80">${new Date(f.createdAt).toLocaleDateString()}</td><td><button class="btn btn-xs btn-info text-white">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; } }
-        async function openViewRoomTypesModal() { /* ... */ roomType_list_modal.showModal(); const tbody = document.getElementById('roomTypeTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/roomType/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const rTypes = await res.json(); if (rTypes.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>'; let html = ""; rTypes.forEach(rt => { html += `<tr><td class="font-bold">${rt.roomTypeId || 'N/A'}</td><td class="capitalize"><span class="badge badge-outline">${rt.roomType || 'N/A'}</span></td><td class="text-sm opacity-80">${new Date(rt.createdAt).toLocaleDateString()}</td><td><button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; } }
-        async function openViewMenuItemsModal() { /* ... */ menuItem_list_modal.showModal(); const tbody = document.getElementById('menuItemTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/menuItem/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const items = await res.json(); if (items.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>'; let html = ""; items.forEach(it => { html += `<tr><td class="font-bold">${it.menuItemId || 'N/A'}</td><td class="font-semibold text-primary capitalize">${it.itemName || 'N/A'}</td><td class="text-sm opacity-80">${it.description || '-'}</td><td><button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-error">Error</td></tr>'; } }
-        async function openViewMenusModal() { /* ... */ meal_list_modal.showModal(); const tbody = document.getElementById('menuTableBody'); tbody.innerHTML = '<tr><td colspan="5" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; try { const res = await fetch("http://localhost:8001/menu/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); currentLoadedMenus = await res.json(); if (currentLoadedMenus.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500">No data found.</td></tr>'; let html = ""; currentLoadedMenus.forEach(m => { const mealType = m.mealType ? m.mealType.mealType : 'N/A'; const itemsHtml = m.menuItems && m.menuItems.length > 0 ? m.menuItems.map(item => `<span class="badge badge-primary badge-outline m-1">${item.itemName}</span>`).join("") : '<span class="text-gray-400">No items</span>'; html += `<tr><td class="font-bold">${m.menuName || 'N/A'}</td><td class="capitalize font-semibold">${m.day || 'N/A'}</td><td class="capitalize text-orange-600 font-bold">${mealType}</td><td>${itemsHtml}</td><td><button class="btn btn-xs btn-info text-white" onclick="openUpdateMenuModal(${m.menuId})">Edit</button> <button class="btn btn-xs btn-error text-white">Delete</button></td></tr>`; }); tbody.innerHTML = html; } catch (error) { tbody.innerHTML = '<tr><td colspan="5" class="text-center text-error">Error</td></tr>'; } }
+        async function openViewUsersModal() {
+            view_users_modal.showModal();
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span></td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load users"); }
+                
+                const users = await res.json();
+                if (users.length === 0) return tbody.innerHTML = '<tr><td colspan="6" class="text-center">No data found.</td></tr>';
+                
+                let html = "";
+                users.forEach(u => {
+                    const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim();
+                    const roleName = u.role ? u.role.role : "N/A";
+                    html += `<tr>
+                                <td>${u.userId}</td>
+                                <td class="font-semibold">${fullName}</td>
+                                <td>${u.userName}</td>
+                                <td><span class="badge badge-outline">${roleName}</span></td>
+                                <td>${u.contactNo || 'N/A'}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-info text-white">Edit</button> 
+                                    <button class="btn btn-xs btn-error text-white">Delete</button>
+                                </td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`;
+            }
+        }
+
+        async function openViewRoomsModal() {
+            room_list_modal.showModal();
+            const tbody = document.getElementById('roomTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="loading loading-spinner"></span></td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load rooms"); }
+                
+                const rooms = await res.json();
+                if (rooms.length === 0) return tbody.innerHTML = '<tr><td colspan="7" class="text-center">No data found.</td></tr>';
+                
+                let html = "";
+                rooms.forEach(r => {
+                    const typeName = r.roomType ? r.roomType.roomType : 'N/A';
+                    const floorNum = r.floor ? r.floor.floorNo : 'N/A';
+                    const statusBadge = r.occupied ? '<span class="badge badge-error text-white">Full</span>' : '<span class="badge badge-success text-white">Available</span>';
+                    html += `<tr>
+                                <td class="font-bold text-lg">${r.roomNo || 'N/A'}</td>
+                                <td><span class="badge badge-primary badge-outline">${typeName}</span></td>
+                                <td class="font-semibold">Floor - ${floorNum}</td>
+                                <td>৳ ${r.perDayRentFee || '0'}</td>
+                                <td class="text-center font-bold">${r.availableSeat || '0'} / ${r.totalSeat || '0'}</td>
+                                <td>${statusBadge}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-info text-white">Edit</button> 
+                                    <button class="btn btn-xs btn-error text-white">Delete</button>
+                                </td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`;
+            }
+        }
+
+        async function openViewFloorsModal() {
+            floor_list_modal.showModal();
+            const tbody = document.getElementById('floorTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/floor/get", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load floors"); }
+                
+                const floors = await res.json();
+                if (floors.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center">No data found.</td></tr>';
+                
+                let html = "";
+                floors.forEach(f => {
+                    html += `<tr>
+                                <td class="font-bold">${f.floorId || 'N/A'}</td>
+                                <td><span class="badge badge-accent badge-outline font-semibold">Floor - ${f.floorNo || 'N/A'}</span></td>
+                                <td class="text-sm opacity-80">${new Date(f.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-info text-white">Edit</button> 
+                                    <button class="btn btn-xs btn-error text-white">Delete</button>
+                                </td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`;
+            }
+        }
+
+        async function openViewRoomTypesModal() {
+            roomType_list_modal.showModal();
+            const tbody = document.getElementById('roomTypeTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/roomType/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load room types"); }
+                
+                const rTypes = await res.json();
+                if (rTypes.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>';
+                
+                let html = "";
+                rTypes.forEach(rt => {
+                    html += `<tr>
+                                <td class="font-bold">${rt.roomTypeId || 'N/A'}</td>
+                                <td class="capitalize"><span class="badge badge-outline">${rt.roomType || 'N/A'}</span></td>
+                                <td class="text-sm opacity-80">${new Date(rt.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-error text-white">Delete</button>
+                                </td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`;
+            }
+        }
+
+        async function openViewMenuItemsModal() {
+            menuItem_list_modal.showModal();
+            const tbody = document.getElementById('menuItemTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center"><span class="loading loading-spinner"></span></td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/menuItem/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load menu items"); }
+                
+                const items = await res.json();
+                if (items.length === 0) return tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500">No data found.</td></tr>';
+                
+                let html = "";
+                items.forEach(it => {
+                    html += `<tr>
+                                <td class="font-bold">${it.menuItemId || 'N/A'}</td>
+                                <td class="font-semibold text-primary capitalize">${it.itemName || 'N/A'}</td>
+                                <td class="text-sm opacity-80">${it.description || '-'}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-error text-white">Delete</button>
+                                </td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`;
+            }
+        }
+        
+        async function openViewMenusModal() { 
+            meal_list_modal.showModal(); 
+            const tbody = document.getElementById('menuTableBody'); 
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center"><span class="loading loading-spinner"></span></td></tr>'; 
+            try { 
+                const res = await fetch("http://localhost:8001/menu/get/all", { method: "GET", headers: getHeaders() }); 
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load menus"); }
+                
+                currentLoadedMenus = await res.json(); 
+                if (currentLoadedMenus.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500">No data found.</td></tr>'; 
+                
+                let html = ""; 
+                currentLoadedMenus.forEach(m => { 
+                    const mealType = m.mealType ? m.mealType.mealType : 'N/A'; 
+                    const itemsHtml = m.menuItems && m.menuItems.length > 0 ? m.menuItems.map(item => `<span class="badge badge-primary badge-outline m-1">${item.itemName}</span>`).join("") : '<span class="text-gray-400">No items</span>'; 
+                    html += `<tr>
+                                <td class="font-bold">${m.menuName || 'N/A'}</td>
+                                <td class="capitalize font-semibold">${m.day || 'N/A'}</td>
+                                <td class="capitalize text-orange-600 font-bold">${mealType}</td>
+                                <td>${itemsHtml}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-info text-white" onclick="openUpdateMenuModal(${m.menuId})">Edit</button> 
+                                    <button class="btn btn-xs btn-error text-white">Delete</button>
+                                </td>
+                            </tr>`; 
+                }); 
+                tbody.innerHTML = html; 
+            } catch (error) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`; 
+            } 
+        }
+
+        async function openViewBookingsModal() {
+            booking_list_modal.showModal();
+            const tbody = document.getElementById('bookingTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="loading loading-spinner"></span></td></tr>';
+            try {
+                const res = await fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load bookings"); }
+                
+                const bookings = await res.json();
+                if (bookings.length === 0) return tbody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-500">No bookings found.</td></tr>';
+                
+                let html = "";
+                bookings.forEach(b => {
+                    const bookingId = b.roomRentInformationId || 'N/A';
+                    const userName = b.user ? b.user.userName : 'N/A';
+                    const roomNo = b.room ? b.room.roomNo : 'N/A';
+                    const amount = (b.transaction && b.transaction.amount != null) ? parseFloat(b.transaction.amount).toFixed(2) : '0.00';
+                    const payMethod = b.transaction && b.transaction.paymentMethod ? b.transaction.paymentMethod.paymentMethod : 'N/A';
+                    const statusBadge = b.active ? '<span class="badge badge-success text-white badge-sm mt-1">Active</span>' : '<span class="badge badge-neutral badge-sm mt-1">Inactive</span>';
+                    html += `<tr>
+                                <td class="font-bold text-lg">#${bookingId}</td>
+                                <td class="font-semibold text-primary">@${userName}</td>
+                                <td class="font-bold">Room ${roomNo}</td>
+                                <td class="text-sm">${b.startDate} <br/>to ${b.endDate} <br/><span class="text-xs text-gray-500 font-bold">(${b.roomRentDays} Days)</span></td>
+                                <td class="font-bold text-green-600">৳ ${amount}</td>
+                                <td><span class="uppercase font-bold text-xs">${payMethod}</span><br/>${statusBadge}</td>
+                                <td><button class="btn btn-xs btn-error text-white">Cancel</button></td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) { 
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`; 
+            }
+        }
+
+        async function openViewAllTokensModal() {
+            all_tokens_list_modal.showModal();
+            const tbody = document.getElementById('allTokenTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
+            try {
+                const res = await fetch(`http://localhost:8001/mealToken/get/all`, { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load tokens"); }
+                
+                const tokens = await res.json();
+                if(tokens.length === 0) return tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-500">No token history found.</td></tr>';
+                
+                let html = "";
+                tokens.reverse().forEach(t => {
+                    const date = new Date(t.createdAt).toLocaleDateString();
+                    const tenant = t.user ? t.user.userName : 'Unknown';
+                    const roomNo = t.room ? t.room.roomNo : '-';
+                    const amount = t.transaction ? t.transaction.amount : '0';
+                    const method = t.transaction && t.transaction.paymentMethod ? t.transaction.paymentMethod.paymentMethod : '-';
+                    
+                    html += `<tr>
+                        <td><span class="font-bold">#${t.mealTokenInformationId || '-'}</span><br><span class="text-xs opacity-70">${date}</span></td>
+                        <td class="font-bold text-primary">@${tenant}</td>
+                        <td class="font-bold">Room ${roomNo}</td>
+                        <td class="font-bold text-secondary text-lg">+${t.tokenAmount}</td>
+                        <td class="text-green-600 font-bold">৳ ${amount}</td>
+                        <td class="uppercase text-xs font-bold">${method}</td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) { 
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`; 
+            }
+        }
+
+        async function loadComplaintStatuses() {
+            try {
+                const res = await fetch("http://localhost:8001/complaintStatus/get/all", { method: "GET", headers: getHeaders() });
+                if(res.ok || res.status === 302) availableComplaintStatuses = await res.json();
+            } catch(e) { console.error("Error loading complaint statuses"); }
+        }
+
+        async function openViewComplaintsModal() {
+            complaint_list_modal.showModal();
+            const tbody = document.getElementById('complaintTableBody');
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center"><span class="loading loading-spinner"></span> Fetching complaints...</td></tr>';
+            
+            if (availableComplaintStatuses.length === 0) await loadComplaintStatuses();
+
+            try {
+                const res = await fetch("http://localhost:8001/complaint/get/all", { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) { const errText = await res.text(); throw new Error(errText || "Failed to load complaints"); }
+                
+                let complaints = await res.json();
+                
+                if (Array.isArray(complaints) && complaints.length > 0 && Array.isArray(complaints[0])) { complaints = complaints.flat(); }
+                if (complaints.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500">No complaints found.</td></tr>';
+                
+                let html = "";
+                complaints.forEach(c => {
+                    const compId = c.complaintId || c.id || '-';
+                    const date = c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A';
+                    const tenant = c.user ? c.user.userName : 'Unknown';
+                    const roomNo = c.room ? c.room.roomNo : 'N/A';
+                    const currentStatusObj = c.complaintStatus || {};
+                    const currentStatus = currentStatusObj.status || 'Pending';
+                    
+                    let badgeClass = 'badge-warning';
+                    if(currentStatus.toLowerCase() === 'resolved') badgeClass = 'badge-success text-white';
+                    else if(currentStatus.toLowerCase() === 'investigating') badgeClass = 'badge-info text-white';
+                    else if(currentStatus.toLowerCase() === 'in-progress') badgeClass = 'badge-primary text-white';
+
+                    let optionsHtml = '';
+                    availableComplaintStatuses.forEach(s => {
+                        const selected = (s.status === currentStatus) ? 'selected' : '';
+                        optionsHtml += `<option value="${s.status}" ${selected}>${s.status}</option>`;
+                    });
+
+                    const isResolved = currentStatus.toLowerCase() === 'resolved';
+                    const selectDisabled = isResolved ? 'disabled' : '';
+                    const actionButton = isResolved 
+                        ? `<span class="text-xs font-bold text-error ml-1">🔒 Final</span>` 
+                        : `<button class="btn btn-xs btn-accent text-white" onclick="updateComplaintStatus(${compId})">Save</button>`;
+
+                    html += `<tr>
+                                <td><span class="font-bold">#${compId}</span><br><span class="text-xs opacity-70">${date}</span></td>
+                                <td><span class="font-semibold text-primary">@${tenant}</span><br><span class="text-xs font-bold">Room: ${roomNo}</span></td>
+                                <td><span class="font-bold">${c.title || 'N/A'}</span><br><span class="text-sm opacity-80">${c.description || '-'}</span></td>
+                                <td><span class="badge ${badgeClass} badge-sm">${currentStatus}</span></td>
+                                <td class="flex items-center gap-2">
+                                    <select id="status_select_${compId}" class="select select-bordered select-xs w-28" ${selectDisabled}>
+                                        ${optionsHtml}
+                                    </select>
+                                    ${actionButton}
+                                </td>
+                            </tr>`;
+                });
+                tbody.innerHTML = html;
+            } catch (error) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-error font-bold">Error: ${error.message}</td></tr>`; 
+            }
+        }
+
+        async function updateComplaintStatus(complaintId) {
+            const statusSelect = document.getElementById(`status_select_${complaintId}`);
+            try {
+                const res = await fetch(`http://localhost:8001/complaint/update/${complaintId}?status=${encodeURIComponent(statusSelect.value)}`, { 
+                    method: "PUT", 
+                    headers: getHeaders() 
+                });
+                
+                if(res.ok || res.status === 302) { 
+                    showToast("Complaint status updated!", "success"); 
+                    openViewComplaintsModal(); 
+                } 
+                else {
+                    const errText = await res.text();
+                    throw new Error(errText || "Failed to update status");
+                }
+            } catch (error) { showToast(error.message, "error"); }
+        }
 
 
         // ==========================================
         //         CREATE & UPDATE FUNCTIONS
         // ==========================================
 
-        document.getElementById('formAddFloor').addEventListener('submit', async (e) => { e.preventDefault(); const p = { floorNo: document.getElementById('floorNo').value }; try { const r = await fetch("http://localhost:8001/floor/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Floor added!"); document.getElementById('formAddFloor').reset(); add_floor_modal.close(); loadFloors(); } } catch (err) { showToast("Error", "error"); } });
-        document.getElementById('formAddRoomType').addEventListener('submit', async (e) => { e.preventDefault(); const p = { roomType: document.getElementById('roomTypeName').value }; try { const r = await fetch("http://localhost:8001/roomType/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Room Type added!"); document.getElementById('formAddRoomType').reset(); add_roomType_modal.close(); loadRoomTypes(); } } catch (err) { showToast("Error", "error"); } });
-        document.getElementById('formAddMenuItem').addEventListener('submit', async (e) => { e.preventDefault(); const p = { itemName: document.getElementById('itemName').value, description: document.getElementById('itemDesc').value }; try { const r = await fetch("http://localhost:8001/menuItem/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Menu Item added!"); document.getElementById('formAddMenuItem').reset(); add_menuItem_modal.close(); } } catch (err) { showToast("Error", "error"); } });
-        document.getElementById('formAddMealType').addEventListener('submit', async (e) => { e.preventDefault(); const p = { mealType: document.getElementById('mealTypeName').value }; try { const r = await fetch("http://localhost:8001/mealType/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok) { showToast("Meal Type added!"); document.getElementById('formAddMealType').reset(); add_mealType_modal.close(); } } catch (err) { showToast("Error", "error"); } });
-        document.getElementById('formAddRoom').addEventListener('submit', async (e) => { e.preventDefault(); const payload = { roomNo: document.getElementById('r_roomNo').value, roomType: document.getElementById('r_roomType').value, floorNo: document.getElementById('r_floorNo').value, perDayRentFee: document.getElementById('r_rentFee').value, totalSeat: document.getElementById('r_totalSeat').value }; try { const res = await fetch("http://localhost:8001/room/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok) { showToast("Room added successfully!"); document.getElementById('formAddRoom').reset(); add_room_modal.close(); } else throw new Error(""); } catch (err) { showToast("Error adding room", "error"); } });
-        document.getElementById('formCreateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const checkedBoxes = document.querySelectorAll('input[name="createMenuCheckbox"]:checked'); const selectedItemsArray = Array.from(checkedBoxes).map(cb => cb.value); if (selectedItemsArray.length === 0) return showToast("Select at least one menu item!", "error"); const payload = { day: document.getElementById('m_day').value, mealType: document.getElementById('m_mealType').value, menuItems: selectedItemsArray }; try { const res = await fetch("http://localhost:8001/menu/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok) { showToast("Menu created successfully!"); document.getElementById('formCreateMenu').reset(); create_menu_modal.close(); } else throw new Error(""); } catch (err) { showToast("Error creating menu", "error"); } });
-        document.getElementById('formUpdateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const menuId = document.getElementById('u_menuId').value; const checkedBoxes = document.querySelectorAll('input[name="updateMenuCheckbox"]:checked'); const selectedItemsArray = Array.from(checkedBoxes).map(cb => cb.value); if (selectedItemsArray.length === 0) return showToast("Select at least one menu item!", "error"); const payload = { day: document.getElementById('u_day').value, mealType: document.getElementById('u_mealType').value, menuItems: selectedItemsArray }; try { const res = await fetch(`http://localhost:8001/menu/update/menuId/${menuId}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok) { showToast("Menu updated successfully!"); update_menu_modal.close(); openViewMenusModal(); } else throw new Error(""); } catch (err) { showToast("Error updating menu", "error"); } });
+        document.getElementById('formAddFloor').addEventListener('submit', async (e) => { e.preventDefault(); const p = { floorNo: document.getElementById('floorNo').value }; try { const r = await fetch("http://localhost:8001/floor/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok || r.status === 302) { showToast("Floor added!"); document.getElementById('formAddFloor').reset(); add_floor_modal.close(); loadFloors(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddRoomType').addEventListener('submit', async (e) => { e.preventDefault(); const p = { roomType: document.getElementById('roomTypeName').value }; try { const r = await fetch("http://localhost:8001/roomType/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok || r.status === 302) { showToast("Room Type added!"); document.getElementById('formAddRoomType').reset(); add_roomType_modal.close(); loadRoomTypes(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddMenuItem').addEventListener('submit', async (e) => { e.preventDefault(); const p = { itemName: document.getElementById('itemName').value, description: document.getElementById('itemDesc').value }; try { const r = await fetch("http://localhost:8001/menuItem/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok || r.status === 302) { showToast("Menu Item added!"); document.getElementById('formAddMenuItem').reset(); add_menuItem_modal.close(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddMealType').addEventListener('submit', async (e) => { e.preventDefault(); const p = { mealType: document.getElementById('mealTypeName').value }; try { const r = await fetch("http://localhost:8001/mealType/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(p) }); if (r.ok || r.status === 302) { showToast("Meal Type added!"); document.getElementById('formAddMealType').reset(); add_mealType_modal.close(); } } catch (err) { showToast("Error", "error"); } });
+        document.getElementById('formAddRoom').addEventListener('submit', async (e) => { e.preventDefault(); const payload = { roomNo: document.getElementById('r_roomNo').value, roomType: document.getElementById('r_roomType').value, floorNo: document.getElementById('r_floorNo').value, perDayRentFee: document.getElementById('r_rentFee').value, totalSeat: document.getElementById('r_totalSeat').value }; try { const res = await fetch("http://localhost:8001/room/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok || res.status === 302) { showToast("Room added successfully!"); document.getElementById('formAddRoom').reset(); add_room_modal.close(); } else throw new Error(""); } catch (err) { showToast("Error adding room", "error"); } });
+        document.getElementById('formCreateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const checkedBoxes = document.querySelectorAll('input[name="createMenuCheckbox"]:checked'); const selectedItemsArray = Array.from(checkedBoxes).map(cb => cb.value); if (selectedItemsArray.length === 0) return showToast("Select at least one menu item!", "error"); const payload = { day: document.getElementById('m_day').value, mealType: document.getElementById('m_mealType').value, menuItems: selectedItemsArray }; try { const res = await fetch("http://localhost:8001/menu/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok || res.status === 302) { showToast("Menu created successfully!"); document.getElementById('formCreateMenu').reset(); create_menu_modal.close(); } else throw new Error(""); } catch (err) { showToast("Error creating menu", "error"); } });
+        document.getElementById('formUpdateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const menuId = document.getElementById('u_menuId').value; const checkedBoxes = document.querySelectorAll('input[name="updateMenuCheckbox"]:checked'); const selectedItemsArray = Array.from(checkedBoxes).map(cb => cb.value); if (selectedItemsArray.length === 0) return showToast("Select at least one menu item!", "error"); const payload = { day: document.getElementById('u_day').value, mealType: document.getElementById('u_mealType').value, menuItems: selectedItemsArray }; try { const res = await fetch(`http://localhost:8001/menu/update/menuId/${menuId}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify(payload) }); if (res.ok || res.status === 302) { showToast("Menu updated successfully!"); update_menu_modal.close(); openViewMenusModal(); } else throw new Error(""); } catch (err) { showToast("Error updating menu", "error"); } });
 
 
         // ==========================================
-        //     ROOM BOOKING & PAYMENT CALCULATION
+        //     ROOM BOOKING CALCULATION & SUBMIT
         // ==========================================
 
-        let tempBookingPayload = null;
+        async function loadUsersForBooking() { try { const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const users = await res.json(); const userSelect = document.getElementById('b_userName'); userSelect.innerHTML = '<option value="" disabled selected>Select User</option>'; users.forEach(u => { const option = document.createElement("option"); option.value = u.userName; const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim(); option.textContent = `@${u.userName} (${fullName})`; userSelect.appendChild(option); }); } catch (error) { document.getElementById('b_userName').innerHTML = '<option value="" disabled selected>Error loading users</option>'; } }
+        async function loadRoomsForBooking() { try { const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const rooms = await res.json(); const roomSelect = document.getElementById('b_roomNo'); roomSelect.innerHTML = '<option value="" disabled selected>Select an Available Room</option>'; const availableRooms = rooms.filter(r => r.occupied === false && r.availableSeat > 0); if(availableRooms.length === 0){ roomSelect.innerHTML = '<option value="" disabled selected>No rooms available</option>'; return; } availableRooms.forEach(r => { const option = document.createElement("option"); option.value = r.roomNo; option.dataset.rent = r.perDayRentFee || 0; const rType = r.roomType ? r.roomType.roomType : ''; option.textContent = `Room ${r.roomNo} - ${rType} (৳${r.perDayRentFee}/day)`; roomSelect.appendChild(option); }); } catch (error) { document.getElementById('b_roomNo').innerHTML = '<option value="" disabled selected>Error loading rooms</option>'; } }
 
-        // 1. Fetch Users Dropdown
-        async function loadUsersForBooking() {
-            try {
-                const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() });
-                if (!res.ok && res.status !== 302) throw new Error("");
-                const users = await res.json();
-                const userSelect = document.getElementById('b_userName');
-                userSelect.innerHTML = '<option value="" disabled selected>Select User</option>';
-                users.forEach(u => {
-                    const option = document.createElement("option");
-                    option.value = u.userName;
-                    const fullName = `${u.firstName || ''} ${u.lastName || ''}`.trim();
-                    option.textContent = `${u.userName} (${fullName})`;
-                    userSelect.appendChild(option);
-                });
-            } catch (error) { document.getElementById('b_userName').innerHTML = '<option value="" disabled selected>Error loading users</option>'; }
-        }
-
-        // 2. Fetch Available Rooms Dropdown
-        async function loadRoomsForBooking() {
-            try {
-                const res = await fetch("http://localhost:8001/room/get/all", { method: "GET", headers: getHeaders() });
-                if (!res.ok && res.status !== 302) throw new Error("");
-                const rooms = await res.json();
-                
-                const roomSelect = document.getElementById('b_roomNo');
-                roomSelect.innerHTML = '<option value="" disabled selected>Select an Available Room</option>';
-                
-                // ফিল্টার: শুধুমাত্র যেগুলো দখল করা হয়নি এবং সিট ফাঁকা আছে
-                const availableRooms = rooms.filter(r => r.occupied === false && r.availableSeat > 0);
-                
-                if(availableRooms.length === 0){
-                    roomSelect.innerHTML = '<option value="" disabled selected>No rooms available</option>';
-                    return;
-                }
-
-                availableRooms.forEach(r => {
-                    const option = document.createElement("option");
-                    option.value = r.roomNo;
-                    // ক্যালকুলেশনের জন্য data-rent এ ভাড়া সেভ করে রাখা হলো
-                    option.dataset.rent = r.perDayRentFee || 0;
-                    const rType = r.roomType ? r.roomType.roomType : '';
-                    option.textContent = `Room ${r.roomNo} - ${rType} (৳${r.perDayRentFee}/day)`;
-                    roomSelect.appendChild(option);
-                });
-            } catch (error) { document.getElementById('b_roomNo').innerHTML = '<option value="" disabled selected>Error loading rooms</option>'; }
-        }
-
-        // 3. Auto Calculate Payment Amount
         function calculateBookingAmount() {
-            const startDateStr = document.getElementById('b_startDate').value;
-            const endDateStr = document.getElementById('b_endDate').value;
-            const roomSelect = document.getElementById('b_roomNo');
-            const amountInput = document.getElementById('b_amount');
-
-            if (!startDateStr || !endDateStr || !roomSelect.value) {
-                amountInput.value = '';
-                return;
-            }
-
-            const startDate = new Date(startDateStr);
-            const endDate = new Date(endDateStr);
-            
-            if (endDate <= startDate) {
-                showToast("End date must be after start date", "error");
-                amountInput.value = '';
-                document.getElementById('b_endDate').value = '';
-                return;
-            }
-
-            // দিন হিসাব করা (মিলিসেকেন্ড থেকে দিনে রূপান্তর)
-            const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-            const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-
-            // সিলেক্ট করা রুমের ডাটা-এট্রিবিউট থেকে perDayRent বের করে আনা
-            const selectedOption = roomSelect.options[roomSelect.selectedIndex];
-            const perDayRent = parseFloat(selectedOption.dataset.rent || 0);
-
-            // মোট টাকা হিসাব করা
-            const totalAmount = diffDays * perDayRent;
-            amountInput.value = totalAmount.toFixed(2);
+            const startDateStr = document.getElementById('b_startDate').value; const endDateStr = document.getElementById('b_endDate').value; const roomSelect = document.getElementById('b_roomNo'); const amountInput = document.getElementById('b_amount');
+            if (!startDateStr || !endDateStr || !roomSelect.value) { amountInput.value = ''; return; }
+            const s = new Date(startDateStr); const e = new Date(endDateStr);
+            if (e <= s) return;
+            const diff = Math.ceil(Math.abs(e - s) / (1000 * 3600 * 24)); 
+            const rent = parseFloat(roomSelect.options[roomSelect.selectedIndex].dataset.rent);
+            if(isNaN(rent)) { amountInput.value = ''; return; }
+            amountInput.value = (diff * rent).toFixed(2);
         }
 
-        // 4. Attach Event Listeners to inputs for calculation
-        document.getElementById('b_startDate').addEventListener('change', calculateBookingAmount);
-        document.getElementById('b_endDate').addEventListener('change', calculateBookingAmount);
-        document.getElementById('b_roomNo').addEventListener('change', calculateBookingAmount);
+        document.getElementById('b_startDate').addEventListener('change', calculateBookingAmount); document.getElementById('b_endDate').addEventListener('change', calculateBookingAmount); document.getElementById('b_roomNo').addEventListener('change', calculateBookingAmount);
 
-        // 5. Booking View Modal
-       // ==========================================
-        //         VIEW BOOKINGS MODAL (UPDATED)
-        // ==========================================
-        async function openViewBookingsModal() {
-            booking_list_modal.showModal();
-            const tbody = document.getElementById('bookingTableBody');
-            tbody.innerHTML = '<tr><td colspan="7" class="text-center"><span class="loading loading-spinner"></span> Loading Bookings...</td></tr>';
-            
-            try {
-                const res = await fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() });
-                if (!res.ok && res.status !== 302) throw new Error("Failed to fetch bookings");
-                const bookings = await res.json();
-                
-                if (bookings.length === 0) return tbody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-500">No bookings found.</td></tr>';
-                
-                let html = "";
-                bookings.forEach(b => {
-                    // Nested Object থেকে সাবধানে ডাটা বের করা
-                    const bookingId = b.roomRentInformationId || 'N/A';
-                    const userName = b.user ? b.user.userName : 'N/A';
-                    const roomNo = b.room ? b.room.roomNo : 'N/A';
-                    
-                    // Transaction থেকে ডাটা বের করা
-                    const amount = b.transaction ? b.transaction.amount : '0';
-                    const payMethod = b.transaction && b.transaction.paymentMethod ? b.transaction.paymentMethod.paymentMethod : 'N/A';
-                    
-                    // Active স্ট্যাটাস ব্যাজ
-                    const statusBadge = b.active 
-                        ? '<span class="badge badge-success text-white badge-sm mt-1">Active</span>' 
-                        : '<span class="badge badge-neutral badge-sm mt-1">Inactive</span>';
-
-                    html += `
-                    <tr>
-                        <td class="font-bold text-lg">#${bookingId}</td>
-                        <td class="font-semibold text-primary">${userName}</td>
-                        <td class="font-bold">Room ${roomNo}</td>
-                        <td class="text-sm">
-                            ${b.startDate} to ${b.endDate} <br/>
-                            <span class="text-xs text-gray-500 font-bold">(${b.roomRentDays} Days)</span>
-                        </td>
-                        <td class="font-bold text-green-600">৳ ${amount}</td>
-                        <td>
-                            <span class="uppercase font-bold text-xs">${payMethod}</span><br/>
-                            ${statusBadge}
-                        </td>
-                        <td>
-                            <button class="btn btn-xs btn-error text-white">Cancel</button>
-                        </td>
-                    </tr>`;
-                });
-                tbody.innerHTML = html;
-            } catch (error) { 
-                console.error("Booking load error:", error);
-                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-error">Error loading data. Check console.</td></tr>'; 
-            }
-        }
-
-        // 6. Submit Booking Form -> Payment Modal
         document.getElementById('formAddBooking').addEventListener('submit', (e) => {
             e.preventDefault();
-            tempBookingPayload = {
-                userName: document.getElementById('b_userName').value,
-                roomNo: document.getElementById('b_roomNo').value,
-                startDate: document.getElementById('b_startDate').value,
-                endDate: document.getElementById('b_endDate').value,
-                paymentMethod: document.getElementById('b_paymentMethod').value,
-                amount: document.getElementById('b_amount').value
-            };
-            document.getElementById('payAmountDisplay').textContent = `৳ ${tempBookingPayload.amount}`;
-            document.getElementById('payMethodDisplay').textContent = tempBookingPayload.paymentMethod;
-            add_booking_modal.close();
-            payment_simulation_modal.showModal();
+            const payload = { userName: document.getElementById('b_userName').value, roomNo: parseInt(document.getElementById('b_roomNo').value), startDate: document.getElementById('b_startDate').value, endDate: document.getElementById('b_endDate').value, paymentMethod: document.getElementById('b_paymentMethod').value, amount: parseFloat(document.getElementById('b_amount').value) };
+            localStorage.setItem("pendingBookingInfo", JSON.stringify(payload));
+            localStorage.setItem("paymentApiUrl", "http://localhost:8001/roomBooking/create");
+            localStorage.setItem("returnTo", "/admin-home.html");
+            window.location.href = "/payment.html";
         });
-
-        // 7. Process Payment
-        async function processPayment() {
-            const btn = document.getElementById('confirmPaymentBtn');
-            btn.innerHTML = '<span class="loading loading-spinner"></span> Processing...';
-            btn.disabled = true;
-            try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                const res = await fetch("http://localhost:8001/roomBooking/create", { method: "POST", headers: getHeaders(), body: JSON.stringify(tempBookingPayload) });
-                if (res.ok) {
-                    showToast("Payment Successful & Room Booked!", "success");
-                    document.getElementById('formAddBooking').reset(); 
-                    payment_simulation_modal.close(); 
-                    tempBookingPayload = null; 
-                } else throw new Error("API failed");
-            } catch (error) { showToast("Payment Failed. Please try again.", "error");
-            } finally { btn.innerHTML = 'Pay Now'; btn.disabled = false; }
-        }
 
 
         // ==========================================
         //         HELPERS & INITIALIZATION
         // ==========================================
 
-        async function loadMenuItemsAsCheckboxes(containerId, checkboxName, preCheckedItems = []) { /*...অপরিবর্তিত...*/ try { const res = await fetch("http://localhost:8001/menuItem/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const items = await res.json(); const container = document.getElementById(containerId); container.innerHTML = ''; if (items.length === 0) return container.innerHTML = '<span class="text-error">No items found.</span>'; items.forEach(item => { const label = item.itemName.charAt(0).toUpperCase() + item.itemName.slice(1); const isChecked = preCheckedItems.includes(item.itemName) ? 'checked' : ''; const html = `<label class="cursor-pointer label flex items-center gap-2 bg-base-200 px-3 py-2 rounded-lg border hover:bg-base-300"><input type="checkbox" name="${checkboxName}" value="${item.itemName}" class="checkbox checkbox-sm checkbox-primary" ${isChecked} /><span class="label-text font-medium">${label}</span></label>`; container.insertAdjacentHTML('beforeend', html); }); } catch (error) { document.getElementById(containerId).innerHTML = '<span class="text-error">Error</span>'; } }
-        function openUpdateMenuModal(menuId) { /*...অপরিবর্তিত...*/ const menu = currentLoadedMenus.find(m => m.menuId === menuId); if (!menu) return; document.getElementById('u_menuId').value = menu.menuId; document.getElementById('u_day').value = menu.day.toLowerCase(); document.getElementById('u_mealType').value = menu.mealType ? menu.mealType.mealType : ''; const existingItems = menu.menuItems.map(item => item.itemName); loadMenuItemsAsCheckboxes('u_menuItemsContainer', 'updateMenuCheckbox', existingItems); update_menu_modal.showModal(); }
-        async function loadRoomTypes() { /*...অপরিবর্তিত...*/ try { const res = await fetch("http://localhost:8001/roomType/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const roomTypes = await res.json(); const typeSelect = document.getElementById('r_roomType'); typeSelect.innerHTML = '<option value="" disabled selected>Select Room Type</option>'; roomTypes.forEach(rt => { const option = document.createElement("option"); option.value = rt.roomType; option.textContent = rt.roomType.charAt(0).toUpperCase() + rt.roomType.slice(1); typeSelect.appendChild(option); }); } catch (error) { console.error("Error"); } }
-        async function loadFloors() { /*...অপরিবর্তিত...*/ try { const res = await fetch("http://localhost:8001/floor/get", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const floors = await res.json(); const floorSelect = document.getElementById('r_floorNo'); floorSelect.innerHTML = '<option value="" disabled selected>Select Floor</option>'; floors.forEach(f => { const option = document.createElement("option"); option.value = f.floorNo; option.textContent = `Floor - ${f.floorNo}`; floorSelect.appendChild(option); }); } catch (error) { console.error("Error"); } }
+        async function loadMenuItemsAsCheckboxes(containerId, checkboxName, preCheckedItems = []) { try { const res = await fetch("http://localhost:8001/menuItem/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const items = await res.json(); const container = document.getElementById(containerId); container.innerHTML = ''; if (items.length === 0) return container.innerHTML = '<span class="text-error">No items found.</span>'; items.forEach(item => { const label = item.itemName.charAt(0).toUpperCase() + item.itemName.slice(1); const isChecked = preCheckedItems.includes(item.itemName) ? 'checked' : ''; const html = `<label class="cursor-pointer label flex items-center gap-2 bg-base-200 px-3 py-2 rounded-lg border hover:bg-base-300"><input type="checkbox" name="${checkboxName}" value="${item.itemName}" class="checkbox checkbox-sm checkbox-primary" ${isChecked} /><span class="label-text font-medium">${label}</span></label>`; container.insertAdjacentHTML('beforeend', html); }); } catch (error) { document.getElementById(containerId).innerHTML = '<span class="text-error">Error loading items</span>'; } }
+        function openUpdateMenuModal(menuId) { const menu = currentLoadedMenus.find(m => m.menuId === menuId); if (!menu) return; document.getElementById('u_menuId').value = menu.menuId; document.getElementById('u_day').value = menu.day.toLowerCase(); document.getElementById('u_mealType').value = menu.mealType ? menu.mealType.mealType : ''; const existingItems = menu.menuItems.map(item => item.itemName); loadMenuItemsAsCheckboxes('u_menuItemsContainer', 'updateMenuCheckbox', existingItems); update_menu_modal.showModal(); }
+        async function loadRoomTypes() { try { const res = await fetch("http://localhost:8001/roomType/get/all", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const roomTypes = await res.json(); const typeSelect = document.getElementById('r_roomType'); typeSelect.innerHTML = '<option value="" disabled selected>Select Room Type</option>'; roomTypes.forEach(rt => { const option = document.createElement("option"); option.value = rt.roomType; option.textContent = rt.roomType.charAt(0).toUpperCase() + rt.roomType.slice(1); typeSelect.appendChild(option); }); } catch (error) { console.error("Error"); } }
+        async function loadFloors() { try { const res = await fetch("http://localhost:8001/floor/get", { method: "GET", headers: getHeaders() }); if (!res.ok && res.status !== 302) throw new Error(""); const floors = await res.json(); const floorSelect = document.getElementById('r_floorNo'); floorSelect.innerHTML = '<option value="" disabled selected>Select Floor</option>'; floors.forEach(f => { const option = document.createElement("option"); option.value = f.floorNo; option.textContent = `Floor - ${f.floorNo}`; floorSelect.appendChild(option); }); } catch (error) { console.error("Error"); } }
 
-        const logout = () => { localStorage.removeItem("jwtToken"); window.location.href = "/login.html"; };
+        const logout = () => { localStorage.clear(); window.location.href = "/login.html"; };
 
+        // ==========================================
+        //         AUTHORIZATION & STARTUP
+        // ==========================================
         document.addEventListener("DOMContentLoaded", () => {
-            const navMenu = document.getElementById("navMenu");
-            if (getToken()) {
-                navMenu.innerHTML = `<li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>`;
-
-                // Load Initial Data
-                loadUsersForBooking();
-                loadRoomsForBooking();
-
-                document.querySelector('[onclick="add_room_modal.showModal()"]').addEventListener('click', () => { loadRoomTypes(); loadFloors(); });
-                document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', () => { loadMenuItemsAsCheckboxes('m_menuItemsContainer', 'createMenuCheckbox'); });
-            } else {
-                navMenu.innerHTML = `<li><a href="/login.html" class="btn btn-primary btn-sm text-white ml-2">Login</a></li>`;
-                window.location.href = "/login.html";
-            }
-        });
-// ==========================================
-        //         CALCULATE REVENUE SUMMARY
-        // ==========================================
-        async function calculateRevenueSummary() {
-            try {
-                const res = await fetch("http://localhost:8001/roomBooking/get/all", { method: "GET", headers: getHeaders() });
-                if (!res.ok && res.status !== 302) throw new Error("Failed to fetch bookings for revenue");
-                const bookings = await res.json();
-                
-                let daily = 0, weekly = 0, monthly = 0, yearly = 0;
-                
-                // বর্তমান দিন, মাস ও বছর বের করে নেওয়া হচ্ছে
-                const now = new Date();
-                const currentYear = now.getFullYear();
-                const currentMonth = now.getMonth();
-                const currentDate = now.getDate();
-                
-                // ৭ দিন আগের তারিখ (Weekly হিসাব করার জন্য)
-                const sevenDaysAgo = new Date();
-                sevenDaysAgo.setDate(now.getDate() - 7);
-
-                bookings.forEach(b => {
-                    // যদি ট্রানজেকশন অ্যামাউন্ট এবং ক্রিয়েট হওয়ার সময় থাকে
-                    if(b.transaction && b.transaction.amount && b.transaction.createdAt) {
-                        const amount = parseFloat(b.transaction.amount);
-                        const txDate = new Date(b.transaction.createdAt);
-
-                        // Yearly Calculate
-                        if(txDate.getFullYear() === currentYear) {
-                            yearly += amount;
-                        }
-
-                        // Monthly Calculate
-                        if(txDate.getFullYear() === currentYear && txDate.getMonth() === currentMonth) {
-                            monthly += amount;
-                        }
-
-                        // Weekly Calculate (গত ৭ দিনে)
-                        if(txDate >= sevenDaysAgo && txDate <= now) {
-                            weekly += amount;
-                        }
-
-                        // Daily Calculate (আজকের ইনকাম)
-                        if(txDate.getFullYear() === currentYear && txDate.getMonth() === currentMonth && txDate.getDate() === currentDate) {
-                            daily += amount;
-                        }
-                    }
-                });
-
-                // UI তে ডাটাগুলো বসিয়ে দেওয়া
-                // toLocaleString() দিয়ে কমা (,) বসানো হচ্ছে যাতে টাকা দেখতে সুন্দর লাগে (যেমন: 50,000)
-                document.getElementById('dailyRev').textContent = `৳ ${daily.toLocaleString()}`;
-                document.getElementById('weeklyRev').textContent = `৳ ${weekly.toLocaleString()}`;
-                document.getElementById('monthlyRev').textContent = `৳ ${monthly.toLocaleString()}`;
-                document.getElementById('yearlyRev').textContent = `৳ ${yearly.toLocaleString()}`;
-
-            } catch (error) {
-                console.error("Revenue calculation error:", error);
-            }
-        }
-        document.addEventListener("DOMContentLoaded", () => {
-            const navMenu = document.getElementById("navMenu");
-            if (getToken()) {
-                navMenu.innerHTML = `<li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>`;
-
-                // Load Initial Data
-                loadUsersForBooking();
-                loadRoomsForBooking();
-                
-                // --- এই নতুন লাইনটি যোগ করুন ---
-                calculateRevenueSummary(); 
-
-                // Dropdowns for Add Room Modal
-                document.querySelector('[onclick="add_room_modal.showModal()"]').addEventListener('click', () => { loadRoomTypes(); loadFloors(); });
-                // Load checkboxes for Create Menu Modal
-                document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', () => { loadMenuItemsAsCheckboxes('m_menuItemsContainer', 'createMenuCheckbox'); });
-            } else {
-                navMenu.innerHTML = `<li><a href="/login.html" class="btn btn-primary btn-sm text-white ml-2">Login</a></li>`;
-                window.location.href = "/login.html";
-            }
-        });
-        // ==========================================
-        //     ROOM BOOKING (REDIRECT TO PAYMENT PAGE)
-        // ==========================================
-
-        document.getElementById('formAddBooking').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // ফর্ম থেকে ডাটা নিয়ে একটি অবজেক্ট তৈরি করা
-            const pendingBookingPayload = {
-                userName: document.getElementById('b_userName').value,
-                roomNo: document.getElementById('b_roomNo').value,
-                startDate: document.getElementById('b_startDate').value,
-                endDate: document.getElementById('b_endDate').value,
-                paymentMethod: document.getElementById('b_paymentMethod').value,
-                amount: document.getElementById('b_amount').value
-            };
-
-            // ডাটাগুলো localStorage এ সেভ করে রাখা হচ্ছে, যাতে পেমেন্ট পেজ এই ডাটাগুলো নিতে পারে
-            localStorage.setItem("pendingBookingInfo", JSON.stringify(pendingBookingPayload));
-
-            // পেমেন্ট পেজে রিডাইরেক্ট করা
-            window.location.href = "/payment.html"; 
-        });
-        const checkAuthorization = () => {
             const token = localStorage.getItem("jwtToken");
-            const role = localStorage.getItem("role")
-            if (token && role == "tenant") {
-                window.location.href = "/tenant-home.html"
-            }
-            else if (token && role == "admin") {
-                window.location.href = "/admin-home.html"
+            const role = localStorage.getItem("userRole");
+
+            // ১. যদি টোকেন না থাকে, তবে লগইন পেজে পাঠিয়ে দেবে
+            if (!token) {
+                window.location.href = "/login.html";
+                return;
             }
 
-        }
-        window.onload = checkAuthorization;
+            // ২. যদি ইউজার টেন্যান্ট হয়, তবে তাকে টেন্যান্ট পেজে পাঠিয়ে দেবে
+            if (role === "tenant") {
+                window.location.href = "/tenant-home.html";
+                return;
+            }
+
+            // ৩. যদি সব ঠিক থাকে (মানে ইউজার একজন অ্যাডমিন), তবে ড্যাশবোর্ড লোড করবে
+            const navMenu = document.getElementById("navMenu");
+            const username = localStorage.getItem("loggedInUsername") || "Admin";
+            navMenu.innerHTML = `<span class="mr-4 font-bold text-primary">Hi, ${username}</span><li><button onclick="logout()" class="btn btn-error btn-sm text-white ml-2">Logout</button></li>`;
+
+            loadUsersForBooking();
+            loadRoomsForBooking();
+            loadDashboardStats(); 
+            loadComplaintStatuses();
+
+            document.querySelector('[onclick="add_room_modal.showModal()"]').addEventListener('click', () => { loadRoomTypes(); loadFloors(); });
+            document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', () => { loadMenuItemsAsCheckboxes('m_menuItemsContainer', 'createMenuCheckbox'); });
+        });
+
     </script>
 </body>
 </html>

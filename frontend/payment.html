@@ -111,64 +111,70 @@
             window.location.href = "/index.html";
         }
 
-        // পেমেন্ট প্রসেস করা
+        // পেমেন্ট প্রসেস করা (DYNAMIC FOR BOTH ROOM & TOKEN)
         async function processPayment() {
             const overlay = document.getElementById("processingOverlay");
             const overlayText = document.getElementById("overlayText");
             
-            // প্রসেসিং স্ক্রিন দেখানো
             overlay.classList.remove("hidden");
             overlay.classList.add("flex");
 
             try {
-                // পেমেন্ট গেটওয়েতে সময় লাগার ফিল দেওয়ার জন্য ২ সেকেন্ড ডিলে করা হলো
                 await new Promise(resolve => setTimeout(resolve, 2000));
-
                 overlayText.textContent = "Verifying Transaction...";
+
+                // tenant-dashboard থেকে যেই API URL টি পাঠানো হয়েছে, সেটি নেওয়া হলো
+                // যদি না থাকে, তাহলে ডিফল্ট হিসেবে roomBooking/create কল করবে
+                const apiUrl = localStorage.getItem("paymentApiUrl") || "http://localhost:8001/roomBooking/create";
                 
-                // API তে কল করা
-                const res = await fetch("http://localhost:8001/roomBooking/create", { 
+                // API তে কল করা (ডাটা আগে থেকেই JSON.stringify অবস্থায় আছে)
+                const res = await fetch(apiUrl, { 
                     method: "POST", 
                     headers: getHeaders(), 
+                    // আমরা ড্যাশবোর্ডেই ParseInt/ParseFloat করে ডাটা সেভ করেছিলাম, তাই সরাসরি পাঠিয়ে দিলেই হবে
                     body: JSON.stringify(bookingData) 
                 });
 
-                if (res.ok) {
-                    overlayText.textContent = "Payment Successful!";
-                    overlayText.classList.add("text-success");
-                    
-                    // সাকসেস হওয়ার পর ডাটা রিমুভ করা
-                    localStorage.removeItem("pendingBookingInfo");
-                    
-                    // ১ সেকেন্ড পর ড্যাশবোর্ডে ফেরত পাঠানো
-                    setTimeout(() => {
-                        window.location.href = "/index.html"; 
-                    }, 1500);
-
-                } else {
-                    throw new Error("API failed");
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    console.error("❌ Backend Error Message:", errorText);
+                    throw new Error(errorText || "Something went wrong! Please try again.");
                 }
+
+                // পেমেন্ট সাকসেস
+                overlayText.textContent = "Payment Successful!";
+                overlayText.classList.add("text-success");
+                
+                localStorage.removeItem("pendingBookingInfo");
+                localStorage.removeItem("paymentApiUrl"); // API URL মুছে দেওয়া হলো
+                
+                setTimeout(() => {
+                    const returnUrl = localStorage.getItem("returnTo") || "/index.html";
+                    localStorage.removeItem("returnTo");
+                    window.location.href = returnUrl; 
+                }, 1500);
+
             } catch (error) {
-                // এরর হলে ওভারলে বন্ধ করে মেসেজ দেখানো
                 overlay.classList.add("hidden");
                 overlay.classList.remove("flex");
-                showToast("Payment Failed or Rejected. Please try again.", "error");
+                showToast(error.message, "error");
             }
         }
-        const checkAuthorization = () => {
-            const token = localStorage.getItem("jwtToken");
-            const role = localStorage.getItem("role")
-            if (token && role == "tenant") {
-                window.location.href = "/tenant-home.html"
-            }
-            else if (token && role == "admin") {
-                window.location.href = "/admin-home.html"
-            }
-            // else {
-            //     window.location.href = "/login.html"
-            // }
-        }
-        window.onload = checkAuthorization;
+       
+        // const checkAuthorization = () => {
+        //     const token = localStorage.getItem("jwtToken");
+        //     const role = localStorage.getItem("userRole")
+        //     if (token && role == "tenant") {
+        //         window.location.href = "/tenant-home.html"
+        //     }
+        //     else if (token && role == "admin") {
+        //         window.location.href = "/admin-home.html"
+        //     }
+        //     // else {
+        //     //     window.location.href = "/login.html"
+        //     // }
+        // }
+        // window.onload = checkAuthorization;
     </script>
 </body>
 

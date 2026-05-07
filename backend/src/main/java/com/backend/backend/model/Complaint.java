@@ -18,20 +18,23 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Complaint {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer complaintId;
@@ -42,27 +45,27 @@ public class Complaint {
     @CreatedBy
     private String createdBy;
 
-
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
     @LastModifiedBy
     private String updatedBy;
 
-
     private String title;
     private String description;
-
     
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id")
     @JsonManagedReference
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "room_id")
     @JsonManagedReference
     private Room room;
 
-
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "complaint_status_id")
+    @JsonManagedReference
     private ComplaintStatus complaintStatus;
 }
