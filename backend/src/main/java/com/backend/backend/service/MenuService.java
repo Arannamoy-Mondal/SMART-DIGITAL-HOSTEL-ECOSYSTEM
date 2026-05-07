@@ -63,9 +63,9 @@ public class MenuService {
     public @Nullable Object getMenu() throws Exception {
         try {
             List<Menu> menus = menuRepo.findAll();
-            if (menus.size() < 1) {
-                throw new Exception("No menu item found");
-            }
+            // if (menus.size() < 1) {
+            //     throw new Exception("No menu item found");
+            // }
             return menus;
         } catch (Exception e) {
             // TODO: handle exception
@@ -76,9 +76,9 @@ public class MenuService {
     public @Nullable Object getMenuById(Integer menuId) throws Exception {
         try {
             Menu menu = menuRepo.findById(menuId).orElse(null);
-            if (menu == null) {
-                throw new Exception("No menu found");
-            }
+            // if (menu == null) {
+            //     throw new Exception("No menu found");
+            // }
             return menu;
         } catch (Exception e) {
             // TODO: handle exception

@@ -65,9 +65,9 @@ public class RoomService {
     public ResponseEntity<?> getRooms() {
         try {
             List<Room> rooms = roomRepo.findAll();
-            if (rooms.size() < 1) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No rooms found. Please try again later.");
-            }
+            // if (rooms.size() < 1) {
+            //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No rooms found. Please try again later.");
+            // }
             return ResponseEntity.status(HttpStatus.FOUND).body(rooms);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

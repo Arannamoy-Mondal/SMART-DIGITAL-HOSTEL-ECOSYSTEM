@@ -26,12 +26,19 @@
 <script>
 
     const checkAuthorization = () => {
-        const token = localStorage.getItem("jwtToken");
-        if (token) {
-            window.location.href="/tenant-home.html"
+            const token = localStorage.getItem("jwtToken");
+            const role = localStorage.getItem("role")
+            if (token && role == "tenant") {
+                window.location.href = "/tenant-home.html"
+            }
+            else if (token && role == "admin") {
+                window.location.href = "/admin-home.html"
+            }
+            // else {
+            //     window.location.href = "/login.html"
+            // }
         }
-    }
-    window.onload = checkAuthorization;
+        window.onload = checkAuthorization;
 </script>
 
 </html>

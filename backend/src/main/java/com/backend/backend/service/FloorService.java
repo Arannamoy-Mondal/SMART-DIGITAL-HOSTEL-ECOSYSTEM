@@ -32,9 +32,9 @@ public class FloorService {
     public ResponseEntity<?> getFloors() {
         try {
             List<Floor> floors = floorRepo.findAll();
-            if (floors.size() < 1) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Floor Found");
-            }
+            // if (floors.size() < 1) {
+            //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Floor Found");
+            // }
             return ResponseEntity.status(HttpStatus.FOUND).body(floors);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

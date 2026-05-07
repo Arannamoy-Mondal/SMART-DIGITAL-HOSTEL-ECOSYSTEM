@@ -73,10 +73,7 @@ public class UserService {
     public List<User> getUsers() throws Exception {
         try {
             List<User> users = userRepo.findAll();
-            if (users.size() > 0) {
-                return users;
-            }
-            throw new Exception("Please try later.");
+            return users;
         } catch (Exception e) {
             // TODO: handle exception
             throw new Exception(e.getMessage());
@@ -108,4 +105,13 @@ public class UserService {
         return authenticationService.createJwtToken(authentication);
 
     }
+
+	public @Nullable Object getUserByUserName(String userName) throws Exception {
+		User user=userRepo.findByUserName(userName).orElseThrow(()->new Exception("username not found."));
+        return user;
+	}
+
+
+    
+
 }

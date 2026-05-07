@@ -168,27 +168,38 @@
         const getLoggedInUsername = () => localStorage.getItem("loggedInUsername") || "user1"; // Fallback to 'user1' for testing
         const getHeaders = () => ({ "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` });
 
-        // 1. Load User Profile Data
+        // 1. Load User Profile Data (UPDATED)
         async function loadUserProfile() {
             const username = getLoggedInUsername();
+            
+            // Header এ নাম বসানো
             document.getElementById('navUserName').textContent = `Welcome, ${username}`;
-            document.getElementById('b_userName').value = username; // Auto-fill booking form
+            // Booking form এ নাম বসানো
+            document.getElementById('b_userName').value = username; 
 
             try {
-                // আমরা সব ইউজার আনছি এবং ফিল্টার করছি (যদি আপনার user/username API থাকে তবে সেটি ব্যবহার করতে পারেন)
-                const res = await fetch("http://localhost:8001/user/all", { method: "GET", headers: getHeaders() });
-                if (!res.ok) throw new Error("Failed to load profile");
-                const allUsers = await res.json();
+                // সরাসরি নির্দিষ্ট ইউজারের ডাটা ফেচ করা হচ্ছে
+                const res = await fetch(`http://localhost:8001/user/get/${username}`, { 
+                    method: "GET", 
+                    headers: getHeaders() 
+                });
                 
-                const myProfile = allUsers.find(u => u.userName === username);
-                if(myProfile) {
-                    document.getElementById('p_fullName').textContent = `${myProfile.firstName || ''} ${myProfile.lastName || ''}`.trim() || 'No Name';
-                    document.getElementById('p_userName').textContent = myProfile.userName;
-                    document.getElementById('p_email').textContent = myProfile.email || 'N/A';
-                    document.getElementById('p_phone').textContent = myProfile.contactNo || 'N/A';
-                    document.getElementById('p_address').textContent = myProfile.permanentAddress || 'N/A';
-                }
-            } catch (error) { console.error("Error loading profile"); }
+                if (!res.ok) throw new Error("Failed to load profile");
+                
+                // রেসপন্সটি একটি সিঙ্গেল অবজেক্ট হবে (অ্যারে নয়)
+                const myProfile = await res.json();
+                
+                // UI তে ডাটাগুলো বসিয়ে দেওয়া
+                document.getElementById('p_fullName').textContent = `${myProfile.firstName || ''} ${myProfile.lastName || ''}`.trim() || 'No Name Provided';
+                document.getElementById('p_userName').textContent = myProfile.userName || username;
+                document.getElementById('p_email').textContent = myProfile.email || 'N/A';
+                document.getElementById('p_phone').textContent = myProfile.contactNo || 'N/A';
+                document.getElementById('p_address').textContent = myProfile.permanentAddress || 'N/A';
+                
+            } catch (error) { 
+                console.error("Error loading profile:", error); 
+                document.getElementById('p_fullName').textContent = 'Error loading profile';
+            }
         }
 
         // 2. Load Only MY Bookings

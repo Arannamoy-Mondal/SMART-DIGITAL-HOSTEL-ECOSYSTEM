@@ -27,10 +27,11 @@ public class CommentService {
     public @Nullable Object getComments() throws Exception {
         try {
             List<Comment> comments=commentRepo.findAll();
-            if(comments.size()>0){
-                return comments;
-            }
-            return "No comment found";
+            // if(comments.size()>0){
+            //     return comments;
+            // }
+            // return "No comment found";
+            return comments;
         } catch (Exception e) {
             throw new Exception("hello");
         }

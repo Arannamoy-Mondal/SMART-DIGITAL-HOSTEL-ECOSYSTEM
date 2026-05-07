@@ -4,131 +4,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Hostel Ecosystem | Login</title>
-    <!-- Tailwind & DaisyUI -->
+    <title>Login | Smart Hostel Ecosystem</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="bg-base-200 min-h-screen pb-10">
+<body class="bg-base-200 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Navbar -->
-    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
-        <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
-        </div>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-1 font-medium">
-                <li><a href="/signup.html">Signup</a></li>
-                <li><a href="/login.html" class="active">Login</a></li>
-            </ul>
+    <div id="toastAlert" class="toast toast-top toast-end z-[100] hidden">
+        <div class="alert text-white shadow-lg">
+            <span id="toastMessage">Message</span>
         </div>
     </div>
 
-    <!-- Login Form Section -->
-    <div class="container mx-auto px-4 mt-20 flex justify-center">
-        <div class="card bg-base-100 w-full max-w-md shadow-xl">
-            <div class="card-body">
-                <h2 class="card-title text-3xl font-bold justify-center mb-6">Welcome Back</h2>
+    <div class="card w-full max-w-md bg-base-100 shadow-2xl border-t-4 border-primary">
+        <div class="card-body text-center">
+            
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-primary mb-2">Welcome Back!</h2>
+                <p class="text-gray-500">Sign in to your account</p>
+            </div>
 
-                <!-- Alert Box -->
-                <div id="alertBox" class="hidden alert mb-4">
-                    <span id="alertMessage"></span>
+            <form id="loginForm" class="space-y-4 text-left">
+                <div class="form-control">
+                    <label class="label"><span class="label-text font-bold">Username</span></label>
+                    <input type="text" id="username" class="input input-bordered w-full" placeholder="Enter your username" required />
+                </div>
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text font-bold">Password</span></label>
+                    <input type="password" id="password" class="input input-bordered w-full" placeholder="Enter your password" required />
                 </div>
 
-                <form id="loginForm" class="space-y-4">
+                <div class="form-control mt-6">
+                    <button type="submit" id="loginBtn" class="btn btn-primary w-full text-lg">Login</button>
+                </div>
+            </form>
 
-                    <!-- Username -->
-                    <div class="form-control">
-                        <label class="label"><span class="label-text font-semibold">Username</span></label>
-                        <input type="text" id="username" name="userName" placeholder="Enter your username"
-                            class="input input-bordered w-full" required />
-                    </div>
+            <div class="divider mt-6">OR</div>
+            <p class="text-sm">Don't have an account? <a href="/signup.html" class="text-primary font-bold hover:underline">Sign up</a></p>
 
-                    <!-- Password -->
-                    <div class="form-control">
-                        <label class="label"><span class="label-text font-semibold">Password</span></label>
-                        <input type="password" id="password" name="password" placeholder="••••••••"
-                            class="input input-bordered w-full" required />
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="form-control mt-6">
-                        <button type="submit" id="submitBtn" class="btn btn-primary w-full text-lg">Login</button>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <p class="text-sm">Don't have an account? <a href="/signup.html" class="link link-primary">Sign
-                                up here</a></p>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        // --- Helper Function: Toast Notification ---
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toastAlert');
+            const alertBox = toast.querySelector('.alert');
+            document.getElementById('toastMessage').textContent = message;
+            alertBox.className = `alert text-white shadow-lg ${type === 'success' ? 'alert-success' : 'alert-error'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        // --- Login Logic ---
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
 
-            const submitBtn = document.getElementById('submitBtn');
-            const alertBox = document.getElementById('alertBox');
-            const alertMessage = document.getElementById('alertMessage');
-
-            const payload = {
-                userName: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            };
-
-
-            submitBtn.innerHTML = '<span class="loading loading-spinner"></span> Logging in...';
-            submitBtn.disabled = true;
-
-            let isSuccess = false;
+            // Button Loading State
+            btn.innerHTML = '<span class="loading loading-spinner"></span> Authenticating...';
+            btn.disabled = true;
 
             try {
-                const response = await fetch("http://0.0.0.0:8001/user/login", {
+                // ==================================================
+                // STEP 1: Call Login API to get JWT Token
+                // ==================================================
+                const loginPayload = { 
+                    userName: usernameInput, 
+                    password: passwordInput 
+                };
+                
+                const loginRes = await fetch("http://localhost:8001/user/login", { 
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginPayload)
                 });
 
-                if (response.ok) {
-                    const token = await response.text();
+                if (!loginRes.ok) throw new Error("Invalid username or password!");
 
-                    if (token) {
-                        localStorage.setItem("jwtToken", token);
+                // যেহেতু স্প্রিং বুট সরাসরি স্ট্রিং রিটার্ন করছে, তাই text() ব্যবহার করা হলো
+                const token = await loginRes.text(); 
+                
+                if(!token) throw new Error("Token not found in response.");
+
+                // টোকেন লোকাল স্টোরেজে সেভ করা হলো
+                localStorage.setItem("jwtToken", token);
+
+
+                // ==================================================
+                // STEP 2: Fetch User Role & Details using Token
+                // ==================================================
+                const profileRes = await fetch(`http://localhost:8001/user/get/${usernameInput}`, {
+                    method: "GET",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}` 
                     }
+                });
 
-                    alertBox.className = "alert alert-success mb-4 block text-white";
-                    alertMessage.textContent = "Login Successful! Redirecting...";
-                    isSuccess = true;
-                    setTimeout(() => {
-                        window.location.href = "/admin-home.html";
-                    }, 1500);
+                if (!profileRes.ok) throw new Error("Failed to fetch user role!");
 
-                } else {
-                    alertBox.className = "alert alert-error mb-4 block text-white";
-                    alertMessage.textContent = "Invalid username or password!";
-                }
+                const userProfile = await profileRes.json();
+                
+                // ডাটাগুলো ভেরিয়েবলে নেওয়া
+                const loggedInUserName = userProfile.userName;
+                const userRole = userProfile.role.role.toLowerCase(); // যেমন: "admin"
+
+                // Username এবং Role লোকাল স্টোরেজে সেভ করা হলো (যাতে অন্যান্য পেজে ব্যবহার করা যায়)
+                localStorage.setItem("loggedInUsername", loggedInUserName);
+                localStorage.setItem("userRole", userRole);
+
+                showToast("Login Successful! Redirecting...", "success");
+
+                // ==================================================
+                // STEP 3: Redirect Based on Role
+                // ==================================================
+                setTimeout(() => {
+                    if (userRole === "admin") {
+                        window.location.href = "/admin-home.html"; // অ্যাডমিন পেজে রিডাইরেক্ট
+                    } else {
+                        window.location.href = "/tenant-home.html"; // টেন্যান্ট পেজে রিডাইরেক্ট
+                    }
+                }, 1000);
+
             } catch (error) {
                 console.error("Login Error:", error);
-                alertBox.className = "alert alert-error mb-4 block text-white";
-                alertMessage.textContent = "Network error. Make sure your server is running.";
-            } finally {
-                submitBtn.innerHTML = 'Login';
-                submitBtn.disabled = false;
-                setTimeout(() => {
-                    if (!isSuccess) alertBox.classList.add("hidden");
-                }, 5000);
+                showToast(error.message, "error");
+                
+                // Error হলে বাটন আগের অবস্থায় ফিরিয়ে আনা
+                btn.innerHTML = 'Login';
+                btn.disabled = false;
             }
         });
         const checkAuthorization = () => {
             const token = localStorage.getItem("jwtToken");
-            if (token) {
-                window.location.href="/tenant-home.html"
+            const role = localStorage.getItem("role")
+            if (token && role == "tenant") {
+                window.location.href = "/tenant-home.html"
             }
+            else if (token && role == "admin") {
+                window.location.href = "/admin-home.html"
+            }
+            // else {
+            //     window.location.href = "/login.html"
+            // }
         }
         window.onload = checkAuthorization;
     </script>

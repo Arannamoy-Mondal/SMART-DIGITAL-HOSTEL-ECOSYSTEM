@@ -584,6 +584,18 @@
             // পেমেন্ট পেজে রিডাইরেক্ট করা
             window.location.href = "/payment.html"; 
         });
+        const checkAuthorization = () => {
+            const token = localStorage.getItem("jwtToken");
+            const role = localStorage.getItem("role")
+            if (token && role == "tenant") {
+                window.location.href = "/tenant-home.html"
+            }
+            else if (token && role == "admin") {
+                window.location.href = "/admin-home.html"
+            }
+
+        }
+        window.onload = checkAuthorization;
     </script>
 </body>
 </html>

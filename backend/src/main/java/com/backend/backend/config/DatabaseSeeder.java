@@ -1,5 +1,6 @@
 package com.backend.backend.config;
 
+import com.backend.backend.repo.FloorRepo;
 import com.backend.backend.repo.MealItemRepo;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.User;
 
 import com.backend.backend.dto.UserRequest;
+import com.backend.backend.model.Floor;
 import com.backend.backend.model.MealType;
 import com.backend.backend.model.MenuItem;
 import com.backend.backend.model.PaymentMethod;
@@ -54,6 +56,8 @@ public class DatabaseSeeder implements CommandLineRunner{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FloorRepo floorRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -63,6 +67,13 @@ public class DatabaseSeeder implements CommandLineRunner{
             roleRepo.save(Role.builder().role("tenant").build());
             roleRepo.save(Role.builder().role("warden").build());
         }
+
+        if(floorRepo.count()==0){
+            floorRepo.save(Floor.builder().floorNo(2).build());
+            floorRepo.save(Floor.builder().floorNo(3).build());
+        }
+
+        
 
         if(transactionTypeRepo.count()==0){
             transactionTypeRepo.save(TransactionType.builder().transactionType("debit").build());

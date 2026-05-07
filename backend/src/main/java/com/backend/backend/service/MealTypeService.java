@@ -35,9 +35,9 @@ public class MealTypeService {
     public @Nullable Object getAllMealType() throws Exception {
         try {
             List<MealType> mealTypes = mealTypeRepo.findAll();
-            if (mealTypes.size() < 1) {
-                throw new Exception("No MealType available");
-            }
+            // if (mealTypes.size() < 1) {
+            //     throw new Exception("No MealType available");
+            // }
             return mealTypes;
         } catch (Exception e) {
             throw new Exception(e.getMessage());

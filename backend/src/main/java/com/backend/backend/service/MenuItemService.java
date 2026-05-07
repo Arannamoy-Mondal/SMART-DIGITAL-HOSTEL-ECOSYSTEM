@@ -36,9 +36,9 @@ public class MenuItemService {
     public @Nullable Object getMenuItem() throws Exception {
         try {
             List<MenuItem> menuItems = menuItemRepo.findAll();
-            if (menuItems.size() == 0) {
-                throw new Exception("No menu item found");
-            }
+            // if (menuItems.size() == 0) {
+            //     throw new Exception("No menu item found");
+            // }
             return menuItems;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
