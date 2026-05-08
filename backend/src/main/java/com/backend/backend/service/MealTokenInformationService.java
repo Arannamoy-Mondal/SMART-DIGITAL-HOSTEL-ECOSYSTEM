@@ -51,9 +51,9 @@ public class MealTokenInformationService {
             User user = userRepo.findByUserName(request.userName())
                     .orElseThrow(() -> new Exception("No user found with username: " + request.userName()));
 
-            if (user.getMealTokenAmount() != null) {
-                throw new Exception("Already have token. Available token amount: " + user.getMealTokenAmount());
-            }
+            // if (user.getMealTokenAmount() != null) {
+            //     throw new Exception("Already have token. Available token amount: " + user.getMealTokenAmount());
+            // }
             Room room = roomRepo.findByRoomNo(request.roomNo())
                     .orElseThrow(() -> new Exception("No room found with roomNo: " + request.roomNo()));
             PaymentMethod paymentMethod = paymentMethodRepo.findByPaymentMethod(request.paymentMethod())
