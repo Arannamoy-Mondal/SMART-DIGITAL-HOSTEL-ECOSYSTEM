@@ -8,10 +8,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -31,9 +30,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer complaintId;
+    private Integer commentId;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -49,15 +49,14 @@ public class Comment {
 
     public String comment;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Room room;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JsonManagedReference
-    private Discussion discussion;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JsonBackReference
+    private Discussion discussion; 
 }

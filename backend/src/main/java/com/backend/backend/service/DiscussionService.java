@@ -27,21 +27,29 @@ public class DiscussionService {
     }
 
     public @Nullable Object createDiscussion(DiscussionRequest discussionRequest) throws Exception {
-        Room room = roomRepo.findByRoomNo(discussionRequest.getRoomNo()).orElse(null);
+        
+        Room room = null;
+    
+        if (discussionRequest.getRoomNo() != null && discussionRequest.getRoomNo() != 0) {
+            room = roomRepo.findByRoomNo(discussionRequest.getRoomNo()).orElse(null);
+            if (room == null) {
+                throw new Exception("Room is not found with id " + discussionRequest.getRoomNo());
+            }
+        }
+
         User user = userRepo.findById(discussionRequest.getUserId()).orElse(null);
-        System.out.println(user);
-        if (room == null) {
-            throw new Exception("Room is not found with id " + discussionRequest.getRoomNo());
+        if (user == null) {
+            throw new Exception("User is not found with id " + discussionRequest.getUserId());
         }
-        if(user==null){
-            throw new Exception("User is not found with id "+discussionRequest.getUserId());
-        }
+
         Discussion discussion = Discussion.builder()
                 .description(discussionRequest.getDescription())
-                .room(null)
-                .user(null)
+                .room(room) 
+                .user(user) 
                 .build();
+                
+        discussionRepo.save(discussion);
+        
         return discussion;
     }
-
 }

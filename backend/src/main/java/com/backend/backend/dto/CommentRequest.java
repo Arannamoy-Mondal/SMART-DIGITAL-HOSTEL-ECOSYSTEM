@@ -11,4 +11,5 @@ public class CommentRequest {
     public String comment;
     public Integer userId;
     public Integer roomNo;
+    public Integer discussionId;
 }

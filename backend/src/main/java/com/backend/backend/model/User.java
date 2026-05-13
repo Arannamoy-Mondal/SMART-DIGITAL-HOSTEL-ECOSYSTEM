@@ -108,4 +108,5 @@ public class User {
     private List<MealTokenInformation> mealTokenInformations;
 
     public Integer mealTokenAmount;
+    private Boolean blocked = false;
 }

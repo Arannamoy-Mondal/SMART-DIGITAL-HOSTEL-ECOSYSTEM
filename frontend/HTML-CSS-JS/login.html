@@ -87,17 +87,13 @@
 
                 if (!loginRes.ok) throw new Error("Invalid username or password!");
 
-                // যেহেতু স্প্রিং বুট সরাসরি স্ট্রিং রিটার্ন করছে, তাই text() ব্যবহার করা হলো
+      
                 const token = await loginRes.text(); 
-                
                 if(!token) throw new Error("Token not found in response.");
-
-                // টোকেন লোকাল স্টোরেজে সেভ করা হলো
-                localStorage.setItem("jwtToken", token);
 
 
                 // ==================================================
-                // STEP 2: Fetch User Role & Details using Token
+                // STEP 2: Fetch User Details using Token
                 // ==================================================
                 const profileRes = await fetch(`http://localhost:8001/user/get/${usernameInput}`, {
                     method: "GET",
@@ -107,40 +103,50 @@
                     }
                 });
 
-                if (!profileRes.ok) throw new Error("Failed to fetch user role!");
+                if (!profileRes.ok) throw new Error("Failed to fetch user details!");
 
-                const userProfile = await profileRes.json();
+                const profileData = await profileRes.json();
+                const userProfile = Array.isArray(profileData) ? profileData[0] : profileData;
                 
-                // ডাটাগুলো ভেরিয়েবলে নেওয়া
-                const loggedInUserName = userProfile.userName;
-                const userRole = userProfile.role.role.toLowerCase(); // যেমন: "admin"
+                // ==================================================
+                // NEW STEP: BLOCK CHECKING 
+                // ==================================================
+                if (userProfile.blocked === true) {
+                    showToast("⚠️ Your account has been blocked by the Administrator!", "error");
+                    btn.innerHTML = 'Login';
+                    btn.disabled = false;
+                    return; 
+                }
 
-                // Username এবং Role লোকাল স্টোরেজে সেভ করা হলো (যাতে অন্যান্য পেজে ব্যবহার করা যায়)
-                localStorage.setItem("loggedInUsername", loggedInUserName);
+                // ==================================================
+                // STEP 3: Save to LocalStorage & Redirect
+                // ==================================================
+
+                localStorage.setItem("jwtToken", token);
+                localStorage.setItem("loggedInUsername", userProfile.userName);
+                
+                const userRole = userProfile.role ? userProfile.role.role.toLowerCase() : "tenant";
                 localStorage.setItem("userRole", userRole);
 
                 showToast("Login Successful! Redirecting...", "success");
 
-                // ==================================================
-                // STEP 3: Redirect Based on Role
-                // ==================================================
                 setTimeout(() => {
                     if (userRole === "admin") {
-                        window.location.href = "/admin-home.html"; // অ্যাডমিন পেজে রিডাইরেক্ট
+                        window.location.href = "/admin-home.html"; 
                     } else {
-                        window.location.href = "/tenant-home.html"; // টেন্যান্ট পেজে রিডাইরেক্ট
+                        window.location.href = "/tenant-home.html"; 
                     }
                 }, 1000);
 
             } catch (error) {
                 console.error("Login Error:", error);
                 showToast(error.message, "error");
-                
-                // Error হলে বাটন আগের অবস্থায় ফিরিয়ে আনা
+
                 btn.innerHTML = 'Login';
                 btn.disabled = false;
             }
         });
+
         const checkAuthorization = () => {
             const token = localStorage.getItem("jwtToken");
             const role = localStorage.getItem("userRole")
@@ -150,9 +156,6 @@
             else if (token && role == "admin") {
                 window.location.href = "/admin-home.html"
             }
-            // else {
-            //     window.location.href = "/login.html"
-            // }
         }
         window.onload = checkAuthorization;
     </script>

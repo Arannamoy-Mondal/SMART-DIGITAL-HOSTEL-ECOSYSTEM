@@ -86,18 +86,18 @@
         const getToken = () => localStorage.getItem("jwtToken");
         const getHeaders = () => ({ "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` });
 
-        // ডাটা ভেরিফাই করা
+
         const rawData = localStorage.getItem("pendingBookingInfo");
         let bookingData = null;
 
         document.addEventListener("DOMContentLoaded", () => {
-            // যদি কেউ সরাসরি এই পেজে ঢুকে যায় (বুকিং ডাটা ছাড়া), তাকে ড্যাশবোর্ডে ফেরত পাঠানো
+          
             if (!rawData || !getToken()) {
-                window.location.href = "/index.html"; // আপনার ড্যাশবোর্ডের নাম index.html বা dashboard.html হলে সেটা দিন
+                window.location.href = "/index.html";
                 return;
             }
 
-            // ডাটাগুলো UI তে বসানো
+         
             bookingData = JSON.parse(rawData);
             document.getElementById("displayAmount").textContent = `৳ ${bookingData.amount}`;
             document.getElementById("displayUser").textContent = bookingData.userName;
@@ -105,13 +105,13 @@
             document.getElementById("displayMethod").textContent = bookingData.paymentMethod;
         });
 
-        // পেমেন্ট ক্যানসেল করা
+
         function cancelPayment() {
             localStorage.removeItem("pendingBookingInfo");
             window.location.href = "/index.html";
         }
 
-        // পেমেন্ট প্রসেস করা (DYNAMIC FOR BOTH ROOM & TOKEN)
+      
         async function processPayment() {
             const overlay = document.getElementById("processingOverlay");
             const overlayText = document.getElementById("overlayText");
@@ -123,15 +123,14 @@
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 overlayText.textContent = "Verifying Transaction...";
 
-                // tenant-dashboard থেকে যেই API URL টি পাঠানো হয়েছে, সেটি নেওয়া হলো
-                // যদি না থাকে, তাহলে ডিফল্ট হিসেবে roomBooking/create কল করবে
+              
                 const apiUrl = localStorage.getItem("paymentApiUrl") || "http://localhost:8001/roomBooking/create";
                 
-                // API তে কল করা (ডাটা আগে থেকেই JSON.stringify অবস্থায় আছে)
+             
                 const res = await fetch(apiUrl, { 
                     method: "POST", 
                     headers: getHeaders(), 
-                    // আমরা ড্যাশবোর্ডেই ParseInt/ParseFloat করে ডাটা সেভ করেছিলাম, তাই সরাসরি পাঠিয়ে দিলেই হবে
+                   
                     body: JSON.stringify(bookingData) 
                 });
 
@@ -141,12 +140,12 @@
                     throw new Error(errorText || "Something went wrong! Please try again.");
                 }
 
-                // পেমেন্ট সাকসেস
+          
                 overlayText.textContent = "Payment Successful!";
                 overlayText.classList.add("text-success");
                 
                 localStorage.removeItem("pendingBookingInfo");
-                localStorage.removeItem("paymentApiUrl"); // API URL মুছে দেওয়া হলো
+                localStorage.removeItem("paymentApiUrl"); 
                 
                 setTimeout(() => {
                     const returnUrl = localStorage.getItem("returnTo") || "/index.html";

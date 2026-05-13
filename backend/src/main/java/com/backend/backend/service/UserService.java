@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.backend.backend.authentication.service.AuthenticationService;
 import com.backend.backend.dto.LoginRequest;
 import com.backend.backend.dto.UserRequest;
-import com.backend.backend.mapper.UserMapper;
+
 import com.backend.backend.model.Role;
 import com.backend.backend.model.User;
 import com.backend.backend.repo.RoleRepo;
@@ -112,6 +112,42 @@ public class UserService {
 	}
 
 
+
+    public Object updateProfile(String userName, UserRequest req) throws Exception {
+        User user = userRepo.findByUserName(userName).orElseThrow(() -> new Exception("User not found"));
+        
+        if (req.getFirstName() != null && !req.getFirstName().isEmpty()) user.setFirstName(req.getFirstName());
+        if (req.getLastName() != null && !req.getLastName().isEmpty()) user.setLastName(req.getLastName());
+        if (req.getEmail() != null && !req.getEmail().isEmpty()) user.setEmail(req.getEmail());
+        if (req.getContactNo() != null && !req.getContactNo().isEmpty()) user.setContactNo(req.getContactNo());
+        if (req.getPermanentAddress() != null && !req.getPermanentAddress().isEmpty()) user.setPermanentAddress(req.getPermanentAddress());
+        
+        userRepo.save(user);
+        return "Profile updated successfully";
+    }
+
     
+    public Object changeRole(Integer userId, String roleName) throws Exception {
+        User user = userRepo.findById(userId).orElseThrow(() -> new Exception("User not found"));
+        Role role = roleRepo.findByRole(roleName).orElseThrow(() -> new Exception("Role not found: " + roleName));
+        user.setRole(role);
+        userRepo.save(user);
+        return "User role successfully changed to " + roleName;
+    }
+
+
+
+    public Object toggleBlock(Integer userId) throws Exception {
+        User user = userRepo.findById(userId).orElseThrow(() -> new Exception("User not found"));
+        if ("admin".equalsIgnoreCase(user.getUserName()) || 
+            (user.getRole() != null && "admin".equalsIgnoreCase(user.getRole().getRole()))) {
+            throw new Exception("Admin cannot be blocked!");
+        }
+
+        Boolean isBlocked = user.getBlocked();
+        user.setBlocked(isBlocked == null ? true : !isBlocked); 
+        userRepo.save(user);
+        return "User block status updated!";
+    }
 
 }

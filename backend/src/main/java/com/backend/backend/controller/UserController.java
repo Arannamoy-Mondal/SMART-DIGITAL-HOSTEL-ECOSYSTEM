@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,6 @@ import jakarta.validation.Valid;
 public class UserController {
     @Autowired
     private UserService userService;
-   
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody UserRequest userRequest, BindingResult bindingResult) {
@@ -38,68 +38,88 @@ public class UserController {
         }
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.signup(userRequest));
-           
-            
+
         } catch (Exception e) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-
-
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid@RequestBody LoginRequest loginRequest,
-        BindingResult bindingResult
-    ){
-        if(bindingResult.hasErrors()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldError().getDefaultMessage());
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(bindingResult.getFieldError().getDefaultMessage());
         }
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginRequest));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
 
-
-    @PostMapping(value = "/upload-image/{userId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)  
+    @PostMapping(value = "/upload-image/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadImage(
-        @PathVariable("userId") Integer userId,
-        @RequestParam("image") MultipartFile image
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(userId, image));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
-        }  
+            @PathVariable("userId") Integer userId,
+            @RequestParam("image") MultipartFile image) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(userId, image));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
 
-
+    }
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getUsers(
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
+    public ResponseEntity<?> getUsers() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
+    }
 
     @GetMapping("/get/{userName}")
     public ResponseEntity<?> getUserByUserName(
-        @PathVariable("userName") String userName
-                ) {
-            try {
-                return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByUserName(userName));
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-    
-        }    
+            @PathVariable("userName") String userName) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByUserName(userName));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+    }
+
+    @PutMapping("/update-profile/{userName}")
+    public ResponseEntity<?> updateProfile(@PathVariable("userName") String userName,
+            @RequestBody UserRequest request) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.updateProfile(userName, request));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/change-role/{userId}")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") 
+    public ResponseEntity<?> changeRole(@PathVariable("userId") Integer userId, @RequestParam("role") String role) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.changeRole(userId, role));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/toggle-block/{userId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')") 
+    public ResponseEntity<?> toggleBlock(@PathVariable("userId") Integer userId) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.toggleBlock(userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
