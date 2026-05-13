@@ -6,183 +6,700 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Hostel | Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Theme initialization
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    </script>
-    <style>
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--fallback-b1,oklch(var(--b1))); }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .modal-box { border-radius: 1rem; }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <base target="_blank">
 </head>
 
-<body class="bg-base-200 min-h-screen pb-10 text-base-content transition-colors duration-300">
-    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4 transition-colors duration-300 border-b border-base-300">
+<body class="bg-base-200 min-h-screen pb-10 text-base-content">
+    <div class="navbar bg-primary text-primary-content shadow-sm sticky top-0 z-50 px-6">
         <div class="flex-1">
-            <a class="btn btn-ghost text-2xl font-bold text-error" href="/index.html">🏨 Smart Hostel</a>
+            <a class="btn btn-ghost text-xl" href="/index.html">🏨 Smart Hostel Admin</a>
         </div>
-        <div class="flex-none flex items-center gap-3">
-            <label class="swap swap-rotate btn btn-ghost btn-circle">
-                <input type="checkbox" id="themeToggle" onchange="toggleTheme()" />
-                <div class="swap-on text-xl">🌙</div>
-                <div class="swap-off text-xl">☀️</div>
-            </label>
-            <span id="navUserName" class="font-bold bg-base-200 px-4 py-2 rounded-lg text-sm border border-base-300">Hi, Admin</span>
-            <button onclick="openEditAdminProfileModal()" class="btn btn-warning btn-sm text-black font-bold">✏️ Profile</button>
-            <button onclick="logout()" class="btn btn-error btn-sm text-white font-bold">Logout</button>
+        <div class="flex-none flex items-center gap-4">
+            <span id="navUserName" class="font-bold text-sm">Hi, Admin</span>
+            <button onclick="openEditAdminProfileModal()" class="btn btn-sm btn-outline text-white border-white">
+                ✏️ Profile
+            </button>
+            <button onclick="logout()" class="btn btn-sm btn-error text-white">
+                Logout
+            </button>
         </div>
     </div>
 
     <div id="toastAlert" class="toast toast-top toast-end z-[100] hidden">
-        <div class="alert text-white shadow-xl font-bold rounded-lg border-0"><span id="toastMessage">Message</span></div>
-    </div>
-
-    <div class="container mx-auto mt-8 p-4 text-center">
-        <div class="avatar placeholder mx-auto mb-3">
-            <div class="bg-warning text-black rounded-full w-24 border-4 border-base-100 shadow-md">
-                <img id="p_profileImage" src="" alt="Profile" style="display: none; object-fit: cover;" class="rounded-full" />
-                <span id="p_profileInitials" class="text-3xl">👑</span>
-            </div>
-        </div>
-        <h1 class="text-4xl font-bold">Admin <span class="text-error">Dashboard</span></h1>
-        <p class="text-base-content/60 mt-2 font-medium">Manage your hostel efficiently</p>
-    </div>
-
-    <div class="container mx-auto px-4 mt-4 space-y-4">
-        <div class="stats shadow-sm w-full bg-base-100 flex flex-col md:flex-row border border-base-300 rounded-2xl overflow-hidden divide-y md:divide-y-0 md:divide-x divide-base-300">
-            <div class="stat place-items-center">
-                <div class="stat-title font-bold text-base-content/70">Total Tenants</div>
-                <div class="stat-value text-error text-4xl" id="statTotalTenants">0</div>
-            </div>
-            <div class="stat place-items-center">
-                <div class="stat-title font-bold text-base-content/70">Total Rooms</div>
-                <div class="stat-value text-warning text-4xl" id="statTotalRooms">0</div>
-                <div class="stat-desc text-warning font-bold bg-warning/10 px-2 py-1 rounded mt-1" id="statAvailableRooms">0 Available</div>
-            </div>
-            <div class="stat place-items-center">
-                <div class="stat-title font-bold text-base-content/70">Meal Tokens Sold</div>
-                <div class="stat-value text-error text-4xl" id="statTotalTokens">0</div>
-            </div>
-        </div>
-
-        <div class="stats shadow-sm w-full bg-base-100 flex flex-col md:flex-row border-t-4 border-error rounded-2xl overflow-hidden divide-y md:divide-y-0 md:divide-x divide-base-300">
-            <div class="stat place-items-center">
-                <div class="stat-title font-bold text-base-content/70">Room Rent Income</div>
-                <div class="stat-value text-warning text-3xl" id="statRoomRev">৳ 0.00</div>
-                <div id="statRoomTx" class="stat-desc font-bold mt-1 text-base-content/60">0 Transactions</div>
-            </div>
-            <div class="stat place-items-center">
-                <div class="stat-title font-bold text-base-content/70">Meal Token Income</div>
-                <div class="stat-value text-error text-3xl" id="statTokenRev">৳ 0.00</div>
-                <div id="statTokenTx" class="stat-desc font-bold mt-1 text-base-content/60">0 Transactions</div>
-            </div>
-            <div class="stat place-items-center bg-base-200/50">
-                <div class="stat-title font-bold text-base-content/80 text-lg">Total Revenue</div>
-                <div class="stat-value text-error text-4xl" id="statTotalRev">৳ 0.00</div>
-                <div id="statTotalTx" class="stat-desc font-bold mt-1 text-base-content/60">0 Total Transactions</div>
-            </div>
+        <div class="alert text-white shadow-lg bg-success border-0">
+            <span id="toastMessage">Message</span>
         </div>
     </div>
 
     <div class="container mx-auto px-4 mt-8">
-        <h2 class="text-xl font-bold mb-4 border-l-4 border-warning pl-3">Management Modules</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+        
+        <div class="card bg-base-100 shadow-xl border-t-4 border-primary mb-8">
+            <div class="card-body text-center flex flex-col items-center">
+                <div class="avatar placeholder mx-auto mb-2">
+                    <div class="bg-neutral text-neutral-content rounded-full w-24 border-4 border-primary shadow-md">
+                        <img id="p_profileImage" src="" alt="Profile" style="display: none; object-fit: cover;" class="rounded-full" />
+                        <span id="p_profileInitials" class="text-4xl">👑</span>
+                    </div>
+                </div>
+                <h1 class="text-3xl font-bold mt-2 text-primary">Admin Dashboard</h1>
+                <p class="text-gray-500 font-semibold mb-4">Manage your hostel efficiently</p>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-4 px-2">📊 Platform Statistics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="card bg-base-100 shadow-xl border-t-4 border-error">
+                <div class="card-body text-center">
+                    <h3 class="text-lg font-bold text-error uppercase tracking-wider">👥 Total Tenants</h3>
+                    <div class="text-4xl font-extrabold text-base-content mt-2" id="statTotalTenants">0</div>
+                    <div class="text-sm text-gray-500 mt-1 font-semibold">Total Occupants</div>
+                </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-xl border-t-4 border-warning">
+                <div class="card-body text-center">
+                    <h3 class="text-lg font-bold text-warning uppercase tracking-wider">🛏️ Rooms</h3>
+                    <div class="text-4xl font-extrabold text-base-content mt-2" id="statTotalRooms">0</div>
+                    <div class="badge badge-warning mt-2 font-bold mx-auto" id="statAvailableRooms">0 Available</div>
+                </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-xl border-t-4 border-success">
+                <div class="card-body text-center">
+                    <h3 class="text-lg font-bold text-success uppercase tracking-wider">🎟️ Tokens Sold</h3>
+                    <div class="text-4xl font-extrabold text-base-content mt-2" id="statTotalTokens">0</div>
+                    <div class="text-sm text-gray-500 mt-1 font-semibold">Meal Tokens Sold</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-4 px-2">💰 Revenue</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">Room Rent</span>
+                    <div class="text-3xl font-extrabold text-primary mt-2" id="statRoomRev">৳ 0.00</div>
+                    <div id="statRoomTx" class="text-sm font-semibold text-gray-400 mt-1">0 Transactions</div>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">Meal Tokens</span>
+                    <div class="text-3xl font-extrabold text-secondary mt-2" id="statTokenRev">৳ 0.00</div>
+                    <div id="statTokenTx" class="text-sm font-semibold text-gray-400 mt-1">0 Transactions</div>
+                </div>
+            </div>
+            <div class="card bg-neutral text-neutral-content shadow-xl">
+                <div class="card-body">
+                    <span class="text-sm font-bold uppercase tracking-wider text-neutral-content/80">Total Revenue</span>
+                    <div class="text-4xl font-extrabold mt-2 text-white" id="statTotalRev">৳ 0.00</div>
+                    <div id="statTotalTx" class="text-sm font-semibold mt-1 text-neutral-content/60">0 Total Transactions</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-4 px-2 mt-8 border-b pb-2">⚙️ Management Modules</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-error/10 rounded-lg text-error text-xl">👥</div><h2 class="card-title text-xl font-bold">Users</h2></div><div class="card-actions justify-end mt-2"><button class="btn btn-sm btn-warning text-black font-bold border-0 w-full" onclick="openViewUsersModal()">View List</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-warning/10 rounded-lg text-warning text-xl">🏢</div><h2 class="card-title text-xl font-bold">Floors</h2></div><div class="card-actions justify-end mt-2 flex gap-2"><button class="btn btn-sm btn-warning text-black border-0 flex-1 font-bold" onclick="openViewFloorsModal()">View</button><button class="btn btn-sm btn-error text-white font-bold border-0 flex-1" onclick="add_floor_modal.showModal()">Add +</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-error/10 rounded-lg text-error text-xl">🔖</div><h2 class="card-title text-xl font-bold">Types</h2></div><div class="card-actions justify-end mt-2 flex gap-2"><button class="btn btn-sm btn-warning text-black font-bold border-0 flex-1" onclick="openViewRoomTypesModal()">View</button><button class="btn btn-sm btn-error text-white font-bold border-0 flex-1" onclick="add_roomType_modal.showModal()">Add +</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-warning/10 rounded-lg text-warning text-xl">🛏️</div><h2 class="card-title text-xl font-bold">Rooms</h2></div><div class="card-actions justify-end mt-2 flex gap-2"><button class="btn btn-sm btn-warning text-black font-bold border-0 flex-1" onclick="openViewRoomsModal()">View</button><button class="btn btn-sm btn-error text-white font-bold border-0 flex-1" onclick="add_room_modal.showModal()">Add +</button></div></div></div>
-            
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all">
-                <div class="card-body p-5">
-                    <div class="flex items-center gap-3 mb-2"><div class="p-3 bg-error/10 rounded-lg text-error text-xl">🍽️</div><h2 class="card-title text-xl font-bold">Menus</h2></div>
-                    <div class="dropdown dropdown-top dropdown-end w-full mt-2">
-                        <label tabindex="0" class="btn btn-sm btn-warning text-black font-bold border-0 w-full">Manage ⚙️</label>
-                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-xl border border-base-300 bg-base-100 rounded-box w-52 text-base-content font-bold">
+            <div class="card bg-indigo-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">👥 Users</h2>
+                    <p class="text-sm">Manage tenants and admin accounts</p>
+                    <div class="card-actions justify-end mt-2">
+                        <button class="btn btn-outline border-white text-white btn-sm w-full" onclick="openViewUsersModal()">View List</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-sky-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">🏢 Floors</h2>
+                    <p class="text-sm">Organize building levels</p>
+                    <div class="card-actions justify-between mt-2 flex-nowrap">
+                        <button class="btn btn-outline border-white text-white btn-sm flex-1 mr-1" onclick="openViewFloorsModal()">View</button>
+                        <button class="btn btn-warning text-black btn-sm flex-1 ml-1" onclick="add_floor_modal.showModal()">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-violet-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">🔖 Types</h2>
+                    <p class="text-sm">Room categories & classifications</p>
+                    <div class="card-actions justify-between mt-2 flex-nowrap">
+                        <button class="btn btn-outline border-white text-white btn-sm flex-1 mr-1" onclick="openViewRoomTypesModal()">View</button>
+                        <button class="btn btn-warning text-black btn-sm flex-1 ml-1" onclick="add_roomType_modal.showModal()">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-amber-500 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">🛏️ Rooms</h2>
+                    <p class="text-sm">Accommodation inventory</p>
+                    <div class="card-actions justify-between mt-2 flex-nowrap">
+                        <button class="btn btn-outline border-white text-white btn-sm flex-1 mr-1" onclick="openViewRoomsModal()">View</button>
+                        <button class="btn btn-neutral text-white btn-sm flex-1 ml-1" onclick="add_room_modal.showModal()">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-emerald-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">🍽️ Menus</h2>
+                    <p class="text-sm">Weekly meal planning</p>
+                    <div class="dropdown dropdown-top w-full mt-2">
+                        <label tabindex="0" class="btn btn-outline border-white text-white btn-sm w-full">Manage ⚙️</label>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-xl bg-base-100 rounded-box w-full text-base-content font-bold">
                             <li><a onclick="openViewMenusModal()">View Menus</a></li>
-                            <li><a onclick="create_menu_modal.showModal()" class="text-error">Create Menu</a></li>
+                            <li><a onclick="create_menu_modal.showModal()" class="text-primary">Create Menu</a></li>
                             <li class="my-1 border-b border-base-300"></li>
-                            <li><a onclick="add_mealType_modal.showModal()" class="text-error">Add Meal Type</a></li>
+                            <li><a onclick="add_mealType_modal.showModal()" class="text-primary">Add Meal Type</a></li>
                             <li><a onclick="openViewMealTypesModal()">Edit Meal Types</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-warning/10 rounded-lg text-warning text-xl">🍲</div><h2 class="card-title text-xl font-bold">Food</h2></div><div class="card-actions justify-end mt-2 flex gap-2"><button class="btn btn-sm btn-warning text-black font-bold border-0 flex-1" onclick="openViewMenuItemsModal()">View</button><button class="btn btn-sm btn-error text-white font-bold border-0 flex-1" onclick="add_menuItem_modal.showModal()">Add +</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-error/10 rounded-lg text-error text-xl">📝</div><h2 class="card-title text-xl font-bold">Bookings</h2></div><div class="card-actions justify-end mt-2 flex flex-col gap-2"><button class="btn btn-sm btn-warning font-bold text-black border-0 w-full" onclick="openViewBookingsModal()">History</button><button class="btn btn-sm btn-error text-white font-bold border-0 w-full" onclick="add_booking_modal.showModal()">Book Room +</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-warning/10 rounded-lg text-warning text-xl">🎟️</div><h2 class="card-title text-xl font-bold">Tokens</h2></div><div class="card-actions justify-end mt-2"><button class="btn btn-sm btn-warning font-bold text-black border-0 w-full" onclick="openViewAllTokensModal()">Sales History</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-error/10 rounded-lg text-error text-xl">⚠️</div><h2 class="card-title text-xl font-bold">Issues</h2></div><div class="card-actions justify-end mt-2"><button class="btn btn-sm btn-error font-bold text-white border-0 w-full" onclick="openViewComplaintsModal()">Resolve Now</button></div></div></div>
-            <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-all"><div class="card-body p-5"><div class="flex items-center gap-3 mb-2"><div class="p-3 bg-warning/10 rounded-lg text-warning text-xl">💬</div><h2 class="card-title text-xl font-bold">Forum</h2></div><div class="card-actions justify-end mt-2 flex gap-2"><button class="btn btn-sm btn-warning font-bold text-black border-0 flex-1" onclick="openDiscussionsModal()">View</button><button class="btn btn-sm btn-error font-bold text-white border-0 flex-1" onclick="add_discussion_modal.showModal()">Post +</button></div></div></div>
+            <div class="card bg-orange-500 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">🍲 Food Items</h2>
+                    <p class="text-sm">Menu item catalogue</p>
+                    <div class="card-actions justify-between mt-2 flex-nowrap">
+                        <button class="btn btn-outline border-white text-white btn-sm flex-1 mr-1" onclick="openViewMenuItemsModal()">View</button>
+                        <button class="btn btn-warning text-black btn-sm flex-1 ml-1" onclick="add_menuItem_modal.showModal()">Add +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-cyan-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">📝 Bookings</h2>
+                    <p class="text-sm">Reservation management</p>
+                    <div class="card-actions justify-between mt-2 flex-nowrap">
+                        <button class="btn btn-outline border-white text-white btn-sm flex-1 mr-1" onclick="openViewBookingsModal()">History</button>
+                        <button class="btn btn-warning text-black btn-sm flex-1 ml-1" onclick="add_booking_modal.showModal()">Book +</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-fuchsia-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">🎟️ Tokens</h2>
+                    <p class="text-sm">Meal token sales tracking</p>
+                    <div class="card-actions justify-end mt-2">
+                        <button class="btn btn-outline border-white text-white btn-sm w-full" onclick="openViewAllTokensModal()">Sales History</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-red-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">⚠️ Issues</h2>
+                    <p class="text-sm">Complaint resolution center</p>
+                    <div class="card-actions justify-end mt-2">
+                        <button class="btn btn-warning text-black btn-sm w-full" onclick="openViewComplaintsModal()">Resolve Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-teal-600 text-white shadow-lg">
+                <div class="card-body p-6">
+                    <h2 class="card-title text-xl">💬 Forum</h2>
+                    <p class="text-sm">Community discussions</p>
+                    <div class="card-actions justify-between mt-2 flex-nowrap">
+                        <button class="btn btn-outline border-white text-white btn-sm flex-1 mr-1" onclick="openDiscussionsModal()">View</button>
+                        <button class="btn btn-warning text-black btn-sm flex-1 ml-1" onclick="add_discussion_modal.showModal()">Post +</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <dialog id="view_users_modal" class="modal"><div class="modal-box w-11/12 max-w-6xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">👥 All Users</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Avatar</th><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody id="userTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="room_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">🛏️ Rooms</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Room</th><th>Type</th><th>Floor</th><th>Rent</th><th>Seats</th><th>Status</th></tr></thead><tbody id="roomTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="floor_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">🏢 Floors</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Floor ID</th><th>Floor Number</th><th>Created At</th></tr></thead><tbody id="floorTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="roomType_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">🔖 Room Types</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Room Type</th><th>Created At</th></tr></thead><tbody id="roomTypeTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="meal_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">🍽️ Weekly Menu</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>Menu Name</th><th>Day</th><th>Meal Type</th><th>Menu Items</th><th>Actions</th></tr></thead><tbody id="menuTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="booking_list_modal" class="modal"><div class="modal-box w-11/12 max-w-6xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">📝 Bookings</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>User</th><th>Room</th><th>Duration</th><th>Amount</th><th>Status</th></tr></thead><tbody id="bookingTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="all_tokens_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">🎟️ Token Sales</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows w-full"><thead><tr class="bg-base-200"><th>ID</th><th>User</th><th>Room</th><th>Count</th><th>Paid</th><th>Date</th></tr></thead><tbody id="allTokenTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="complaint_list_modal" class="modal"><div class="modal-box w-11/12 max-w-5xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">⚠️ Complaints</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Tenant</th><th>Issue</th><th>Status</th><th>Action</th></tr></thead><tbody id="complaintTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="discussion_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">💬 Forum</h3><div id="discussionsContainer" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
+    <dialog id="view_users_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-6xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">👥 All Users</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>Avatar</th><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="userTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
 
-    <dialog id="menuItem_list_modal" class="modal"><div class="modal-box w-11/12 max-w-4xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">🍲 Food Items</h3><div class="overflow-x-auto h-96 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Item Name</th><th>Desc</th><th>Action</th></tr></thead><tbody id="menuItemTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
-    <dialog id="mealType_list_modal" class="modal"><div class="modal-box w-11/12 max-w-3xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">⏳ Meal Types</h3><div class="overflow-x-auto h-80 border border-base-300 rounded-lg"><table class="table table-zebra table-pin-rows"><thead><tr class="bg-base-200"><th>ID</th><th>Type</th><th>Action</th></tr></thead><tbody id="mealTypeTableBody"></tbody></table></div><div class="modal-action"><form method="dialog"><button class="btn btn-warning font-bold text-black">Close</button></form></div></div></dialog>
+    <dialog id="room_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">🛏️ Rooms</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>Room</th><th>Type</th><th>Floor</th><th>Rent</th><th>Seats</th><th>Status</th></tr></thead>
+                    <tbody id="roomTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
 
-    <dialog id="edit_menuItem_modal" class="modal"><div class="modal-box border-t-4 border-warning"><h3 class="font-bold text-xl mb-4 text-warning">✏️ Edit Food Item</h3><form id="formEditMenuItem"><input type="hidden" id="e_menuItemId"/><div class="form-control mb-2"><label class="label font-bold">Item Name</label><input type="text" id="e_itemName" class="input input-bordered" required/></div><div class="form-control"><label class="label font-bold">Description</label><input type="text" id="e_itemDesc" class="input input-bordered"/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="edit_menuItem_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Update</button></div></form></div></dialog>
-    <dialog id="edit_mealType_modal" class="modal"><div class="modal-box border-t-4 border-error"><h3 class="font-bold text-xl mb-4 text-error">✏️ Edit Meal Type</h3><form id="formEditMealType"><input type="hidden" id="e_oldMealType"/><div class="form-control"><label class="label font-bold">Meal Type Name</label><input type="text" id="e_mealTypeName" class="input input-bordered" required/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="edit_mealType_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Update</button></div></form></div></dialog>
-    <dialog id="edit_profile_modal" class="modal"><div class="modal-box max-w-2xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">✏️ Edit Profile</h3><form id="formEditProfile"><div class="grid grid-cols-2 gap-4"><div class="form-control"><label class="label font-bold">First Name</label><input type="text" id="ep_firstName" class="input input-bordered" required/></div><div class="form-control"><label class="label font-bold">Last Name</label><input type="text" id="ep_lastName" class="input input-bordered" required/></div></div><div class="form-control mt-2"><label class="label font-bold">Email</label><input type="email" id="ep_email" class="input input-bordered" required/></div><div class="form-control mt-2"><label class="label font-bold">Phone</label><input type="text" id="ep_contactNo" class="input input-bordered" required/></div><div class="form-control mt-2"><label class="label font-bold">Address</label><input type="text" id="ep_address" class="input input-bordered" required/></div><div class="form-control mt-2"><label class="label font-bold">Avatar</label><input type="file" id="ep_image" accept="image/*" class="file-input file-input-bordered file-input-warning w-full"/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="edit_profile_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save Changes</button></div></form></div></dialog>
-    <dialog id="change_role_modal" class="modal"><div class="modal-box w-11/12 max-w-sm border-t-4 border-error"><h3 class="font-bold text-xl mb-4 text-error">🔑 Change Role</h3><select id="cr_roleSelect" class="select select-bordered w-full font-bold"><option value="tenant">Tenant</option><option value="admin">Admin</option></select><div class="modal-action"><button class="btn btn-warning font-bold text-black" onclick="change_role_modal.close()">Cancel</button><button class="btn btn-error text-white font-bold" onclick="submitRoleChange()">Update</button></div></div></dialog>
+    <dialog id="floor_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">🏢 Floors</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>Floor ID</th><th>Floor Number</th><th>Created At</th></tr></thead>
+                    <tbody id="floorTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
 
-    <dialog id="update_menu_modal" class="modal">
-        <div class="modal-box max-w-2xl border-t-4 border-warning">
-            <h3 class="font-bold text-2xl mb-4 text-warning">✏️ Update Menu</h3>
-            <form id="formUpdateMenu" class="grid grid-cols-2 gap-4">
-                <input type="hidden" id="u_menuId" />
-                <div class="form-control"><label class="label font-bold">Day</label><select id="u_day" class="select select-bordered" required><option value="saturday">Saturday</option><option value="sunday">Sunday</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option></select></div>
-                <div class="form-control"><label class="label font-bold">Meal Type</label><input type="text" id="u_mealType" class="input input-bordered" required /></div>
-                <div class="form-control col-span-2"><label class="label font-bold">Update Menu Items</label><div class="border border-base-300 bg-base-200/50 p-4 rounded-lg max-h-48 overflow-y-auto flex flex-wrap gap-2" id="u_menuItemsContainer"></div></div>
-                <div class="modal-action col-span-2 mt-4"><button type="button" class="btn btn-warning font-bold text-black" onclick="update_menu_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save Changes</button></div>
+    <dialog id="roomType_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">🔖 Room Types</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>ID</th><th>Room Type</th><th>Created At</th></tr></thead>
+                    <tbody id="roomTypeTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="meal_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">🍽️ Weekly Menu</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>Menu Name</th><th>Day</th><th>Meal Type</th><th>Menu Items</th><th>Actions</th></tr></thead>
+                    <tbody id="menuTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="booking_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-6xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">📝 Bookings</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>ID</th><th>User</th><th>Room</th><th>Duration</th><th>Amount</th><th>Status</th></tr></thead>
+                    <tbody id="bookingTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="all_tokens_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">🎟️ Token Sales</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>ID</th><th>User</th><th>Room</th><th>Count</th><th>Paid</th><th>Date</th></tr></thead>
+                    <tbody id="allTokenTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="complaint_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-xl mb-4 text-error">⚠️ Complaints</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>ID</th><th>Tenant</th><th>Issue</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody id="complaintTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="discussion_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl bg-base-200">
+            <h3 class="font-bold text-xl mb-4 text-primary border-b pb-2">💬 Forum</h3>
+            <div id="discussionsContainer" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="menuItem_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">🍲 Food Items</h3>
+            <div class="overflow-x-auto h-[28rem] border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>ID</th><th>Item Name</th><th>Desc</th><th>Action</th></tr></thead>
+                    <tbody id="menuItemTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="mealType_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-3xl">
+            <h3 class="font-bold text-xl mb-4 text-primary">⏳ Meal Types</h3>
+            <div class="overflow-x-auto h-80 border border-base-300 rounded-xl">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead><tr class="bg-base-200"><th>ID</th><th>Type</th><th>Action</th></tr></thead>
+                    <tbody id="mealTypeTableBody"></tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="edit_menuItem_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">✏️ Edit Food Item</h3>
+            <form id="formEditMenuItem" class="space-y-3">
+                <input type="hidden" id="e_menuItemId"/>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Item Name</span></label>
+                    <input type="text" id="e_itemName" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Description</span></label>
+                    <input type="text" id="e_itemDesc" class="input input-bordered w-full"/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="edit_menuItem_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
             </form>
         </div>
     </dialog>
 
-    <dialog id="add_floor_modal" class="modal"><div class="modal-box border-t-4 border-error"><h3 class="font-bold text-xl mb-4 text-error">Add Floor</h3><form id="formAddFloor"><div class="form-control"><label class="label font-bold">Floor Number</label><input type="number" id="floorNo" class="input input-bordered" required/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_floor_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save</button></div></form></div></dialog>
-    <dialog id="add_roomType_modal" class="modal"><div class="modal-box border-t-4 border-warning"><h3 class="font-bold text-xl mb-4 text-warning">Add Room Type</h3><form id="formAddRoomType"><div class="form-control"><label class="label font-bold">Type Name</label><input type="text" id="roomTypeName" class="input input-bordered" required/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_roomType_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save</button></div></form></div></dialog>
-    <dialog id="add_room_modal" class="modal"><div class="modal-box max-w-2xl border-t-4 border-error"><h3 class="font-bold text-2xl mb-4 text-error">Add New Room</h3><form id="formAddRoom" class="grid grid-cols-2 gap-4"><div class="form-control"><label class="label font-bold">Room No</label><input type="number" id="r_roomNo" class="input input-bordered w-full" required/></div><div class="form-control"><label class="label font-bold">Type</label><select id="r_roomType" class="select select-bordered w-full" required></select></div><div class="form-control"><label class="label font-bold">Floor</label><select id="r_floorNo" class="select select-bordered w-full" required></select></div><div class="form-control"><label class="label font-bold">Rent/Day</label><input type="number" id="r_rentFee" class="input input-bordered w-full" required/></div><div class="form-control col-span-2"><label class="label font-bold">Total Seats</label><input type="number" id="r_totalSeat" class="input input-bordered w-full" required/></div><div class="modal-action col-span-2"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_room_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save</button></div></form></div></dialog>
-    <dialog id="add_mealType_modal" class="modal"><div class="modal-box border-t-4 border-warning"><h3 class="font-bold text-xl mb-4 text-warning">Add Meal Type</h3><form id="formAddMealType"><div class="form-control"><label class="label font-bold">Type Name</label><input type="text" id="mealTypeName" class="input input-bordered" placeholder="e.g. Lunch" required/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_mealType_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save</button></div></form></div></dialog>
-    <dialog id="add_menuItem_modal" class="modal"><div class="modal-box border-t-4 border-error"><h3 class="font-bold text-xl mb-4 text-error">Add Food Item</h3><form id="formAddMenuItem" class="space-y-3"><div class="form-control"><label class="label font-bold">Item Name</label><input type="text" id="itemName" class="input input-bordered" required/></div><div class="form-control"><label class="label font-bold">Description</label><input type="text" id="itemDesc" class="input input-bordered"/></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_menuItem_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save</button></div></form></div></dialog>
-    <dialog id="create_menu_modal" class="modal"><div class="modal-box max-w-2xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">Create Menu</h3><form id="formCreateMenu" class="grid grid-cols-2 gap-4"><div class="form-control"><label class="label font-bold">Day</label><select id="m_day" class="select select-bordered" required><option value="" disabled selected>Select Day</option><option value="saturday">Saturday</option><option value="sunday">Sunday</option><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option><option value="thursday">Thursday</option><option value="friday">Friday</option></select></div><div class="form-control"><label class="label font-bold">Meal Type</label><input type="text" id="m_mealType" class="input input-bordered" placeholder="e.g. dinner" required /></div><div class="form-control col-span-2"><label class="label font-bold">Select Items</label><div class="border border-base-300 bg-base-200/50 p-4 rounded-lg max-h-48 overflow-y-auto flex flex-wrap gap-2" id="m_menuItemsContainer"></div></div><div class="modal-action col-span-2"><button type="button" class="btn btn-warning font-bold text-black" onclick="create_menu_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Save Menu</button></div></form></div></dialog>
-    <dialog id="add_discussion_modal" class="modal"><div class="modal-box border-t-4 border-error"><h3 class="font-bold text-xl mb-4 text-error">Post Forum</h3><form id="formAddDiscussion"><div class="form-control"><label class="label font-bold">Topic details</label><textarea id="d_description" class="textarea textarea-bordered h-24" required></textarea></div><div class="modal-action"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_discussion_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Post</button></div></form></div></dialog>
-    
-    <dialog id="add_booking_modal" class="modal"><div class="modal-box w-11/12 max-w-2xl border-t-4 border-warning"><h3 class="font-bold text-2xl mb-4 text-warning">📝 Create Booking</h3><form id="formAddBooking" class="grid grid-cols-2 gap-4"><div class="form-control col-span-2"><label class="label font-bold">User</label><select id="b_userName" class="select select-bordered w-full" required><option value="">Loading...</option></select></div><div class="form-control"><label class="label font-bold">Room</label><select id="b_roomNo" class="select select-bordered" required></select></div><div class="form-control"><label class="label font-bold">Start Date</label><input type="date" id="b_startDate" class="input input-bordered" required /></div><div class="form-control"><label class="label font-bold">End Date</label><input type="date" id="b_endDate" class="input input-bordered" required /></div><div class="form-control col-span-2"><label class="label font-bold">Payment Method</label><select id="b_paymentMethod" class="select select-bordered"><option value="visa">Card</option><option value="paypal">PayPal</option><option value="bkash">bKash</option></select></div><div class="form-control col-span-2"><label class="label font-bold">Total Amount (৳)</label><input type="text" id="b_amount" class="input bg-base-200 font-bold text-error" readonly /></div><div class="modal-action col-span-2"><button type="button" class="btn btn-warning font-bold text-black" onclick="add_booking_modal.close()">Cancel</button><button type="submit" class="btn btn-error text-white font-bold">Proceed to Pay</button></div></form></div></dialog>
+    <dialog id="edit_mealType_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">✏️ Edit Meal Type</h3>
+            <form id="formEditMealType" class="space-y-3">
+                <input type="hidden" id="e_oldMealType"/>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Meal Type Name</span></label>
+                    <input type="text" id="e_mealTypeName" class="input input-bordered w-full" required/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="edit_mealType_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="edit_profile_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4 text-primary">✏️ Update Profile Information</h3>
+            <form id="formEditProfile" class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">First Name</span></label>
+                        <input type="text" id="ep_firstName" class="input input-bordered w-full" required/>
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Last Name</span></label>
+                        <input type="text" id="ep_lastName" class="input input-bordered w-full" required/>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Email</span></label>
+                    <input type="email" id="ep_email" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Phone Number</span></label>
+                    <input type="text" id="ep_contactNo" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Address</span></label>
+                    <input type="text" id="ep_address" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Upload New Avatar</span></label>
+                    <input type="file" id="ep_image" accept="image/*" class="file-input file-input-bordered w-full"/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="edit_profile_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="change_role_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">🔑 Change Role</h3>
+            <select id="cr_roleSelect" class="select select-bordered w-full">
+                <option value="tenant">Tenant</option>
+                <option value="admin">Admin</option>
+            </select>
+            <div class="modal-action">
+                <button class="btn" onclick="change_role_modal.close()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitRoleChange()">Update</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="update_menu_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4 text-primary">✏️ Update Menu</h3>
+            <form id="formUpdateMenu" class="grid grid-cols-2 gap-4">
+                <input type="hidden" id="u_menuId" />
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Day</span></label>
+                    <select id="u_day" class="select select-bordered w-full" required>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Meal Type</span></label>
+                    <select id="u_mealType" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>Loading...</option>
+                    </select>
+                </div>
+                <div class="form-control col-span-2">
+                    <label class="label"><span class="label-text">Update Menu Items</span></label>
+                    <div class="border border-base-300 p-4 rounded-lg max-h-48 overflow-y-auto flex flex-wrap gap-2" id="u_menuItemsContainer"></div>
+                </div>
+                <div class="modal-action col-span-2">
+                    <button type="button" class="btn" onclick="update_menu_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_floor_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">🏢 Add Floor</h3>
+            <form id="formAddFloor" class="space-y-3">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Floor Number</span></label>
+                    <input type="number" id="floorNo" class="input input-bordered w-full" required/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="add_floor_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_roomType_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">🔖 Add Room Type</h3>
+            <form id="formAddRoomType" class="space-y-3">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Type Name</span></label>
+                    <input type="text" id="roomTypeName" class="input input-bordered w-full" required/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="add_roomType_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_room_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4 text-primary">🛏️ Add New Room</h3>
+            <form id="formAddRoom" class="grid grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Room No</span></label>
+                    <input type="number" id="r_roomNo" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Type</span></label>
+                    <select id="r_roomType" class="select select-bordered w-full" required></select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Floor</span></label>
+                    <select id="r_floorNo" class="select select-bordered w-full" required></select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Rent/Day</span></label>
+                    <input type="number" id="r_rentFee" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control col-span-2">
+                    <label class="label"><span class="label-text">Total Seats</span></label>
+                    <input type="number" id="r_totalSeat" class="input input-bordered w-full" required/>
+                </div>
+                <div class="modal-action col-span-2">
+                    <button type="button" class="btn" onclick="add_room_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_mealType_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">⏳ Add Meal Type</h3>
+            <form id="formAddMealType" class="space-y-3">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Type Name</span></label>
+                    <input type="text" id="mealTypeName" class="input input-bordered w-full" placeholder="e.g. Lunch" required/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="add_mealType_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_menuItem_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">🍲 Add Food Item</h3>
+            <form id="formAddMenuItem" class="space-y-3">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Item Name</span></label>
+                    <input type="text" id="itemName" class="input input-bordered w-full" required/>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Description</span></label>
+                    <input type="text" id="itemDesc" class="input input-bordered w-full"/>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="add_menuItem_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="create_menu_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4 text-primary">🍽️ Create Menu</h3>
+            <form id="formCreateMenu" class="grid grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Day</span></label>
+                    <select id="m_day" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>Select Day</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Meal Type</span></label>
+                    <select id="m_mealType" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>Loading...</option>
+                    </select>
+                </div>
+                <div class="form-control col-span-2">
+                    <label class="label"><span class="label-text">Select Items</span></label>
+                    <div class="border border-base-300 p-4 rounded-lg max-h-48 overflow-y-auto flex flex-wrap gap-2" id="m_menuItemsContainer"></div>
+                </div>
+                <div class="modal-action col-span-2">
+                    <button type="button" class="btn" onclick="create_menu_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Menu</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_discussion_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">💬 Post Forum</h3>
+            <form id="formAddDiscussion" class="space-y-3">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Topic details</span></label>
+                    <textarea id="d_description" class="textarea textarea-bordered h-24 w-full" required></textarea>
+                </div>
+                <div class="modal-action">
+                    <button type="button" class="btn" onclick="add_discussion_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_booking_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4 text-primary">📝 Create Booking</h3>
+            <form id="formAddBooking" class="grid grid-cols-2 gap-4">
+                <div class="form-control col-span-2">
+                    <label class="label"><span class="label-text">User</span></label>
+                    <select id="b_userName" class="select select-bordered w-full" required><option value="">Loading...</option></select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Room</span></label>
+                    <select id="b_roomNo" class="select select-bordered w-full" required></select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Start Date</span></label>
+                    <input type="date" id="b_startDate" class="input input-bordered w-full" required />
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">End Date</span></label>
+                    <input type="date" id="b_endDate" class="input input-bordered w-full" required />
+                </div>
+                <div class="form-control col-span-2">
+                    <label class="label"><span class="label-text">Payment Method</span></label>
+                    <select id="b_paymentMethod" class="select select-bordered w-full">
+                        <option value="visa">Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bkash">bKash</option>
+                    </select>
+                </div>
+                <div class="form-control col-span-2">
+                    <label class="label"><span class="label-text">Total Amount (৳)</span></label>
+                    <input type="number" id="b_amount" class="input input-bordered bg-base-200 text-lg font-bold text-green-700" readonly placeholder="Auto Calculated"/>
+                </div>
+                <div class="modal-action col-span-2">
+                    <button type="button" class="btn" onclick="add_booking_modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Proceed to Pay ➔</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
 
     <script>
-        // --- Theme Logic ---
-        function toggleTheme() {
-            const html = document.documentElement;
-            const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            document.getElementById('themeToggle').checked = newTheme === 'dark';
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            if (savedTheme === 'dark') document.getElementById('themeToggle').checked = true;
-        });
-
         // --- HELPERS ---
         function showToast(message, type = "success") {
             const toast = document.getElementById('toastAlert');
             const alertBox = toast.querySelector('.alert');
             document.getElementById('toastMessage').textContent = message;
-            alertBox.className = `alert text-white shadow-lg font-bold rounded-lg border-0 ${type === 'success' ? 'bg-success' : 'bg-error'}`;
+            alertBox.className = `alert text-white shadow-lg border-0 ${type === 'success' ? 'bg-success' : 'bg-error'}`;
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
@@ -234,9 +751,29 @@
             const token = localStorage.getItem("jwtToken");
             const role = localStorage.getItem("userRole");
             if (!token || role !== "admin") { window.location.href = "/login.html"; return; }
-            loadAdminProfile(); loadDashboardStats(); loadUsersForBooking(); loadRoomsForBooking(); loadRoomTypesForDropdown(); loadFloorsForDropdown();
+            
+            loadAdminProfile(); 
+            loadDashboardStats(); 
+            loadUsersForBooking(); 
+            loadRoomsForBooking(); 
+            loadRoomTypesForDropdown(); 
+            loadFloorsForDropdown();
+            loadMealTypesForDropdown(); // NEW: Load meal types into selects
         });
         const logout = () => { localStorage.clear(); window.location.href = "/login.html"; };
+
+        // --- FETCH MEAL TYPES FOR DROPDOWN ---
+        async function loadMealTypesForDropdown() {
+            try {
+                const types = await fetch("http://localhost:8001/mealType/get/all", { headers: getHeaders() }).then(parseData);
+                const optionsHtml = types.map(t => `<option value="${t.mealType}">${t.mealType.toUpperCase()}</option>`).join('');
+                
+                document.getElementById('m_mealType').innerHTML = '<option value="" disabled selected>Select Meal Type</option>' + optionsHtml;
+                document.getElementById('u_mealType').innerHTML = '<option value="" disabled selected>Select Meal Type</option>' + optionsHtml;
+            } catch(e) {
+                console.error("Failed to load meal types:", e);
+            }
+        }
 
         // --- DASHBOARD STATS ---
         async function loadDashboardStats() {
@@ -312,14 +849,14 @@
 
         // --- USERS & ROLE ---
         async function openViewUsersModal() {
-            view_users_modal.showModal(); const tbody = document.getElementById('userTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center">Loading...</td></tr>';
+            view_users_modal.showModal(); const tbody = document.getElementById('userTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>';
             try {
                 const users = await fetch("http://localhost:8001/user/all", { headers: getHeaders() }).then(parseData);
                 tbody.innerHTML = users.map(u => {
                     const isBlocked = u.blocked === true;
-                    const blockBtn = (u.userName === 'admin') ? '<span class="badge badge-ghost font-bold text-base-content/50">Super</span>' : `<button class="btn btn-xs ${isBlocked ? 'btn-success' : 'btn-error text-white'}" onclick="toggleUserBlock(${u.userId})">${isBlocked ? 'Unblock' : 'Block'}</button>`;
-                    const imgSrc = u.profileImage ? `data:image/jpeg;base64,${u.profileImage}` : `https://ui-avatars.com/api/?name=${u.userName}`;
-                    return `<tr><td><div class="avatar"><div class="w-10 rounded-full border border-base-300"><img src="${imgSrc}"/></div></div></td><td class="font-bold">${u.firstName || ''} ${u.lastName || ''}</td><td>@${u.userName}</td><td><span class="badge badge-outline">${u.role?.role || '-'}</span></td><td>${isBlocked ? '<span class="text-error font-bold">Blocked</span>' : '<span class="text-success font-bold">Active</span>'}</td><td class="flex gap-2"><button class="btn btn-xs btn-warning font-bold text-black" onclick="openChangeRoleModal(${u.userId}, '${u.role?.role}')">Role</button>${blockBtn}</td></tr>`;
+                    const blockBtn = (u.userName === 'admin') ? '<span class="badge badge-ghost font-bold">Super</span>' : `<button class="btn btn-xs ${isBlocked ? 'btn-success text-white' : 'btn-error text-white'}" onclick="toggleUserBlock(${u.userId})">${isBlocked ? 'Unblock' : 'Block'}</button>`;
+                    const imgSrc = u.profileImage ? `data:image/jpeg;base64,${u.profileImage}` : `https://ui-avatars.com/api/?name=${u.userName}&background=random`;
+                    return `<tr><td><div class="avatar"><div class="w-10 rounded-full"><img src="${imgSrc}"/></div></div></td><td class="font-bold">${u.firstName || ''} ${u.lastName || ''}</td><td class="text-sm">@${u.userName}</td><td><span class="badge badge-outline badge-sm font-medium">${u.role?.role || '-'}</span></td><td>${isBlocked ? '<span class="badge badge-error badge-sm text-white">Blocked</span>' : '<span class="badge badge-success badge-sm text-white">Active</span>'}</td><td class="flex gap-2"><button class="btn btn-xs btn-outline btn-primary" onclick="openChangeRoleModal(${u.userId}, '${u.role?.role}')">Role</button>${blockBtn}</td></tr>`;
                 }).join('');
             } catch (e) { }
         }
@@ -328,18 +865,18 @@
         async function submitRoleChange() { try { await fetch(`http://localhost:8001/user/change-role/${targetRoleChangeUserId}?role=${document.getElementById('cr_roleSelect').value}`, { method: "PUT", headers: getHeaders() }); showToast("Role Updated!"); change_role_modal.close(); openViewUsersModal(); } catch (e) {} }
 
         // --- VIEWS ---
-        async function openViewRoomsModal() { room_list_modal.showModal(); const tbody = document.getElementById('roomTableBody'); try { const rooms = await fetch("http://localhost:8001/room/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = rooms.map(r => `<tr><td class="font-bold text-lg">${r.roomNo}</td><td><span class="badge badge-ghost">${r.roomType?.roomType || '-'}</span></td><td class="font-medium">Floor ${r.floor?.floorNo || '-'}</td><td class="font-bold text-success">৳ ${r.perDayRentFee}</td><td class="font-medium">${r.availableSeat}/${r.totalSeat}</td><td>${r.occupied ? '<span class="badge badge-error text-white font-bold">Full</span>' : '<span class="badge badge-success text-white font-bold">Open</span>'}</td></tr>`).join(''); } catch (e) { } }
-        async function openViewFloorsModal() { floor_list_modal.showModal(); const tbody = document.getElementById('floorTableBody'); try { const floors = await fetch("http://localhost:8001/floor/get", { headers: getHeaders() }).then(parseData); tbody.innerHTML = floors.map(f => `<tr><td class="font-bold">${f.floorId}</td><td class="font-semibold text-warning">Floor ${f.floorNo}</td><td>${new Date(f.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
-        async function openViewRoomTypesModal() { roomType_list_modal.showModal(); const tbody = document.getElementById('roomTypeTableBody'); try { const types = await fetch("http://localhost:8001/roomType/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = types.map(t => `<tr><td class="font-bold">${t.roomTypeId}</td><td class="font-semibold text-warning uppercase">${t.roomType}</td><td>${new Date(t.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
-        async function openViewBookingsModal() { booking_list_modal.showModal(); const tbody = document.getElementById('bookingTableBody'); try { const bookings = await fetch("http://localhost:8001/roomBooking/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = bookings.map(b => `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="font-semibold text-warning">@${b.user?.userName || '-'}</td><td class="font-bold">Room ${b.room?.roomNo || '-'}</td><td class="text-sm">${b.startDate} to ${b.endDate}</td><td class="font-bold text-success">৳ ${extractMoney(b).toFixed(2)}</td><td>${b.active ? '<span class="text-success font-bold">Active</span>' : '<span class="text-base-content/50 font-bold">Past</span>'}</td></tr>`).join(''); } catch (e) { } }
-        async function openViewAllTokensModal() { all_tokens_list_modal.showModal(); const tbody = document.getElementById('allTokenTableBody'); try { const tokens = await fetch("http://localhost:8001/mealToken/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = tokens.reverse().map(t => `<tr><td class="font-bold">#${t.mealTokenInformationId}</td><td class="font-semibold text-warning">@${t.user?.userName || '-'}</td><td class="font-bold">Room ${t.room?.roomNo || '-'}</td><td class="font-bold text-lg text-error">+${t.tokenAmount}</td><td class="font-bold text-success">৳ ${extractMoney(t).toFixed(2)}</td><td class="text-sm">${new Date(t.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
-        
+        async function openViewRoomsModal() { room_list_modal.showModal(); const tbody = document.getElementById('roomTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const rooms = await fetch("http://localhost:8001/room/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = rooms.map(r => `<tr><td class="font-bold text-primary">Room ${r.roomNo}</td><td><span class="badge badge-ghost badge-sm">${r.roomType?.roomType || '-'}</span></td><td class="font-medium">Floor ${r.floor?.floorNo || '-'}</td><td class="font-bold">৳ ${r.perDayRentFee}</td><td class="font-medium">${r.availableSeat}/${r.totalSeat}</td><td>${r.occupied ? '<span class="badge badge-error badge-sm text-white font-bold">Full</span>' : '<span class="badge badge-success badge-sm text-white font-bold">Open</span>'}</td></tr>`).join(''); } catch (e) { } }
+        async function openViewFloorsModal() { floor_list_modal.showModal(); const tbody = document.getElementById('floorTableBody'); tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const floors = await fetch("http://localhost:8001/floor/get", { headers: getHeaders() }).then(parseData); tbody.innerHTML = floors.map(f => `<tr><td class="font-bold">#${f.floorId}</td><td class="font-semibold text-primary">Floor ${f.floorNo}</td><td class="text-sm">${new Date(f.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
+        async function openViewRoomTypesModal() { roomType_list_modal.showModal(); const tbody = document.getElementById('roomTypeTableBody'); tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const types = await fetch("http://localhost:8001/roomType/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = types.map(t => `<tr><td class="font-bold">#${t.roomTypeId}</td><td class="font-semibold uppercase">${t.roomType}</td><td class="text-sm">${new Date(t.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
+        async function openViewBookingsModal() { booking_list_modal.showModal(); const tbody = document.getElementById('bookingTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const bookings = await fetch("http://localhost:8001/roomBooking/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = bookings.map(b => `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="font-semibold text-primary">@${b.user?.userName || '-'}</td><td class="font-bold">Room ${b.room?.roomNo || '-'}</td><td class="text-sm">${b.startDate} to ${b.endDate}</td><td class="font-bold text-green-700">৳ ${extractMoney(b).toFixed(2)}</td><td>${b.active ? '<span class="badge badge-success badge-sm text-white font-bold">Active</span>' : '<span class="badge badge-neutral badge-sm font-bold">Past</span>'}</td></tr>`).join(''); } catch (e) { } }
+        async function openViewAllTokensModal() { all_tokens_list_modal.showModal(); const tbody = document.getElementById('allTokenTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const tokens = await fetch("http://localhost:8001/mealToken/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = tokens.reverse().map(t => `<tr><td class="font-bold">#${t.mealTokenInformationId}</td><td class="font-semibold text-primary">@${t.user?.userName || '-'}</td><td class="font-bold">Room ${t.room?.roomNo || '-'}</td><td class="font-bold text-lg text-secondary">+${t.tokenAmount}</td><td class="font-bold text-green-700">৳ ${extractMoney(t).toFixed(2)}</td><td class="text-sm">${new Date(t.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
+
         async function openViewMenusModal() { 
-            meal_list_modal.showModal(); const tbody = document.getElementById('menuTableBody'); 
+            meal_list_modal.showModal(); const tbody = document.getElementById('menuTableBody'); tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>';
             try { 
                 const menus = await fetch("http://localhost:8001/menu/get/all", { headers: getHeaders() }).then(parseData); 
                 currentLoadedMenus = menus; 
-                tbody.innerHTML = menus.map(m => `<tr><td class="font-bold text-warning">${m.menuName}</td><td class="capitalize font-medium">${m.day}</td><td class="uppercase font-bold">${m.mealType?.mealType||'-'}</td><td class="flex flex-wrap gap-1">${(m.menuItems || []).map(i => `<span class="badge badge-outline border-base-300 font-medium">${i.itemName}</span>`).join('')}</td><td><button class="btn btn-xs btn-warning text-black font-bold" onclick="openUpdateMenuModal(${m.menuId})">Edit</button></td></tr>`).join(''); 
+                tbody.innerHTML = menus.map(m => `<tr><td class="font-bold">${m.menuName}</td><td class="capitalize font-medium text-sm">${m.day}</td><td class="uppercase font-bold text-xs tracking-wider text-primary">${m.mealType?.mealType||'-'}</td><td class="flex flex-wrap gap-1">${(m.menuItems || []).map(i => `<span class="badge badge-outline badge-sm">${i.itemName}</span>`).join('')}</td><td><button class="btn btn-xs btn-outline btn-primary font-bold" onclick="openUpdateMenuModal(${m.menuId})">Edit</button></td></tr>`).join(''); 
             } catch (e) { } 
         }
 
@@ -354,27 +891,58 @@
                 const items = await fetch("http://localhost:8001/menuItem/get/all", { headers: getHeaders() }).then(parseData); 
                 document.getElementById('u_menuItemsContainer').innerHTML = items.map(i => {
                     const isChecked = existingItems.includes(i.itemName) ? 'checked' : '';
-                    return `<label class="cursor-pointer label flex gap-2 bg-base-100 px-3 py-1 rounded border border-base-300"><input type="checkbox" name="updateMenuCb" value="${i.itemName}" class="checkbox checkbox-sm checkbox-warning" ${isChecked} /><span class="font-medium">${i.itemName}</span></label>`;
+                    return `<label class="cursor-pointer label flex gap-2 bg-base-100 px-3 py-2 rounded-lg border border-base-300 hover:border-primary"><input type="checkbox" name="updateMenuCb" value="${i.itemName}" class="checkbox checkbox-sm checkbox-primary" ${isChecked} /><span class="font-medium text-sm">${i.itemName}</span></label>`;
                 }).join(''); 
             } catch (e) { }
             update_menu_modal.showModal(); 
         }
 
+        // --- FIXED MENU UPDATE LISTENER ---
         document.getElementById('formUpdateMenu').addEventListener('submit', async (e) => { 
             e.preventDefault(); 
             const menuId = document.getElementById('u_menuId').value;
             const checked = Array.from(document.querySelectorAll('input[name="updateMenuCb"]:checked')).map(cb => cb.value); 
             if (checked.length === 0) return showToast("Select an item!", "error"); 
             try { 
-                await fetch(`http://localhost:8001/menu/update/menuId/${menuId}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify({ day: document.getElementById('u_day').value, mealType: document.getElementById('u_mealType').value, menuItems: checked }) }); 
-                showToast("Menu Updated!"); update_menu_modal.close(); openViewMenusModal(); 
-            } catch (e) { showToast("Error updating menu", "error");} 
+                const res = await fetch(`http://localhost:8001/menu/update/menuId/${menuId}`, { 
+                    method: "PUT", headers: getHeaders(), 
+                    body: JSON.stringify({ day: document.getElementById('u_day').value, mealType: document.getElementById('u_mealType').value, menuItems: checked }) 
+                }); 
+                if (!res.ok) {
+                    const err = await res.text();
+                    throw new Error(err || "Failed to update menu");
+                }
+                showToast("Menu Updated!"); 
+                update_menu_modal.close(); 
+                openViewMenusModal(); 
+            } catch (e) { showToast(e.message, "error"); } 
         });
 
-        // --- COMPLAINTS WITH LOCK LOGIC ---
+        // --- FIXED MENU CREATE LISTENER ---
+        document.getElementById('formCreateMenu').addEventListener('submit', async (e) => { 
+            e.preventDefault(); 
+            const checked = Array.from(document.querySelectorAll('input[name="createMenuCb"]:checked')).map(cb => cb.value); 
+            if (checked.length === 0) return showToast("Select an item!", "error"); 
+            try { 
+                const res = await fetch("http://localhost:8001/menu/create", { 
+                    method: "POST", headers: getHeaders(), 
+                    body: JSON.stringify({ day: document.getElementById('m_day').value, mealType: document.getElementById('m_mealType').value, menuItems: checked }) 
+                }); 
+                if (!res.ok) {
+                    const err = await res.text();
+                    throw new Error(err || "Failed to create menu");
+                }
+                showToast("Menu Created!"); 
+                document.getElementById('formCreateMenu').reset(); 
+                create_menu_modal.close(); 
+                openViewMenusModal(); // Refresh the menu list right away!
+            } catch (e) { showToast(e.message, "error"); } 
+        });
+
+        // --- COMPLAINTS ---
         async function loadComplaintStatuses() { try { availableComplaintStatuses = await fetch("http://localhost:8001/complaintStatus/get/all", { headers: getHeaders() }).then(parseData); } catch (e) { } }
         async function openViewComplaintsModal() {
-            complaint_list_modal.showModal(); const tbody = document.getElementById('complaintTableBody');
+            complaint_list_modal.showModal(); const tbody = document.getElementById('complaintTableBody'); tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>';
             if (availableComplaintStatuses.length === 0) await loadComplaintStatuses();
             try {
                 const complaints = await fetch("http://localhost:8001/complaint/get/all", { headers: getHeaders() }).then(parseData);
@@ -382,8 +950,8 @@
                     const status = c.complaintStatus?.status || 'Pending';
                     const isRes = status.toLowerCase() === 'resolved';
                     const opts = availableComplaintStatuses.map(s => `<option value="${s.status}" ${s.status === status ? 'selected' : ''}>${s.status}</option>`).join('');
-                    const actionCell = isRes ? `<span class="font-bold mt-1 text-base-content/50">🔒 Final</span>` : `<select id="cs_${c.complaintId}" class="select select-bordered select-sm mr-2 bg-base-100">${opts}</select><button class="btn btn-sm btn-warning text-black font-bold" onclick="updateComplaintStatus(${c.complaintId})">Save</button>`;
-                    return `<tr><td class="font-bold">#${c.complaintId}</td><td class="font-semibold text-warning">@${c.user?.userName || '-'}</td><td><b>${c.title}</b><br/><span class="text-sm opacity-80">${c.description}</span></td><td><span class="badge ${isRes?'badge-success text-white':'badge-warning font-bold'}">${status}</span></td><td class="flex items-center">${actionCell}</td></tr>`;
+                    const actionCell = isRes ? `<span class="font-bold text-gray-400 text-sm">Final</span>` : `<select id="cs_${c.complaintId}" class="select select-bordered select-sm mr-2">${opts}</select><button class="btn btn-sm btn-primary" onclick="updateComplaintStatus(${c.complaintId})">Save</button>`;
+                    return `<tr><td class="font-bold">#${c.complaintId}</td><td class="font-semibold text-primary">@${c.user?.userName || '-'}</td><td><div class="font-bold">${c.title}</div><div class="text-xs text-gray-500 mt-1">${c.description}</div></td><td><span class="badge ${isRes?'badge-success text-white':'badge-warning font-bold'} badge-sm">${status}</span></td><td class="flex items-center">${actionCell}</td></tr>`;
                 }).join('');
             } catch (e) { }
         }
@@ -391,12 +959,16 @@
 
         // --- FORUM ---
         async function openDiscussionsModal() {
-            discussion_list_modal.showModal(); const container = document.getElementById('discussionsContainer');
+            discussion_list_modal.showModal(); const container = document.getElementById('discussionsContainer'); container.innerHTML = '<div class="text-center py-4"><span class="loading loading-spinner text-primary"></span> Loading...</div>';
             try {
                 const discussions = await fetch("http://localhost:8001/discussion/get/all", { headers: getHeaders() }).then(parseData);
                 container.innerHTML = discussions.reverse().map(d => {
-                    let replies = (d.comments || []).map(c => `<div class="bg-base-200 p-2 rounded mt-2 text-sm border-l-2 border-warning"><b>@${c.user?.userName || 'User'}</b>: ${c.comment}</div>`).join('');
-                    return `<div class="card bg-base-100 shadow-sm p-4 mb-4 border border-base-300"><div class="flex justify-between font-bold text-warning"><span>@${d.user?.userName || 'User'}</span><small class="opacity-60">${new Date(d.createdAt).toLocaleString()}</small></div><p class="py-2">${d.description}</p><div class="bg-base-200/50 p-3 rounded mt-2"><h4 class="font-bold text-xs uppercase mb-1">Replies</h4>${replies}<div class="flex gap-2 mt-3 pt-2 border-t border-base-300"><input id="ci_${d.discussionId}" class="input input-sm input-bordered flex-1" placeholder="Reply..."/><button class="btn btn-sm btn-warning text-black font-bold" onclick="submitComment(${d.discussionId})">Reply</button></div></div></div>`;
+                    const author = d.user?.userName || "Unknown";
+                    const dDate = new Date(d.createdAt || Date.now());
+                    const dateStr = dDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const timeStr = dDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    let replies = (d.comments || []).map(c => `<div class="bg-base-100 p-2 rounded-lg mt-2 text-sm border-l-4 border-primary shadow-sm"><div class="flex justify-between items-center opacity-70 text-xs mb-1"><span class="font-bold text-primary">@${c.user?.userName || 'User'}</span></div><p class="font-medium">${c.comment}</p></div>`).join('');
+                    return `<div class="card bg-base-100 shadow-md border border-base-300"><div class="card-body p-4"><div class="flex justify-between items-start mb-2 border-b pb-2"><div><span class="font-bold text-lg text-primary">@${author}</span></div><div class="text-right"><span class="block text-xs font-bold text-gray-500">📅 ${dateStr}</span><span class="block text-xs font-bold text-gray-400">🕒 ${timeStr}</span></div></div><p class="text-base font-semibold py-2">${d.description}</p><div class="mt-2 bg-base-200 p-3 rounded-xl"><h4 class="font-bold text-sm mb-2 text-primary">Replies</h4><div class="max-h-32 overflow-y-auto pr-1">${replies || '<div class="text-xs font-bold text-gray-400 mt-2 text-center">No replies yet.</div>'}</div><div class="flex gap-2 mt-3 pt-2 border-t border-base-300"><input id="ci_${d.discussionId}" class="input input-sm input-bordered flex-1" placeholder="Write a reply..."/><button class="btn btn-sm btn-primary text-white" onclick="submitComment(${d.discussionId})">Reply</button></div></div></div></div>`;
                 }).join('');
             } catch (e) { }
         }
@@ -404,11 +976,11 @@
         async function submitComment(id) { const val = document.getElementById('ci_' + id).value; if (!val.trim()) return; try { await fetch("http://localhost:8001/comment/create", { method: "POST", headers: getHeaders(), body: JSON.stringify({ comment: val, userId: currentUserId, discussionId: id, roomNo: 0 }) }); showToast("Replied!"); openDiscussionsModal(); } catch (e) { } }
 
         // --- FOOD & MEAL TYPE ---
-        async function openViewMenuItemsModal() { menuItem_list_modal.showModal(); const tbody = document.getElementById('menuItemTableBody'); try { const items = await fetch("http://localhost:8001/menuItem/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = items.map(it => `<tr><td>${it.menuItemId}</td><td class="font-bold text-warning">${it.itemName}</td><td>${it.description || '-'}</td><td><button class="btn btn-xs btn-warning text-black font-bold" onclick="openEditMenuItemModal(${it.menuItemId}, '${it.itemName.replace(/'/g, "\\'")}', '${(it.description || '').replace(/'/g, "\\'")}')">Edit</button></td></tr>`).join(''); } catch (e) { } }
+        async function openViewMenuItemsModal() { menuItem_list_modal.showModal(); const tbody = document.getElementById('menuItemTableBody'); tbody.innerHTML = '<tr><td colspan="4" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const items = await fetch("http://localhost:8001/menuItem/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = items.map(it => `<tr><td class="text-sm">${it.menuItemId}</td><td class="font-bold text-primary">${it.itemName}</td><td class="text-sm">${it.description || '-'}</td><td><button class="btn btn-xs btn-outline btn-primary font-bold" onclick="openEditMenuItemModal(${it.menuItemId}, '${it.itemName.replace(/'/g, "\'")}', '${(it.description || '').replace(/'/g, "\'")}')">Edit</button></td></tr>`).join(''); } catch (e) { } }
         function openEditMenuItemModal(id, name, desc) { document.getElementById('e_menuItemId').value = id; document.getElementById('e_itemName').value = name; document.getElementById('e_itemDesc').value = desc; edit_menuItem_modal.showModal(); }
         document.getElementById('formEditMenuItem').addEventListener('submit', async (e) => { e.preventDefault(); try { await fetch(`http://localhost:8001/menuItem/update/menuItemId/${document.getElementById('e_menuItemId').value}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify({ itemName: document.getElementById('e_itemName').value, description: document.getElementById('e_itemDesc').value }) }); showToast("Updated!"); edit_menuItem_modal.close(); openViewMenuItemsModal(); } catch (e) { } });
 
-        async function openViewMealTypesModal() { mealType_list_modal.showModal(); const tbody = document.getElementById('mealTypeTableBody'); try { const types = await fetch("http://localhost:8001/mealType/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = types.map(it => `<tr><td>${it.mealTypeId}</td><td class="font-bold text-warning uppercase">${it.mealType}</td><td><button class="btn btn-xs btn-warning text-black font-bold" onclick="openEditMealTypeModal('${it.mealType.replace(/'/g, "\\'")}')">Edit</button></td></tr>`).join(''); } catch (e) {} }
+        async function openViewMealTypesModal() { mealType_list_modal.showModal(); const tbody = document.getElementById('mealTypeTableBody'); tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const types = await fetch("http://localhost:8001/mealType/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = types.map(it => `<tr><td class="text-sm">${it.mealTypeId}</td><td class="font-bold text-primary uppercase">${it.mealType}</td><td><button class="btn btn-xs btn-outline btn-primary font-bold" onclick="openEditMealTypeModal('${it.mealType.replace(/'/g, "\'")}')">Edit</button></td></tr>`).join(''); } catch (e) {} }
         function openEditMealTypeModal(old) { document.getElementById('e_oldMealType').value = old; document.getElementById('e_mealTypeName').value = old; edit_mealType_modal.showModal(); }
         document.getElementById('formEditMealType').addEventListener('submit', async (e) => { e.preventDefault(); try { await fetch(`http://localhost:8001/mealType/update/mealType/${document.getElementById('e_oldMealType').value}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify({ mealType: document.getElementById('e_mealTypeName').value }) }); showToast("Updated!"); edit_mealType_modal.close(); openViewMealTypesModal(); } catch (e) { } });
 
@@ -420,8 +992,7 @@
         handleAdd('formAddMenuItem', 'http://localhost:8001/menuItem/create', () => ({ itemName: document.getElementById('itemName').value, description: document.getElementById('itemDesc').value }), 'add_menuItem_modal');
         handleAdd('formAddRoom', 'http://localhost:8001/room/create', () => ({ roomNo: document.getElementById('r_roomNo').value, roomType: document.getElementById('r_roomType').value, floorNo: document.getElementById('r_floorNo').value, perDayRentFee: document.getElementById('r_rentFee').value, totalSeat: document.getElementById('r_totalSeat').value }), 'add_room_modal');
 
-        document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', async () => { const items = await fetch("http://localhost:8001/menuItem/get/all", { headers: getHeaders() }).then(parseData); document.getElementById('m_menuItemsContainer').innerHTML = items.map(i => `<label class="cursor-pointer label flex gap-2 bg-base-100 px-3 py-1 rounded border border-base-300 hover:border-warning"><input type="checkbox" name="createMenuCb" value="${i.itemName}" class="checkbox checkbox-sm checkbox-warning" /><span>${i.itemName}</span></label>`).join(''); });
-        document.getElementById('formCreateMenu').addEventListener('submit', async (e) => { e.preventDefault(); const checked = Array.from(document.querySelectorAll('input[name="createMenuCb"]:checked')).map(cb => cb.value); if (checked.length === 0) return showToast("Select an item!", "error"); try { await fetch("http://localhost:8001/menu/create", { method: "POST", headers: getHeaders(), body: JSON.stringify({ day: document.getElementById('m_day').value, mealType: document.getElementById('m_mealType').value, menuItems: checked }) }); showToast("Menu Created!"); document.getElementById('formCreateMenu').reset(); create_menu_modal.close(); } catch (e) { } });
+        document.querySelector('[onclick="create_menu_modal.showModal()"]').addEventListener('click', async () => { const items = await fetch("http://localhost:8001/menuItem/get/all", { headers: getHeaders() }).then(parseData); document.getElementById('m_menuItemsContainer').innerHTML = items.map(i => `<label class="cursor-pointer label flex gap-2 bg-base-100 px-3 py-2 rounded-lg border border-base-300 hover:border-primary"><input type="checkbox" name="createMenuCb" value="${i.itemName}" class="checkbox checkbox-sm checkbox-primary" /><span class="font-medium text-sm">${i.itemName}</span></label>`).join(''); });
 
         // --- BOOKINGS ---
         async function loadUsersForBooking() { try { const users = await fetch("http://localhost:8001/user/all", { headers: getHeaders() }).then(parseData); const sel = document.getElementById('b_userName'); sel.innerHTML = '<option value="" disabled selected>Select User</option>'; users.forEach(u => sel.innerHTML += `<option value="${u.userName}">@${u.userName} (${u.firstName || ''})</option>`); } catch (e) { } }
