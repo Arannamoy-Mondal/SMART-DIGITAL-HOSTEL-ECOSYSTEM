@@ -265,7 +265,28 @@
                 tbody.innerHTML = html;
             } catch (error) { tbody.innerHTML = '<tr><td colspan="5" class="text-center">Error</td></tr>'; }
         }
-
+// NEW: Calculate Total Tokens from History
+        async function loadTokenBalance() {
+            try {
+                const username = getLoggedInUsername();
+                const res = await fetch(`http://localhost:8001/mealToken/get/userName/${username}`, { method: "GET", headers: getHeaders() });
+                
+                if (res.ok || res.status === 302) {
+                    const tokens = await res.json();
+                    let totalTokens = 0;
+                    
+                    // হিস্ট্রি থেকে সবগুলো টোকেন যোগ করা হচ্ছে
+                    tokens.forEach(t => {
+                        totalTokens += (t.tokenAmount || 0);
+                    });
+                    
+                    // প্রোফাইল কার্ডে আপডেট করা হচ্ছে
+                    document.getElementById('p_mealTokens').textContent = totalTokens;
+                }
+            } catch (error) { 
+                console.error("Error loading token balance", error); 
+            }
+        }
         // 3. Open Token History Modal
         async function openTokenHistoryModal() {
             token_history_modal.showModal();
@@ -398,29 +419,28 @@
 
         const logout = () => { localStorage.clear(); window.location.href = "/login.html"; };
 
-        // ==========================================
+       // ==========================================
         //         AUTHORIZATION & STARTUP
         // ==========================================
         document.addEventListener("DOMContentLoaded", () => {
             const token = localStorage.getItem("jwtToken");
             const role = localStorage.getItem("userRole");
 
-            // ১. যদি টোকেন না থাকে, তবে লগইন পেজে পাঠিয়ে দেবে
             if (!token) {
                 window.location.href = "/login.html";
                 return;
             }
 
-            // ২. যদি ইউজার অ্যাডমিন হয়, তবে তাকে অ্যাডমিন পেজে পাঠিয়ে দেবে
             if (role === "admin") {
                 window.location.href = "/admin-home.html";
                 return;
             }
 
-            // ৩. যদি সব ঠিক থাকে (মানে ইউজার একজন টেন্যান্ট), তবে ড্যাশবোর্ড লোড করবে
+            // ৩. যদি সব ঠিক থাকে, তবে ড্যাশবোর্ড লোড করবে
             loadUserProfile(); 
             loadMyBookings(); 
             loadRoomsForBooking();
+            loadTokenBalance(); // <--- এই লাইনটি যোগ করুন
         });
 
     </script>
