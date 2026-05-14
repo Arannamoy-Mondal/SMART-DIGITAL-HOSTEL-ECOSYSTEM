@@ -8,7 +8,7 @@
 - [Menu](#menu)
 - [Room booking](#room-booking)
 - [Meal Token](#meal-token)
-
+- [Test](#test)
 #### User
 1. post:
 ```
@@ -376,4 +376,9 @@ http://0.0.0.0:8001/room/get/roomNo/{roomNo}
 
 ```
 0.0.0.0:8001/mealToken/get/userName/{userName}
+```
+
+#### test
+```bash
+pytest testing.py -v --html=selenium_test_report.html --self-contained-html
 ```
