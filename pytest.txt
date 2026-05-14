@@ -1,0 +1,768 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-9.0.3, pluggy-1.6.0 -- /home/workstation-p/anaconda3/envs/conda-env-mlops-3-12/bin/python3.12
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.13', 'Platform': 'Linux-6.17.0-23-generic-x86_64-with-glibc2.39', 'Packages': {'pytest': '9.0.3', 'pluggy': '1.6.0'}, 'Plugins': {'html': '4.2.0', 'metadata': '3.1.1', 'langsmith': '0.7.25', 'anyio': '4.13.0'}}
+rootdir: /home/workstation-p/Downloads/Projects/SMART-DIGITAL-HOSTEL-ECOSYSTEM
+plugins: html-4.2.0, metadata-3.1.1, langsmith-0.7.25, anyio-4.13.0
+collecting ... collected 23 items
+
+Testing/testing.py::test_01_admin_login PASSED                           [  4%]
+Testing/testing.py::test_02_admin_add_floor PASSED                       [  8%]
+Testing/testing.py::test_03_admin_add_room_type PASSED                   [ 13%]
+Testing/testing.py::test_04_admin_add_room PASSED                        [ 17%]
+Testing/testing.py::test_05_admin_add_meal_type PASSED                   [ 21%]
+Testing/testing.py::test_06_admin_add_food_item PASSED                   [ 26%]
+Testing/testing.py::test_06_5_admin_create_menu PASSED                   [ 30%]
+Testing/testing.py::test_06_6_admin_book_room PASSED                     [ 34%]
+Testing/testing.py::test_07_admin_logout FAILED                          [ 39%]
+Testing/testing.py::test_08_tenant_signup PASSED                         [ 43%]
+Testing/testing.py::test_09_tenant_login FAILED                          [ 47%]
+Testing/testing.py::test_10_tenant_update_profile FAILED                 [ 52%]
+Testing/testing.py::test_11_tenant_book_room FAILED                      [ 56%]
+Testing/testing.py::test_12_tenant_buy_tokens FAILED                     [ 60%]
+Testing/testing.py::test_13_tenant_submit_complaint FAILED               [ 65%]
+Testing/testing.py::test_14_tenant_post_discussion FAILED                [ 69%]
+Testing/testing.py::test_15_tenant_logout FAILED                         [ 73%]
+Testing/testing.py::test_16_admin_block_tenant PASSED                    [ 78%]
+Testing/testing.py::test_17_admin_resolve_complaint PASSED               [ 82%]
+Testing/testing.py::test_18_admin_logout_again PASSED                    [ 86%]
+Testing/testing.py::test_19_tenant_blocked_login_attempt PASSED          [ 91%]
+Testing/testing.py::test_20_admin_unblock_tenant PASSED                  [ 95%]
+Testing/testing.py::test_21_tenant_verify_complaint_resolved FAILED      [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_07_admin_logout _____________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_07_admin_logout(driver):
+        # 💡 ফিক্স: টেক্সটের বদলে onclick ইভেন্ট চেক করবে
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'logout')]")
+
+Testing/testing.py:271: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66bda160>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+_____________________________ test_09_tenant_login _____________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_09_tenant_login(driver):
+        # সাইনআপ থেকে নিজে ফোর্স করে লগইনে যাচ্ছে
+        force_navigate(driver, "/login.html")
+        safe_type(driver, By.ID, "username", TEST_STATE["username"])
+        safe_type(driver, By.ID, "password", TEST_STATE["password"])
+        safe_click(driver, By.ID, "loginBtn")
+>       WebDriverWait(driver, 10).until(EC.url_contains("/tenant-home.html"))
+
+Testing/testing.py:321: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function url_contains.<locals>._predicate at 0x7c1e66c2ec00>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message:
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+________________________ test_10_tenant_update_profile _________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_10_tenant_update_profile(driver):
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'openEditProfileModal')]")
+
+Testing/testing.py:324: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66c2ede0>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+___________________________ test_11_tenant_book_room ___________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_11_tenant_book_room(driver):
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'add_booking_modal.showModal()')]")
+
+Testing/testing.py:334: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66c2e660>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+__________________________ test_12_tenant_buy_tokens ___________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_12_tenant_buy_tokens(driver):
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'buy_token_modal.showModal()')]")
+
+Testing/testing.py:358: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66c2f240>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+_______________________ test_13_tenant_submit_complaint ________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_13_tenant_submit_complaint(driver):
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'add_complaint_modal.showModal()')]")
+
+Testing/testing.py:372: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66c2f600>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+________________________ test_14_tenant_post_discussion ________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_14_tenant_post_discussion(driver):
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'add_discussion_modal.showModal()')]")
+
+Testing/testing.py:382: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66c2fba0>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+____________________________ test_15_tenant_logout _____________________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_15_tenant_logout(driver):
+>       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'logout')]")
+
+Testing/testing.py:391: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Testing/testing.py:51: in safe_click
+    element = wait.until(EC.presence_of_element_located((by, locator)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function presence_of_element_located.<locals>._predicate at 0x7c1e66cb8180>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message: 
+E       Stacktrace:
+E       #0 0x64e6150d479a <unknown>
+E       #1 0x64e614ad0215 <unknown>
+E       #2 0x64e614b22f06 <unknown>
+E       #3 0x64e614b23141 <unknown>
+E       #4 0x64e614b6e634 <unknown>
+E       #5 0x64e614b6b7d0 <unknown>
+E       #6 0x64e614b1655f <unknown>
+E       #7 0x64e614b17321 <unknown>
+E       #8 0x64e61509806b <unknown>
+E       #9 0x64e61509b01d <unknown>
+E       #10 0x64e615084718 <unknown>
+E       #11 0x64e61509bbb0 <unknown>
+E       #12 0x64e61506b150 <unknown>
+E       #13 0x64e6150c15e8 <unknown>
+E       #14 0x64e6150c17b8 <unknown>
+E       #15 0x64e6150d31de <unknown>
+E       #16 0x76e8d8c9caa4 <unknown>
+E       #17 0x76e8d8d29c6c <unknown>
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+___________________ test_21_tenant_verify_complaint_resolved ___________________
+
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="048921e8b4ec6a1d155b0500b5912a98")>
+
+    def test_21_tenant_verify_complaint_resolved(driver):
+        force_navigate(driver, "/login.html")
+        safe_type(driver, By.ID, "username", TEST_STATE["username"])
+        safe_type(driver, By.ID, "password", TEST_STATE["password"])
+        safe_click(driver, By.ID, "loginBtn")
+>       WebDriverWait(driver, 10).until(EC.url_contains("/tenant-home.html"))
+
+Testing/testing.py:471: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="048921e8b4ec6a1d155b0500b5912a98")>
+method = <function url_contains.<locals>._predicate at 0x7c1e66cb8e00>
+message = ''
+
+    def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+    
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+    
+        Args:
+            method: A callable object that takes a WebDriver instance as an
+                argument.
+            message: Optional message for TimeoutException.
+    
+        Returns:
+            The result of the last call to `method`.
+    
+        Raises:
+            TimeoutException: If 'method' does not return a truthy value within
+                the WebDriverWait object's timeout.
+    
+        Example:
+            >>> from selenium.webdriver.common.by import By
+            >>> from selenium.webdriver.support.ui import WebDriverWait
+            >>> from selenium.webdriver.support import expected_conditions as EC
+            >>>
+            >>> # Wait until an element is visible on the page
+            >>> wait = WebDriverWait(driver, 10)
+            >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+            >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+    
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message:
+
+../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
+--------------------------- Captured stdout teardown ---------------------------
+
+[Teardown] Closing Chrome WebDriver...
+- Generated html report: file:///home/workstation-p/Downloads/Projects/SMART-DIGITAL-HOSTEL-ECOSYSTEM/selenium_test_report.html -
+=========================== short test summary info ============================
+FAILED Testing/testing.py::test_07_admin_logout - selenium.common.exceptions....
+FAILED Testing/testing.py::test_09_tenant_login - selenium.common.exceptions....
+FAILED Testing/testing.py::test_10_tenant_update_profile - selenium.common.ex...
+FAILED Testing/testing.py::test_11_tenant_book_room - selenium.common.excepti...
+FAILED Testing/testing.py::test_12_tenant_buy_tokens - selenium.common.except...
+FAILED Testing/testing.py::test_13_tenant_submit_complaint - selenium.common....
+FAILED Testing/testing.py::test_14_tenant_post_discussion - selenium.common.e...
+FAILED Testing/testing.py::test_15_tenant_logout - selenium.common.exceptions...
+FAILED Testing/testing.py::test_21_tenant_verify_complaint_resolved - seleniu...
+=================== 9 failed, 14 passed in 227.83s (0:03:47) ===================
