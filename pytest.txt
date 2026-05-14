@@ -28,4 +28,4 @@ Testing/testing.py::test_20_admin_unblock_tenant PASSED                  [ 95%]
 Testing/testing.py::test_21_tenant_verify_complaint_resolved PASSED      [100%]
 
 - Generated html report: file:///home/workstation-p/Downloads/Projects/SMART-DIGITAL-HOSTEL-ECOSYSTEM/selenium_test_report.html -
-======================== 20 passed in 131.47s (0:02:11) ========================
+======================== 20 passed in 133.05s (0:02:13) ========================
