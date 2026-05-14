@@ -4,36 +4,33 @@ cachedir: .pytest_cache
 metadata: {'Python': '3.12.13', 'Platform': 'Linux-6.17.0-23-generic-x86_64-with-glibc2.39', 'Packages': {'pytest': '9.0.3', 'pluggy': '1.6.0'}, 'Plugins': {'html': '4.2.0', 'metadata': '3.1.1', 'langsmith': '0.7.25', 'anyio': '4.13.0'}}
 rootdir: /home/workstation-p/Downloads/Projects/SMART-DIGITAL-HOSTEL-ECOSYSTEM
 plugins: html-4.2.0, metadata-3.1.1, langsmith-0.7.25, anyio-4.13.0
-collecting ... collected 23 items
+collecting ... collected 20 items
 
-Testing/testing.py::test_01_admin_login PASSED                           [  4%]
-Testing/testing.py::test_02_admin_add_floor PASSED                       [  8%]
-Testing/testing.py::test_03_admin_add_room_type PASSED                   [ 13%]
-Testing/testing.py::test_04_admin_add_room PASSED                        [ 17%]
-Testing/testing.py::test_05_admin_add_meal_type PASSED                   [ 21%]
-Testing/testing.py::test_06_admin_add_food_item PASSED                   [ 26%]
-Testing/testing.py::test_06_5_admin_create_menu PASSED                   [ 30%]
-Testing/testing.py::test_06_6_admin_book_room PASSED                     [ 34%]
-Testing/testing.py::test_07_admin_logout PASSED                          [ 39%]
-Testing/testing.py::test_08_tenant_signup FAILED                         [ 43%]
-Testing/testing.py::test_09_tenant_login PASSED                          [ 47%]
-Testing/testing.py::test_10_tenant_update_profile PASSED                 [ 52%]
-Testing/testing.py::test_11_tenant_book_room PASSED                      [ 56%]
-Testing/testing.py::test_12_tenant_buy_tokens FAILED                     [ 60%]
-Testing/testing.py::test_13_tenant_submit_complaint FAILED               [ 65%]
-Testing/testing.py::test_14_tenant_post_discussion FAILED                [ 69%]
-Testing/testing.py::test_15_tenant_logout FAILED                         [ 73%]
-Testing/testing.py::test_16_admin_block_tenant PASSED                    [ 78%]
-Testing/testing.py::test_17_admin_resolve_complaint PASSED               [ 82%]
-Testing/testing.py::test_18_admin_logout_again PASSED                    [ 86%]
-Testing/testing.py::test_19_tenant_blocked_login_attempt PASSED          [ 91%]
+Testing/testing.py::test_01_admin_login PASSED                           [  5%]
+Testing/testing.py::test_02_admin_add_floor PASSED                       [ 10%]
+Testing/testing.py::test_03_admin_add_room_type PASSED                   [ 15%]
+Testing/testing.py::test_04_admin_add_room PASSED                        [ 20%]
+Testing/testing.py::test_05_admin_add_meal_type PASSED                   [ 25%]
+Testing/testing.py::test_06_admin_add_food_item PASSED                   [ 30%]
+Testing/testing.py::test_06_5_admin_create_menu PASSED                   [ 35%]
+Testing/testing.py::test_06_6_admin_book_room PASSED                     [ 40%]
+Testing/testing.py::test_07_admin_logout PASSED                          [ 45%]
+Testing/testing.py::test_08_tenant_signup FAILED                         [ 50%]
+Testing/testing.py::test_09_tenant_login PASSED                          [ 55%]
+Testing/testing.py::test_10_tenant_update_profile PASSED                 [ 60%]
+Testing/testing.py::test_11_tenant_book_room PASSED                      [ 65%]
+Testing/testing.py::test_12_tenant_buy_tokens FAILED                     [ 70%]
+Testing/testing.py::test_13_tenant_submit_complaint FAILED               [ 75%]
+Testing/testing.py::test_14_tenant_post_discussion FAILED                [ 80%]
+Testing/testing.py::test_15_tenant_logout FAILED                         [ 85%]
+Testing/testing.py::test_19_tenant_blocked_login_attempt PASSED          [ 90%]
 Testing/testing.py::test_20_admin_unblock_tenant PASSED                  [ 95%]
 Testing/testing.py::test_21_tenant_verify_complaint_resolved FAILED      [100%]
 
 =================================== FAILURES ===================================
 ____________________________ test_08_tenant_signup _____________________________
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_08_tenant_signup(driver):
         """Test Case 8: Verify Tenant Registration"""
@@ -81,8 +78,8 @@ driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749
 Testing/testing.py:321: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <selenium.webdriver.support.wait.WebDriverWait (session="9c859addda4749889567508f6a426842")>
-method = <function test_08_tenant_signup.<locals>.<lambda> at 0x7290fb2723e0>
+self = <selenium.webdriver.support.wait.WebDriverWait (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
+method = <function test_08_tenant_signup.<locals>.<lambda> at 0x7d4b234da160>
 message = ''
 
     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
@@ -135,7 +132,7 @@ E       selenium.common.exceptions.TimeoutException: Message:
 
 During handling of the above exception, another exception occurred:
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_08_tenant_signup(driver):
         """Test Case 8: Verify Tenant Registration"""
@@ -188,20 +185,20 @@ E           Failed: Backend rejected signup! API Error: Network error. Make sure
 Testing/testing.py:325: Failed
 __________________________ test_12_tenant_buy_tokens ___________________________
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_12_tenant_buy_tokens(driver):
->       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'buy_token_modal.showModal()')]")
+        # 💡 FIX: পেমেন্ট পেজে আটকে না থেকে জোর করে ড্যাশবোর্ডে ফিরে আসবে
+>       force_navigate(driver, "/tenant-home.html")
 
-Testing/testing.py:379: 
+Testing/testing.py:380: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-Testing/testing.py:51: in safe_click
-    element = wait.until(EC.presence_of_element_located((by, locator)))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Testing/testing.py:101: in force_navigate
+    WebDriverWait(driver, 10).until(EC.url_contains(path))
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <selenium.webdriver.support.wait.WebDriverWait (session="9c859addda4749889567508f6a426842")>
-method = <function presence_of_element_located.<locals>._predicate at 0x7290fb2ca840>
+self = <selenium.webdriver.support.wait.WebDriverWait (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
+method = <function url_contains.<locals>._predicate at 0x7d4b2352ec00>
 message = ''
 
     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
@@ -248,44 +245,24 @@ message = ''
                 break
             time.sleep(self._poll)
 >       raise TimeoutException(message, screen, stacktrace)
-E       selenium.common.exceptions.TimeoutException: Message: 
-E       Stacktrace:
-E       #0 0x5acd0d5fa79a <unknown>
-E       #1 0x5acd0cff6215 <unknown>
-E       #2 0x5acd0d048f06 <unknown>
-E       #3 0x5acd0d049141 <unknown>
-E       #4 0x5acd0d094634 <unknown>
-E       #5 0x5acd0d0917d0 <unknown>
-E       #6 0x5acd0d03c55f <unknown>
-E       #7 0x5acd0d03d321 <unknown>
-E       #8 0x5acd0d5be06b <unknown>
-E       #9 0x5acd0d5c101d <unknown>
-E       #10 0x5acd0d5aa718 <unknown>
-E       #11 0x5acd0d5c1bb0 <unknown>
-E       #12 0x5acd0d591150 <unknown>
-E       #13 0x5acd0d5e75e8 <unknown>
-E       #14 0x5acd0d5e77b8 <unknown>
-E       #15 0x5acd0d5f91de <unknown>
-E       #16 0x7b0afd69caa4 <unknown>
-E       #17 0x7b0afd729c6c <unknown>
+E       selenium.common.exceptions.TimeoutException: Message:
 
 ../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
 _______________________ test_13_tenant_submit_complaint ________________________
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_13_tenant_submit_complaint(driver):
->       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'add_complaint_modal.showModal()')]")
+>       force_navigate(driver, "/tenant-home.html")
 
-Testing/testing.py:393: 
+Testing/testing.py:392: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-Testing/testing.py:51: in safe_click
-    element = wait.until(EC.presence_of_element_located((by, locator)))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Testing/testing.py:101: in force_navigate
+    WebDriverWait(driver, 10).until(EC.url_contains(path))
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <selenium.webdriver.support.wait.WebDriverWait (session="9c859addda4749889567508f6a426842")>
-method = <function presence_of_element_located.<locals>._predicate at 0x7290fb2caf20>
+self = <selenium.webdriver.support.wait.WebDriverWait (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
+method = <function url_contains.<locals>._predicate at 0x7d4b2352f380>
 message = ''
 
     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
@@ -332,44 +309,24 @@ message = ''
                 break
             time.sleep(self._poll)
 >       raise TimeoutException(message, screen, stacktrace)
-E       selenium.common.exceptions.TimeoutException: Message: 
-E       Stacktrace:
-E       #0 0x5acd0d5fa79a <unknown>
-E       #1 0x5acd0cff6215 <unknown>
-E       #2 0x5acd0d048f06 <unknown>
-E       #3 0x5acd0d049141 <unknown>
-E       #4 0x5acd0d094634 <unknown>
-E       #5 0x5acd0d0917d0 <unknown>
-E       #6 0x5acd0d03c55f <unknown>
-E       #7 0x5acd0d03d321 <unknown>
-E       #8 0x5acd0d5be06b <unknown>
-E       #9 0x5acd0d5c101d <unknown>
-E       #10 0x5acd0d5aa718 <unknown>
-E       #11 0x5acd0d5c1bb0 <unknown>
-E       #12 0x5acd0d591150 <unknown>
-E       #13 0x5acd0d5e75e8 <unknown>
-E       #14 0x5acd0d5e77b8 <unknown>
-E       #15 0x5acd0d5f91de <unknown>
-E       #16 0x7b0afd69caa4 <unknown>
-E       #17 0x7b0afd729c6c <unknown>
+E       selenium.common.exceptions.TimeoutException: Message:
 
 ../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
 ________________________ test_14_tenant_post_discussion ________________________
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_14_tenant_post_discussion(driver):
->       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'add_discussion_modal.showModal()')]")
+>       force_navigate(driver, "/tenant-home.html")
 
 Testing/testing.py:403: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-Testing/testing.py:51: in safe_click
-    element = wait.until(EC.presence_of_element_located((by, locator)))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Testing/testing.py:101: in force_navigate
+    WebDriverWait(driver, 10).until(EC.url_contains(path))
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <selenium.webdriver.support.wait.WebDriverWait (session="9c859addda4749889567508f6a426842")>
-method = <function presence_of_element_located.<locals>._predicate at 0x7290fb2cbc40>
+self = <selenium.webdriver.support.wait.WebDriverWait (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
+method = <function url_contains.<locals>._predicate at 0x7d4b2352f240>
 message = ''
 
     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
@@ -416,44 +373,24 @@ message = ''
                 break
             time.sleep(self._poll)
 >       raise TimeoutException(message, screen, stacktrace)
-E       selenium.common.exceptions.TimeoutException: Message: 
-E       Stacktrace:
-E       #0 0x5acd0d5fa79a <unknown>
-E       #1 0x5acd0cff6215 <unknown>
-E       #2 0x5acd0d048f06 <unknown>
-E       #3 0x5acd0d049141 <unknown>
-E       #4 0x5acd0d094634 <unknown>
-E       #5 0x5acd0d0917d0 <unknown>
-E       #6 0x5acd0d03c55f <unknown>
-E       #7 0x5acd0d03d321 <unknown>
-E       #8 0x5acd0d5be06b <unknown>
-E       #9 0x5acd0d5c101d <unknown>
-E       #10 0x5acd0d5aa718 <unknown>
-E       #11 0x5acd0d5c1bb0 <unknown>
-E       #12 0x5acd0d591150 <unknown>
-E       #13 0x5acd0d5e75e8 <unknown>
-E       #14 0x5acd0d5e77b8 <unknown>
-E       #15 0x5acd0d5f91de <unknown>
-E       #16 0x7b0afd69caa4 <unknown>
-E       #17 0x7b0afd729c6c <unknown>
+E       selenium.common.exceptions.TimeoutException: Message:
 
 ../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
 ____________________________ test_15_tenant_logout _____________________________
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_15_tenant_logout(driver):
->       safe_click(driver, By.XPATH, "//button[contains(@onclick, 'logout')]")
+>       force_navigate(driver, "/tenant-home.html")
 
-Testing/testing.py:412: 
+Testing/testing.py:414: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-Testing/testing.py:51: in safe_click
-    element = wait.until(EC.presence_of_element_located((by, locator)))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Testing/testing.py:101: in force_navigate
+    WebDriverWait(driver, 10).until(EC.url_contains(path))
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <selenium.webdriver.support.wait.WebDriverWait (session="9c859addda4749889567508f6a426842")>
-method = <function presence_of_element_located.<locals>._predicate at 0x7290fb2cb6a0>
+self = <selenium.webdriver.support.wait.WebDriverWait (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
+method = <function url_contains.<locals>._predicate at 0x7d4b2352fc40>
 message = ''
 
     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
@@ -500,31 +437,12 @@ message = ''
                 break
             time.sleep(self._poll)
 >       raise TimeoutException(message, screen, stacktrace)
-E       selenium.common.exceptions.TimeoutException: Message: 
-E       Stacktrace:
-E       #0 0x5acd0d5fa79a <unknown>
-E       #1 0x5acd0cff6215 <unknown>
-E       #2 0x5acd0d048f06 <unknown>
-E       #3 0x5acd0d049141 <unknown>
-E       #4 0x5acd0d094634 <unknown>
-E       #5 0x5acd0d0917d0 <unknown>
-E       #6 0x5acd0d03c55f <unknown>
-E       #7 0x5acd0d03d321 <unknown>
-E       #8 0x5acd0d5be06b <unknown>
-E       #9 0x5acd0d5c101d <unknown>
-E       #10 0x5acd0d5aa718 <unknown>
-E       #11 0x5acd0d5c1bb0 <unknown>
-E       #12 0x5acd0d591150 <unknown>
-E       #13 0x5acd0d5e75e8 <unknown>
-E       #14 0x5acd0d5e77b8 <unknown>
-E       #15 0x5acd0d5f91de <unknown>
-E       #16 0x7b0afd69caa4 <unknown>
-E       #17 0x7b0afd729c6c <unknown>
+E       selenium.common.exceptions.TimeoutException: Message:
 
 ../../../anaconda3/envs/conda-env-mlops-3-12/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:121: TimeoutException
 ___________________ test_21_tenant_verify_complaint_resolved ___________________
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_21_tenant_verify_complaint_resolved(driver):
         force_navigate(driver, "/login.html")
@@ -537,11 +455,11 @@ driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749
             # 💡 FIX: লগইন না হলে আসল কারণটা বলে দিবে (যেমন ইউজার এখনো ব্লকড কি না)
 >           wait.until(EC.url_contains("/tenant-home.html"))
 
-Testing/testing.py:496: 
+Testing/testing.py:461: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <selenium.webdriver.support.wait.WebDriverWait (session="9c859addda4749889567508f6a426842")>
-method = <function url_contains.<locals>._predicate at 0x7290fb344900>
+self = <selenium.webdriver.support.wait.WebDriverWait (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
+method = <function url_contains.<locals>._predicate at 0x7d4b235742c0>
 message = ''
 
     def until(self, method: Callable[[D], Literal[False] | T], message: str = "") -> T:
@@ -594,7 +512,7 @@ E       selenium.common.exceptions.TimeoutException: Message:
 
 During handling of the above exception, another exception occurred:
 
-driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749889567508f6a426842")>
+driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="ff5a0b1752e7ed98e86ca7e6b847241a")>
 
     def test_21_tenant_verify_complaint_resolved(driver):
         force_navigate(driver, "/login.html")
@@ -611,7 +529,7 @@ driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="9c859addda4749
 >           pytest.fail(f"Failed to login in Test 21. User might still be blocked! Toast message: {msg}")
 E           Failed: Failed to login in Test 21. User might still be blocked! Toast message: Invalid username or password!
 
-Testing/testing.py:499: Failed
+Testing/testing.py:464: Failed
 --------------------------- Captured stdout teardown ---------------------------
 
 [Teardown] Closing Chrome WebDriver...
@@ -623,4 +541,4 @@ FAILED Testing/testing.py::test_13_tenant_submit_complaint - selenium.common....
 FAILED Testing/testing.py::test_14_tenant_post_discussion - selenium.common.e...
 FAILED Testing/testing.py::test_15_tenant_logout - selenium.common.exceptions...
 FAILED Testing/testing.py::test_21_tenant_verify_complaint_resolved - Failed:...
-=================== 6 failed, 17 passed in 196.68s (0:03:16) ===================
+=================== 6 failed, 14 passed in 182.44s (0:03:02) ===================
