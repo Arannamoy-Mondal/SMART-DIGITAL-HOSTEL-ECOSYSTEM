@@ -141,7 +141,7 @@ public class DatabaseSeeder implements CommandLineRunner{
 
 
         if(roomTypeRepo.count()==0){
-            roomTypeRepo.save(RoomType.builder().roomType("single seater").build());
+            roomTypeRepo.save(RoomType.builder().roomType("double seater").build());
         }
 
         if(complaintStatusRepo.count()==0){
