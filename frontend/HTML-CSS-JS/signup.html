@@ -214,8 +214,9 @@
                 if (response.ok) {
                     alertBox.className = "alert alert-success mb-4 block text-white";
                     alertMessage.textContent = "Signup Successful! You can now log in.";
-                    window.location.href = "/login.html"
                     document.getElementById('signupForm').reset(); 
+                    window.location.href = "/login.html"
+                    
                 } else {
                     const errorData = await response.json();
                     alertBox.className = "alert alert-error mb-4 block text-white";
