@@ -1364,6 +1364,66 @@
       }
 
       // --- DASHBOARD STATS ---
+      // async function loadDashboardStats() {
+      //   try {
+      //     const [u, r, t, b] = await Promise.all([
+      //       fetch("http://localhost:8001/user/all", {
+      //         headers: getHeaders(),
+      //       }).then(parseData),
+      //       fetch("http://localhost:8001/room/get/all", {
+      //         headers: getHeaders(),
+      //       }).then(parseData),
+      //       fetch("http://localhost:8001/mealToken/get/all", {
+      //         headers: getHeaders(),
+      //       }).then(parseData),
+      //       fetch("http://localhost:8001/roomBooking/get/all", {
+      //         headers: getHeaders(),
+      //       }).then(parseData),
+      //     ]);
+
+      //     document.getElementById("statTotalTenants").innerText = u.length;
+      //     document.getElementById("statTotalRooms").innerText = r.length;
+      //     document.getElementById("statAvailableRooms").innerText =
+      //       `${r.filter((x) => x && !x.occupied).length} Available`;
+
+      //     let tokenRev = 0,
+      //       tokenCount = 0,
+      //       tokenSold = 0;
+      //     t.forEach((x) => {
+      //       if (!x) return;
+      //       tokenCount++;
+      //       tokenSold += Number(x.tokenAmount || 0);
+      //       tokenRev += extractMoney(x);
+      //     });
+
+      //     let roomRev = 0,
+      //       roomCount = 0;
+      //     b.forEach((x) => {
+      //       if (!x) return;
+      //       roomCount++;
+      //       roomRev += extractMoney(x);
+      //     });
+
+      //     document.getElementById("statTotalTokens").innerText = tokenSold;
+      //     document.getElementById("statTokenRev").innerText =
+      //       "৳ " + tokenRev.toFixed(2);
+      //     document.getElementById("statTokenTx").innerText =
+      //       tokenCount + " Transactions";
+
+      //     document.getElementById("statRoomRev").innerText =
+      //       "৳ " + roomRev.toFixed(2);
+      //     document.getElementById("statRoomTx").innerText =
+      //       roomCount + " Transactions";
+
+      //     document.getElementById("statTotalRev").innerText =
+      //       "৳ " + (tokenRev + roomRev).toFixed(2);
+      //     document.getElementById("statTotalTx").innerText =
+      //       tokenCount + roomCount + " Total Transactions";
+      //   } catch (err) {}
+      // }
+
+
+      // --- DASHBOARD STATS ---
       async function loadDashboardStats() {
         try {
           const [u, r, t, b] = await Promise.all([
@@ -1389,11 +1449,19 @@
           let tokenRev = 0,
             tokenCount = 0,
             tokenSold = 0;
+
+          // 💡 FIX: Amount check kore shudhu Credit/Buy transaction gulo kora hocche
           t.forEach((x) => {
             if (!x) return;
-            tokenCount++;
-            tokenSold += Number(x.tokenAmount || 0);
-            tokenRev += extractMoney(x);
+            
+            // Jetu consume log er amount 0 thake, tai amount > 0 thaklei oita token purchase!
+            const rawAmount = x.transaction && x.transaction.amount ? parseFloat(x.transaction.amount) : 0;
+            
+            if (rawAmount > 0) {
+              tokenCount++;
+              tokenSold += Number(x.tokenAmount || 0);
+              tokenRev += rawAmount;
+            }
           });
 
           let roomRev = 0,
@@ -1419,9 +1487,10 @@
             "৳ " + (tokenRev + roomRev).toFixed(2);
           document.getElementById("statTotalTx").innerText =
             tokenCount + roomCount + " Total Transactions";
-        } catch (err) {}
+        } catch (err) {
+            console.error("Dashboard stats error: ", err);
+        }
       }
-
       // --- PROFILE ---
       async function loadAdminProfile() {
         try {
