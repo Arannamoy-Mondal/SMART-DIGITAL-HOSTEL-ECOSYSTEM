@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.backend.dto.MealTokenConsumeRequest;
 import com.backend.backend.dto.MealTokenInformationRequest;
 import com.backend.backend.service.MealTokenInformationService;
 
@@ -55,5 +56,16 @@ public class MealTokenInformationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
+    }
+
+    @PostMapping("/consume")
+    public ResponseEntity<?> consumeMealToken(@RequestBody MealTokenConsumeRequest request) {
+        try {
+            // deductAmount controller theke service-e pass hobe
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(mealTokenInformationService.consumeMealToken(request));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
