@@ -910,46 +910,46 @@
     //         '<tr><td colspan="6" class="text-center text-error">Error loading history</td></tr>';
     //     }
     //   }
-    //   async function openComplaintHistoryModal() {
-    //     complaint_history_modal.showModal();
-    //     const tbody = document.getElementById("complaintHistoryTableBody");
-    //     tbody.innerHTML =
-    //       '<tr><td colspan="5" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
-    //     try {
-    //       const username = getLoggedInUsername();
-    //       const res = await fetch(
-    //         `http://localhost:8001/complaint/get/userName/${username}`,
-    //         { method: "GET", headers: getHeaders() },
-    //       );
-    //       if (!res.ok && res.status !== 302) throw new Error("");
-    //       let raw = await res.json();
-    //       const complaints = Array.isArray(raw) ? raw.flat() : raw.data || [];
-    //       if (complaints.length === 0)
-    //         return (tbody.innerHTML =
-    //           '<tr><td colspan="5" class="text-center text-gray-500">No complaints found.</td></tr>');
-    //       let html = "";
-    //       complaints.forEach((c) => {
-    //         const date = c.createdAt
-    //           ? new Date(c.createdAt).toLocaleDateString()
-    //           : "N/A";
-    //         const currentStatusObj = c.complaintStatus || {};
-    //         const currentStatus = currentStatusObj.status || "Pending";
-    //         let badgeClass = "badge-warning";
-    //         if (currentStatus.toLowerCase() === "resolved")
-    //           badgeClass = "badge-success text-white";
-    //         else if (currentStatus.toLowerCase() === "investigating")
-    //           badgeClass = "badge-info text-white";
-    //         else if (currentStatus.toLowerCase() === "in-progress")
-    //           badgeClass = "badge-primary text-white";
-    //         const statusBadge = `<span class="badge ${badgeClass} badge-sm">${currentStatus}</span>`;
-    //         html += `<tr><td class="font-bold">#${c.complaintId || c.id || "-"}</td><td class="text-sm">${date}</td><td class="font-bold text-primary">${c.title || "N/A"}</td><td class="text-sm opacity-80">${c.description || "-"}</td><td>${statusBadge}</td></tr>`;
-    //       });
-    //       tbody.innerHTML = html;
-    //     } catch (e) {
-    //       tbody.innerHTML =
-    //         '<tr><td colspan="5" class="text-center text-error">Error loading history</td></tr>';
-    //     }
-    //   }
+      async function openComplaintHistoryModal() {
+        complaint_history_modal.showModal();
+        const tbody = document.getElementById("complaintHistoryTableBody");
+        tbody.innerHTML =
+          '<tr><td colspan="5" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
+        try {
+          const username = getLoggedInUsername();
+          const res = await fetch(
+            `http://localhost:8001/complaint/get/userName/${username}`,
+            { method: "GET", headers: getHeaders() },
+          );
+          if (!res.ok && res.status !== 302) throw new Error("");
+          let raw = await res.json();
+          const complaints = Array.isArray(raw) ? raw.flat() : raw.data || [];
+          if (complaints.length === 0)
+            return (tbody.innerHTML =
+              '<tr><td colspan="5" class="text-center text-gray-500">No complaints found.</td></tr>');
+          let html = "";
+          complaints.forEach((c) => {
+            const date = c.createdAt
+              ? new Date(c.createdAt).toLocaleDateString()
+              : "N/A";
+            const currentStatusObj = c.complaintStatus || {};
+            const currentStatus = currentStatusObj.status || "Pending";
+            let badgeClass = "badge-warning";
+            if (currentStatus.toLowerCase() === "resolved")
+              badgeClass = "badge-success text-white";
+            else if (currentStatus.toLowerCase() === "investigating")
+              badgeClass = "badge-info text-white";
+            else if (currentStatus.toLowerCase() === "in-progress")
+              badgeClass = "badge-primary text-white";
+            const statusBadge = `<span class="badge ${badgeClass} badge-sm">${currentStatus}</span>`;
+            html += `<tr><td class="font-bold">#${c.complaintId || c.id || "-"}</td><td class="text-sm">${date}</td><td class="font-bold text-primary">${c.title || "N/A"}</td><td class="text-sm opacity-80">${c.description || "-"}</td><td>${statusBadge}</td></tr>`;
+          });
+          tbody.innerHTML = html;
+        } catch (e) {
+          tbody.innerHTML =
+            '<tr><td colspan="5" class="text-center text-error">Error loading history</td></tr>';
+        }
+      }
     async function openTokenHistoryModal() {
             token_history_modal.showModal();
             const tbody = document.getElementById("tokenHistoryTableBody");
