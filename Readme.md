@@ -10,7 +10,7 @@ The **Smart Digital Hostel Ecosystem** is a robust, scalable management platform
 
 ### **Student Experience**
 * **Digital Complaint Desk:** Register and track maintenance issues (Electrical, Plumbing, etc.) with real-time status updates.
-* **Leave Management:** Digital application for leave with instant status tracking for approvals.
+<!-- * **Leave Management:** Digital application for leave with instant status tracking for approvals. -->
 * **Smart Mess Services:** View weekly menus and opt for flexible daily or monthly meal plans.
 * **Financial Dashboard:** Real-time access to fee structures, payment history, and pending dues.
 
@@ -18,11 +18,11 @@ The **Smart Digital Hostel Ecosystem** is a robust, scalable management platform
 * **Occupancy Monitoring:** Centralized dashboard for real-time room allocation and vacancy tracking.
 * **Automated Workflow:** Streamlined approval system for leave requests and complaint resolutions.
 * **Fee Management:** Oversee collections and generate automated due lists for the entire hostel.
-* **Instant Notifications:** Publish announcements and update mess menus instantly across the platform.
+<!-- * **Instant Notifications:** Publish announcements and update mess menus instantly across the platform. -->
 
 ---
 
-## 🤖 Intelligent Query Assistant (AI)
+<!-- ## 🤖 Intelligent Query Assistant (AI)
 
 We have integrated a **Private AI Assistant** using **Spring AI** and **Ollama** to provide instant institutional support while ensuring data privacy.
 
@@ -36,7 +36,7 @@ We have integrated a **Private AI Assistant** using **Spring AI** and **Ollama**
 * **Local Data Privacy:** All processing happens locally through Ollama, ensuring sensitive student data never leaves the infrastructure.
 * **Accuracy:** RAG ensures the model retrieves actual hostel policies before answering, preventing hallucinations.
 
----
+--- -->
 
 ## 🏗️ System Architecture (MVC)
 
@@ -69,11 +69,11 @@ flowchart TD
 
 * **Backend:** Spring Boot (Java) 
 * **Frontend:** Next.js (Tailwind CSS, Daisy UI) 
-* **AI Integration:** Spring AI & Ollama
+<!-- * **AI Integration:** Spring AI & Ollama -->
 * **Database:** PostgreSQL 
 * **Tools:** Git, Ubuntu, VS Code 
 
----
+<!-- ---
 
 ## 📂 Getting Started
 
@@ -120,4 +120,18 @@ Transaction
 - String transactionType
 - String paymentMethod
 - String paymentPurpose
-- BigDecimal amount
+- BigDecimal amount -->
+
+
+### SS
+<img src="./Images/Frontend/1.png">
+<img src="./Images/Frontend/2.png">
+<img src="./Images/Frontend/3.png">
+<img src="./Images/Frontend/4.png">
+<img src="./Images/Frontend/5.png">
+<img src="./Images/Frontend/6.png">
+<img src="./Images/Frontend/7.png">
+<img src="./Images/Frontend/8.png">
+<img src="./Images/Frontend/9.png">
+<img src="./Images/Frontend/10.png">
+<img src="./Images/Frontend/11.png">
