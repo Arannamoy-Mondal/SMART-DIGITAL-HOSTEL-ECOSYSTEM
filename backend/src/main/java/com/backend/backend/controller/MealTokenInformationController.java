@@ -59,9 +59,9 @@ public class MealTokenInformationController {
     }
 
     @PostMapping("/consume")
-    public ResponseEntity<?> consumeMealToken(@RequestBody MealTokenConsumeRequest request) {
+    public ResponseEntity<?> consumeMealToken(@RequestBody MealTokenInformationRequest request) {
         try {
-            // deductAmount controller theke service-e pass hobe
+            System.out.println(request);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(mealTokenInformationService.consumeMealToken(request));
         } catch (Exception e) {

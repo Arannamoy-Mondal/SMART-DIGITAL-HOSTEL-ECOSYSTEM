@@ -118,66 +118,63 @@ public class MealTokenInformationService {
 
 
 
-    @Transactional
-    public @Nullable Object consumeMealToken(MealTokenConsumeRequest request) throws Exception {
+   @Transactional
+    public @Nullable Object consumeMealToken(MealTokenInformationRequest request) throws Exception {
         try {
+            // 1. User find kora
             User user = userRepo.findByUserName(request.userName())
                     .orElseThrow(() -> new Exception("User not found: " + request.userName()));
 
-            // 1. Validate token balance
+            // 2. Room find kora (Request theke roomNo newa hocche)
+            Room room = roomRepo.findByRoomNo(request.roomNo())
+                    .orElseThrow(() -> new Exception("Room not found: " + request.roomNo()));
+
+            // 3. Token balance check kora
             Integer currentTokens = user.getMealTokenAmount();
-            if (currentTokens == null || currentTokens < request.deductAmount()) {
-                throw new Exception("Insufficient tokens!");
+            if (currentTokens == null || currentTokens < request.tokenAmount()) {
+                throw new Exception("Insufficient tokens! Balance: " + (currentTokens == null ? 0 : currentTokens));
             }
 
-            // 2. Find necessary entities for Transaction
-            PaymentPurpose purpose = paymentPurposeRepo.findAll().stream()
-                    .filter(p -> p.getPaymentPurpose().equalsIgnoreCase("Meal"))
-                    .findFirst().orElse(null);
-            
+            // 4. Types find kora
             TransactionType type = transactionTypeRepo.findAll().stream()
-                    .filter(t -> t.getTransactionType().equalsIgnoreCase("Debit"))
+                    .filter(t -> t.getTransactionType().equalsIgnoreCase("debit"))
                     .findFirst().orElse(null);
 
             PaymentMethod method = paymentMethodRepo.findAll().stream()
-                    .filter(m -> m.getPaymentMethod().equalsIgnoreCase("Token"))
+                    .filter(m -> m.getPaymentMethod().equalsIgnoreCase("visa"))
                     .findFirst().orElse(null);
 
-            // 3. Create and Save Transaction
+            PaymentPurpose purpose = paymentPurposeRepo.findAll().stream()
+                    .filter(p -> p.getPaymentPurpose().equalsIgnoreCase("meal token"))
+                    .findFirst().orElse(null);
+
+            // 5. Transaction toiri kora (Amount 0 ebang Debit type)
             Transaction transaction = Transaction.builder()
                     .user(user)
                     .transactionType(type)
                     .paymentMethod(method)
                     .paymentPurpose(purpose)
-                    // 💡 FIX: Integer থেকে BigDecimal এ কনভার্ট করা হয়েছে এবং অতিরিক্ত ')' সরানো হয়েছে
-                    .amount(java.math.BigDecimal.valueOf(request.deductAmount())) 
+                    .amount(java.math.BigDecimal.ZERO) // Deduction er jonno amount 0 thakbe
                     .build();
             transactionRepo.save(transaction);
 
-            // 4. Update User and MealTokenInformation
-            user.setMealTokenAmount(currentTokens - request.deductAmount());
+            // 6. Notun MealTokenInformation row toiri kora (availableToken update shoho)
+            MealTokenInformation mealTokenInformation = MealTokenInformation.builder()
+                    .transaction(transaction)
+                    .user(user)
+                    .room(room)
+                    .tokenAmount(request.tokenAmount()) // Koyta token deduct holo
+                    .availableToken(currentTokens - request.tokenAmount()) // Remaining balance
+                    .build();
+            mealTokenInformationRepo.save(mealTokenInformation);
+
+            // 7. User table e balance update kora
+            user.setMealTokenAmount(currentTokens - request.tokenAmount());
             userRepo.save(user);
 
-            Object mealInfoObj = mealTokenInformationRepo.findByUser(user);
-            if (mealInfoObj instanceof MealTokenInformation) {
-                MealTokenInformation mealInfo = (MealTokenInformation) mealInfoObj;
-                mealInfo.setAvailableToken(mealInfo.getAvailableToken() - request.deductAmount());
-                mealTokenInformationRepo.save(mealInfo);
-            } else if (mealInfoObj instanceof java.util.List) {
-                java.util.List<MealTokenInformation> list = (java.util.List<MealTokenInformation>) mealInfoObj;
-                if (!list.isEmpty()) {
-                    MealTokenInformation mealInfo = list.get(list.size() - 1);
-                    if (mealInfo.getAvailableToken() != null) {
-                        mealInfo.setAvailableToken(mealInfo.getAvailableToken() - request.deductAmount());
-                        mealTokenInformationRepo.save(mealInfo);
-                    }
-                }
-            }
-
-            return "Meal " + request.mealType() + " recorded successfully.";
+            return "Meal recorded successfully. Deducted: " + request.tokenAmount();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
-
 }
