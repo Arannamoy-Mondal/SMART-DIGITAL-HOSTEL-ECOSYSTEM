@@ -4,23 +4,552 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Hostel Ecosystem</title>
+    <title>Smart Hostel | Tenant Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
-    <div class="navbar bg-base-100 shadow-sm">
-        <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
-        </div>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-1">
-                <li><a>Signup</a></li>
-                <li><a href="/login.html">Login</a></li>
-            </ul>
+<body class="bg-base-200 min-h-screen pb-10">
+    <div class="navbar bg-primary text-primary-content shadow-sm sticky top-0 z-50">
+        <div class="flex-1"><a class="btn btn-ghost text-xl" href="#">My Hostel Account</a></div>
+        <div class="flex-none gap-2">
+            <span id="navUserName" class="font-bold mr-2">Welcome, Tenant</span>
+            <button onclick="logout()" class="btn btn-error btn-sm text-white">Logout</button>
         </div>
     </div>
+
+    <div id="toastAlert" class="toast toast-top toast-end z-[100] hidden">
+        <div class="alert text-white shadow-lg"><span id="toastMessage">Message</span></div>
+    </div>
+
+    <div class="container mx-auto px-4 mt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div class="lg:col-span-1">
+                <div class="card bg-base-100 shadow-xl border-t-4 border-primary">
+                    <div class="card-body text-center">
+                        <div class="avatar placeholder mx-auto mb-2">
+                            <div
+                                class="bg-neutral text-neutral-content rounded-full w-24 border-4 border-primary shadow-md">
+                                <img id="p_profileImage" src="" alt="Profile"
+                                    style="display: none; object-fit: cover;" />
+                                <span id="p_profileInitials" class="text-3xl">👤</span>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold" id="p_fullName">Loading...</h2>
+                        <p class="text-gray-500 font-semibold mb-2">@<span id="p_userName">username</span></p>
+
+                        <button class="btn btn-sm btn-outline btn-primary mb-2 w-1/2 mx-auto"
+                            onclick="openEditProfileModal()">✏️ Edit Profile</button>
+
+                        <div class="badge badge-secondary badge-lg text-white font-bold mb-4 p-4 mt-2">
+                            🎟️ Meal Tokens: <span id="p_mealTokens" class="ml-2 text-xl">0</span>
+                        </div>
+                        <div class="badge badge-info badge-outline badge-lg font-bold p-4 mt-2">
+                            ℹ️ Every meal deducts 30 tokens.
+                        </div>
+                        <div class="text-left space-y-2 mt-2 bg-base-200 p-4 rounded-lg text-sm">
+                            <p><strong>Email:</strong> <span id="p_email">--</span></p>
+                            <p><strong>Phone:</strong> <span id="p_phone">--</span></p>
+                            <p><strong>Address:</strong> <span id="p_address">--</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="card bg-indigo-600 text-white shadow-lg">
+                        <div class="card-body p-6">
+                            <h2 class="card-title text-xl">🛏️ Need a Room?</h2>
+                            <p class="text-sm">Book your perfect room.</p>
+                            <div class="card-actions justify-end mt-2"><button class="btn btn-accent btn-sm w-full"
+                                    onclick="add_booking_modal.showModal()">Book Now</button></div>
+                        </div>
+                    </div>
+                    <div class="card bg-orange-500 text-white shadow-lg">
+                        <div class="card-body p-6">
+                            <h2 class="card-title text-xl">🍽️ Dining Menu</h2>
+                            <p class="text-sm">Check what's cooking.</p>
+                            <div class="card-actions justify-end mt-2"><button
+                                    class="btn btn-outline text-white btn-sm w-full" onclick="openViewMenusModal()">View
+                                    Menu</button></div>
+                        </div>
+                    </div>
+                    <div class="card bg-rose-500 text-white shadow-lg">
+                        <div class="card-body p-6">
+                            <h2 class="card-title text-xl">🎟️ Meal Tokens</h2>
+                            <p class="text-sm">Buy tokens for meals.</p>
+                            <div class="card-actions justify-between mt-2 flex-nowrap"><button
+                                    class="btn btn-outline border-white text-white btn-sm flex-1 mr-1"
+                                    onclick="openTokenHistoryModal()">History</button><button
+                                    class="btn btn-warning text-black btn-sm flex-1 ml-1"
+                                    onclick="buy_token_modal.showModal()">Buy +</button></div>
+                        </div>
+                    </div>
+                    <div class="card bg-green-600 text-white shadow-xl">
+                        <div class="card-body p-5">
+                            <h2 class="card-title text-lg">🍛 Take a Meal</h2>
+                            <div class="form-control mb-1">
+                                <select id="m_roomNo" class="select select-bordered select-sm text-black w-full"
+                                    required>
+                                    <option value="" disabled selected>Loading active room...</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <button class="btn btn-sm btn-outline text-white border-white"
+                                    onclick="consumeMeal('Breakfast', 30)">Breakfast</button>
+                                <button class="btn btn-sm btn-outline text-white border-white"
+                                    onclick="consumeMeal('Lunch', 30)">Lunch</button>
+                                <button class="btn btn-sm btn-outline text-white border-white"
+                                    onclick="consumeMeal('Snack', 30)">Snack</button>
+                                <button class="btn btn-sm btn-outline text-white border-white"
+                                    onclick="consumeMeal('Dinner', 30)">Dinner</button>
+                            </div>
+                            <button class="btn btn-xs btn-ghost mt-2 underline" onclick="openMealHistoryModal()">View
+                                Meal Logs</button>
+                        </div>
+                    </div>
+                    <div class="card bg-red-600 text-white shadow-lg">
+                        <div class="card-body p-6">
+                            <h2 class="card-title text-xl">⚠️ Complaints</h2>
+                            <p class="text-sm">Report an issue.</p>
+                            <div class="card-actions justify-between mt-2 flex-nowrap"><button
+                                    class="btn btn-outline border-white text-white btn-sm flex-1 mr-1"
+                                    onclick="openComplaintHistoryModal()">History</button><button
+                                    class="btn btn-warning text-black btn-sm flex-1 ml-1"
+                                    onclick="add_complaint_modal.showModal()">Report +</button></div>
+                        </div>
+                    </div>
+                    <div class="card bg-cyan-600 text-white shadow-lg">
+                        <div class="card-body p-6">
+                            <h2 class="card-title text-xl">💬 Discussions</h2>
+                            <p class="text-sm">Community Forum.</p>
+                            <div class="card-actions justify-between mt-2 flex-nowrap"><button
+                                    class="btn btn-outline border-white text-white btn-sm flex-1 mr-1"
+                                    onclick="openDiscussionsModal()">Forum</button><button
+                                    class="btn btn-warning text-black btn-sm flex-1 ml-1"
+                                    onclick="add_discussion_modal.showModal()">Post +</button></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title text-xl border-b pb-2 mb-2">📅 My Booking History</h2>
+                        <div class="overflow-x-auto h-60">
+                            <table class="table table-zebra w-full table-pin-rows">
+                                <thead>
+                                    <tr class="bg-base-200">
+                                        <th>ID</th>
+                                        <th>Room No</th>
+                                        <th>Duration</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myBookingsTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Loading your bookings...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="edit_profile_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4 text-primary">✏️ Update Profile Information</h3>
+            <form id="formEditProfile" class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="form-control"><label class="label"><span class="label-text">First
+                                Name</span></label><input type="text" id="ep_firstName" class="input input-bordered"
+                            required /></div>
+                    <div class="form-control"><label class="label"><span class="label-text">Last
+                                Name</span></label><input type="text" id="ep_lastName" class="input input-bordered"
+                            required /></div>
+                </div>
+                <div class="form-control"><label class="label"><span class="label-text">Email</span></label><input
+                        type="email" id="ep_email" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">Phone
+                            Number</span></label><input type="text" id="ep_contactNo" class="input input-bordered"
+                        required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">Address</span></label><input
+                        type="text" id="ep_address" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">Upload
+                            Avatar</span></label><input type="file" id="ep_image" accept="image/*"
+                        class="file-input file-input-bordered w-full" /></div>
+                <div class="modal-action"><button type="button" class="btn"
+                        onclick="edit_profile_modal.close()">Cancel</button><button type="submit"
+                        class="btn btn-primary">Save Changes</button></div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="add_booking_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-2xl">
+            <h3 class="font-bold text-lg mb-4">📝 Book a Room</h3>
+            <form id="formAddBooking" class="grid grid-cols-2 gap-4">
+                <div class="form-control"><label class="label"><span class="label-text">Username</span></label><input
+                        type="text" id="b_userName" class="input input-bordered font-bold bg-base-200 text-primary"
+                        readonly /></div>
+                <div class="form-control"><label class="label"><span class="label-text">Available
+                            Rooms</span></label><select id="b_roomNo" class="select select-bordered" required>
+                        <option value="" disabled selected>Loading...</option>
+                    </select></div>
+                <div class="form-control"><label class="label"><span class="label-text">Start Date</span></label><input
+                        type="date" id="b_startDate" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">End Date</span></label><input
+                        type="date" id="b_endDate" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">Payment
+                            Method</span></label><select id="b_paymentMethod" class="select select-bordered" required>
+                        <option value="visa">Visa / MasterCard</option>
+                    </select></div>
+                <div class="form-control"><label class="label"><span class="label-text">Total (৳)</span></label><input
+                        type="number" id="b_amount" class="input input-bordered bg-base-200 font-bold" readonly
+                        required /></div>
+                <div class="modal-action col-span-2 justify-end gap-2 mt-4"><button type="button" class="btn"
+                        onclick="add_booking_modal.close()">Cancel</button><button type="submit"
+                        class="btn btn-primary">Proceed to Pay ➔</button></div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="buy_token_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-md">
+            <h3 class="font-bold text-lg mb-4 text-rose-600">🎟️ Buy Meal Tokens</h3>
+            <form id="formBuyToken" class="space-y-4">
+                <div class="form-control"><label class="label"><span class="label-text">Your Allocated
+                            Room</span></label><input type="number" id="t_roomNo"
+                        class="input input-bordered bg-base-200 text-primary font-bold" readonly required /></div>
+                <div class="form-control"><label class="label"><span class="label-text">How many
+                            tokens?</span></label><input type="number" id="t_tokenAmount" class="input input-bordered"
+                        placeholder="Enter amount" min="1" required
+                        oninput="document.getElementById('t_amount').value = this.value" /></div>
+                <div class="form-control"><label class="label"><span class="label-text">Payment
+                            Method</span></label><select id="t_paymentMethod" class="select select-bordered" required>
+                        <option value="visa">Visa / MasterCard</option>
+                    </select></div>
+                <div class="form-control"><label class="label"><span class="label-text">Total Price
+                            (৳)</span></label><input type="number" id="t_amount"
+                        class="input input-bordered bg-base-200 text-xl font-bold text-green-700" readonly required />
+                </div>
+                <div class="modal-action mt-6"><button type="button" class="btn"
+                        onclick="buy_token_modal.close()">Cancel</button><button type="submit"
+                        class="btn btn-secondary text-white w-32">Pay Now ➔</button></div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="token_history_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl">
+            <h3 class="font-bold text-xl mb-4 border-b pb-2">📜 Meal Token History</h3>
+            <div class="overflow-x-auto h-80">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th>ID</th>
+                            <th>Date & Time</th>
+                            <th>Room</th>
+                            <th>Tokens (+/-)</th>
+                            <th>Amount Paid</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tokenHistoryTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="meal_history_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-3xl">
+            <h3 class="font-bold text-xl mb-4 border-b pb-2">🍽️ Meal Usage Logs</h3>
+            <div class="overflow-x-auto h-80">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th>Date & Time</th>
+                            <th>Log</th>
+                            <th>Tokens Used</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mealHistoryTableBody">
+                        <tr>
+                            <td colspan="3" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="add_complaint_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-md">
+            <h3 class="font-bold text-lg mb-4 text-red-600">⚠️ Report a Complaint</h3>
+            <form id="formAddComplaint" class="space-y-4">
+                <div class="form-control"><label class="label"><span class="label-text">Title</span></label><input
+                        type="text" id="c_title" class="input input-bordered" required /></div>
+                <div class="form-control"><label class="label"><span
+                            class="label-text">Description</span></label><textarea id="c_description"
+                        class="textarea textarea-bordered h-24" required></textarea></div>
+                <div class="modal-action mt-6"><button type="button" class="btn"
+                        onclick="add_complaint_modal.close()">Cancel</button><button type="submit"
+                        class="btn btn-error text-white w-32">Submit ➔</button></div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="complaint_history_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl">
+            <h3 class="font-bold text-xl mb-4 border-b pb-2">📜 My Complaints</h3>
+            <div class="overflow-x-auto h-80">
+                <table class="table table-zebra table-pin-rows w-full">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintHistoryTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="meal_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-2xl mb-4 border-b pb-2">🍽️ Weekly Menu</h3>
+            <div class="overflow-x-auto h-96">
+                <table class="table table-zebra table-pin-rows">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th>Menu Name</th>
+                            <th>Day</th>
+                            <th>Meal Type</th>
+                            <th>Menu Items</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuTableBody">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="discussion_list_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-4xl bg-base-200">
+            <h3 class="font-bold text-2xl mb-4 border-b pb-2 text-cyan-600">💬 Community Discussions</h3>
+            <div id="discussionsContainer" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="add_discussion_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-md">
+            <h3 class="font-bold text-lg mb-4 text-cyan-600">📝 Start a Discussion</h3>
+            <form id="formAddDiscussion" class="space-y-4">
+                <div class="form-control"><label class="label"><span class="label-text">Topic</span></label><textarea
+                        id="d_description" class="textarea textarea-bordered h-24" required></textarea></div>
+                <div class="modal-action mt-6"><button type="button" class="btn"
+                        onclick="add_discussion_modal.close()">Cancel</button><button type="submit"
+                        class="btn btn-accent text-white">Post ➔</button></div>
+            </form>
+        </div>
+    </dialog>
+
+    <script>
+        const BASE_URL = "http://localhost:8001";
+        const getToken = () => localStorage.getItem("jwtToken");
+        const getLoggedInUsername = () => localStorage.getItem("loggedInUsername") || "admin";
+        const getHeaders = () => ({ "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` });
+
+        let activeAllocatedRoom = null;
+        let currentUserId = null;
+        let rawUserProfile = null;
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toastAlert');
+            const alertBox = toast.querySelector('.alert');
+            document.getElementById('toastMessage').textContent = message;
+            alertBox.className = `alert text-white shadow-lg ${type === 'success' ? 'alert-success' : 'alert-error'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        async function loadUserProfile() {
+            const username = getLoggedInUsername();
+            document.getElementById('navUserName').textContent = `Welcome, ${username}`;
+            document.getElementById('b_userName').value = username;
+            try {
+                const res = await fetch(`${BASE_URL}/user/get/${username}`, { method: "GET", headers: getHeaders() });
+                if (res.ok || res.status === 302) {
+                    const userData = await res.json();
+                    let data = Array.isArray(userData) ? userData[0] : userData;
+                    if (data) {
+                        rawUserProfile = data; currentUserId = data.userId;
+                        document.getElementById('p_fullName').textContent = `${data.firstName || ''} ${data.lastName || ''}`.trim();
+                        document.getElementById('p_userName').textContent = data.userName;
+                        document.getElementById('p_email').textContent = data.email || 'N/A';
+                        document.getElementById('p_phone').textContent = data.contactNo || 'N/A';
+                        document.getElementById('p_address').textContent = data.permanentAddress || 'N/A';
+                        if (data.profileImage) {
+                            document.getElementById('p_profileImage').src = `data:image/jpeg;base64,${data.profileImage}`;
+                            document.getElementById('p_profileImage').style.display = 'block';
+                            document.getElementById('p_profileInitials').style.display = 'none';
+                        }
+                    }
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadTokenBalance() {
+            try {
+                const res = await fetch(`${BASE_URL}/user/get/${getLoggedInUsername()}`, { method: "GET", headers: getHeaders() });
+                if (res.ok || res.status === 302) {
+                    const data = await res.json();
+                    let profile = Array.isArray(data) ? data[0] : data;
+                    document.getElementById('p_mealTokens').textContent = profile.mealTokenAmount || 0;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadMyBookings() {
+            const tbody = document.getElementById('myBookingsTableBody');
+            const mealRoomSelect = document.getElementById('m_roomNo');
+            try {
+                const res = await fetch(`${BASE_URL}/roomBooking/get/userName/${getLoggedInUsername()}`, { method: "GET", headers: getHeaders() });
+                const raw = await res.json();
+                const myBookings = Array.isArray(raw) ? raw.flat() : (raw.data || []);
+                if (mealRoomSelect) mealRoomSelect.innerHTML = '<option value="" disabled selected>Select Room</option>';
+                let hasActive = false;
+                if (myBookings.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center">No bookings yet.</td></tr>';
+                tbody.innerHTML = myBookings.map(b => {
+                    const status = b.active ? '<span class="badge badge-success text-white badge-sm">Active</span>' : '<span class="badge badge-neutral badge-sm">Past</span>';
+                    if (b.active && b.room) {
+                        activeAllocatedRoom = b.room.roomNo;
+                        if (document.getElementById('t_roomNo')) document.getElementById('t_roomNo').value = activeAllocatedRoom;
+                        if (mealRoomSelect) mealRoomSelect.innerHTML += `<option value="${b.room.roomNo}" selected>Room ${b.room.roomNo}</option>`;
+                        hasActive = true;
+                    }
+                    return `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="text-primary font-bold">Room ${b.room?.roomNo || '-'}</td><td>${b.startDate} to ${b.endDate}</td><td class="font-bold">৳${b.amount || 0}</td><td>${status}</td></tr>`;
+                }).join('');
+                if (!hasActive && mealRoomSelect) mealRoomSelect.innerHTML = '<option value="" disabled selected>No Active Room Found</option>';
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="text-center">Error</td></tr>'; }
+        }
+
+        // ==========================================
+        //       FIXED TOKEN & MEAL FUNCTIONS
+        // ==========================================
+
+        async function openTokenHistoryModal() {
+            token_history_modal.showModal();
+            const tbody = document.getElementById('tokenHistoryTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
+            try {
+                const res = await fetch(`${BASE_URL}/mealToken/get/userName/${getLoggedInUsername()}`, { method: "GET", headers: getHeaders() });
+                if (!res.ok && res.status !== 302) throw new Error("");
+                let tokens = await res.json();
+                tokens = Array.isArray(tokens) ? tokens.flat() : (tokens.data || []);
+                if (tokens.length === 0) return tbody.innerHTML = '<tr><td colspan="6" class="text-center">No history found.</td></tr>';
+
+                tbody.innerHTML = tokens.reverse().map(t => {
+                    const d = t.createdAt ? new Date(t.createdAt) : new Date();
+                    const dateTime = `${d.toLocaleDateString()} <br><span class="text-xs opacity-50">${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`;
+                    const isDebit = t.transaction && parseFloat(t.transaction.amount) === 0;
+
+                    if (isDebit) {
+                        return `<tr><td class="font-bold">#${t.mealTokenInformationId}</td><td class="text-sm">${dateTime}</td><td class="font-bold">Room ${t.room ? t.room.roomNo : '-'}</td><td class="font-bold text-error text-lg">-${t.tokenAmount}</td><td class="text-gray-400 font-bold">-</td><td class="uppercase text-xs font-bold text-gray-400">Consumed</td></tr>`;
+                    } else {
+                        const amt = t.transaction ? parseFloat(t.transaction.amount).toFixed(2) : '0.00';
+                        const method = t.transaction && t.transaction.paymentMethod ? t.transaction.paymentMethod.paymentMethod : 'VISA';
+                        return `<tr><td class="font-bold">#${t.mealTokenInformationId}</td><td class="text-sm">${dateTime}</td><td class="font-bold">Room ${t.room ? t.room.roomNo : '-'}</td><td class="font-bold text-secondary text-lg">+${t.tokenAmount}</td><td class="text-green-600 font-bold">৳ ${amt}</td><td class="uppercase text-xs font-bold">${method}</td></tr>`;
+                    }
+                }).join('');
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="6" class="text-center">Error loading history</td></tr>'; }
+        }
+
+        async function consumeMeal(type, amount) {
+            const tokens = parseInt(document.getElementById('p_mealTokens').textContent) || 0;
+            const room = document.getElementById('m_roomNo') ? parseInt(document.getElementById('m_roomNo').value) : 0;
+            if (!room) return showToast("Please select your active room!", "error");
+            if (tokens < amount) return showToast("Insufficient tokens!", "error");
+            if (!confirm(`Take ${type} and deduct ${amount} tokens?`)) return;
+
+            try {
+                const res = await fetch(`${BASE_URL}/mealToken/consume`, {
+                    method: "POST", headers: getHeaders(),
+                    body: JSON.stringify({ userName: getLoggedInUsername(), roomNo: room, tokenAmount: amount, amount: 0, paymentMethod: "Token" })
+                });
+                if (res.ok || res.status === 302) { showToast(`${type} recorded!`, "success"); loadTokenBalance(); }
+                else showToast("Failed to consume token", "error");
+            } catch (e) { showToast("Server error", "error"); }
+        }
+
+        async function openMealHistoryModal() {
+            meal_history_modal.showModal();
+            const tbody = document.getElementById('mealHistoryTableBody');
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center"><span class="loading loading-spinner"></span> Loading...</td></tr>';
+            try {
+                const res = await fetch(`${BASE_URL}/mealToken/get/userName/${getLoggedInUsername()}`, { method: "GET", headers: getHeaders() });
+                let raw = await res.json();
+                const tokens = Array.isArray(raw) ? raw.flat() : (raw.data || []);
+                const logs = tokens.filter(t => t.transaction && parseFloat(t.transaction.amount) === 0);
+                if (logs.length === 0) return tbody.innerHTML = '<tr><td colspan="3" class="text-center">No meal logs.</td></tr>';
+
+                tbody.innerHTML = logs.reverse().map(m => {
+                    const d = m.createdAt ? new Date(m.createdAt) : new Date();
+                    const dateTime = `${d.toLocaleDateString()} <span class="text-xs opacity-50 ml-1">${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`;
+                    return `<tr><td class="text-sm">${dateTime}</td><td class="font-bold text-primary">Meal Consumed (Room ${m.room ? m.room.roomNo : '-'})</td><td class="text-error font-bold text-lg">-${m.tokenAmount}</td></tr>`;
+                }).join('');
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="text-center">Error</td></tr>'; }
+        }
+
+        // ==========================================
+        //           THE REST OF FUNCTIONS
+        // ==========================================
+
+        async function openEditProfileModal() { if (!rawUserProfile) return; document.getElementById('ep_firstName').value = rawUserProfile.firstName || ''; document.getElementById('ep_lastName').value = rawUserProfile.lastName || ''; document.getElementById('ep_email').value = rawUserProfile.email || ''; document.getElementById('ep_contactNo').value = rawUserProfile.contactNo || ''; document.getElementById('ep_address').value = rawUserProfile.permanentAddress || ''; edit_profile_modal.showModal(); }
+        document.getElementById('formEditProfile').addEventListener('submit', async (e) => { e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.innerHTML = '<span class="loading loading-spinner"></span> Saving...'; btn.disabled = true; try { await fetch(`${BASE_URL}/user/update-profile/${getLoggedInUsername()}`, { method: "PUT", headers: getHeaders(), body: JSON.stringify({ firstName: document.getElementById('ep_firstName').value, lastName: document.getElementById('ep_lastName').value, email: document.getElementById('ep_email').value, contactNo: document.getElementById('ep_contactNo').value, permanentAddress: document.getElementById('ep_address').value }) }); const image = document.getElementById('ep_image').files[0]; if (image) { const fd = new FormData(); fd.append("image", image); await fetch(`${BASE_URL}/user/upload-image/${currentUserId}`, { method: "POST", headers: { "Authorization": `Bearer ${getToken()}` }, body: fd }); } showToast("Profile Updated!", "success"); edit_profile_modal.close(); loadUserProfile(); } catch (e) { showToast("Failed", "error"); } finally { btn.innerHTML = 'Save Changes'; btn.disabled = false; } });
+        async function openComplaintHistoryModal() { complaint_history_modal.showModal(); const tbody = document.getElementById('complaintHistoryTableBody'); try { const res = await fetch(`${BASE_URL}/complaint/get/userName/${getLoggedInUsername()}`, { method: "GET", headers: getHeaders() }); const raw = await res.json(); const complaints = Array.isArray(raw) ? raw.flat() : (raw.data || []); tbody.innerHTML = complaints.map(c => `<tr><td class="font-bold">#${c.complaintId || '-'}</td><td>${new Date(c.createdAt).toLocaleDateString()}</td><td class="font-bold text-primary">${c.title}</td><td>${c.description}</td><td><span class="badge ${c.complaintStatus?.status === 'Resolved' ? 'badge-success text-white' : 'badge-warning'} badge-sm">${c.complaintStatus?.status || 'Pending'}</span></td></tr>`).join(''); } catch (e) { } }
+        async function openDiscussionsModal() { discussion_list_modal.showModal(); const container = document.getElementById('discussionsContainer'); try { const res = await fetch(`${BASE_URL}/discussion/get/all`, { method: "GET", headers: getHeaders() }); let raw = await res.json(); let discs = Array.isArray(raw) ? raw.flat() : []; container.innerHTML = discs.reverse().map(d => `<div class="card bg-base-100 shadow-md border mb-4"><div class="card-body p-4"><div class="flex justify-between border-b pb-2"><span class="font-bold text-primary">@${d.user?.userName || 'User'}</span><span class="text-xs opacity-50">${new Date(d.createdAt).toLocaleString()}</span></div><p class="py-2">${d.description || ''}</p></div></div>`).join(''); } catch (e) { } }
+        async function loadRoomsForBooking() { try { const res = await fetch(`${BASE_URL}/room/get/all`, { method: "GET", headers: getHeaders() }); const rooms = await res.json(); const sel = document.getElementById('b_roomNo'); sel.innerHTML = '<option value="" disabled selected>Select Room</option>'; rooms.filter(r => !r.occupied).forEach(r => { const opt = document.createElement("option"); opt.value = r.roomNo; opt.dataset.rent = r.perDayRentFee; opt.textContent = `Room ${r.roomNo} (৳${r.perDayRentFee})`; sel.appendChild(opt); }); } catch (e) { } }
+        async function openViewMenusModal() { meal_list_modal.showModal(); const tbody = document.getElementById('menuTableBody'); try { const res = await fetch(`${BASE_URL}/menu/get/all`, { method: "GET", headers: getHeaders() }); const menus = await res.json(); tbody.innerHTML = menus.map(m => `<tr><td class="font-bold">${m.menuName}</td><td class="capitalize">${m.day}</td><td class="text-orange-600 font-bold">${m.mealType?.mealType || '-'}</td><td>${m.menuItems.map(it => `<span class="badge badge-sm m-1">${it.itemName}</span>`).join('')}</td></tr>`).join(''); } catch (e) { } }
+        const logout = () => { localStorage.clear(); window.location.href = "/login.html"; };
+        document.addEventListener("DOMContentLoaded", () => { if (!getToken()) window.location.href = "/login.html"; loadUserProfile(); loadMyBookings(); loadRoomsForBooking(); loadTokenBalance(); });
+    </script>
 </body>
 
 </html>
