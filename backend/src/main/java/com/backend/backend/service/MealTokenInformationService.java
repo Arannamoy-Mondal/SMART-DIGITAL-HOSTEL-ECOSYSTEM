@@ -52,7 +52,8 @@ public class MealTokenInformationService {
                     .orElseThrow(() -> new Exception("No user found with username: " + request.userName()));
 
             // if (user.getMealTokenAmount() != null) {
-            //     throw new Exception("Already have token. Available token amount: " + user.getMealTokenAmount());
+            // throw new Exception("Already have token. Available token amount: " +
+            // user.getMealTokenAmount());
             // }
             Room room = roomRepo.findByRoomNo(request.roomNo())
                     .orElseThrow(() -> new Exception("No room found with roomNo: " + request.roomNo()));
@@ -75,7 +76,7 @@ public class MealTokenInformationService {
                     .amount(request.amount())
                     .build();
             transactionRepo.save(transaction);
-            
+
             MealTokenInformation mealTokenInformation = MealTokenInformation
                     .builder()
                     .transaction(transaction)
@@ -84,7 +85,12 @@ public class MealTokenInformationService {
                     .tokenAmount(request.tokenAmount())
                     .availableToken(request.tokenAmount())
                     .build();
-            user.setMealTokenAmount(request.tokenAmount());
+            if (user.getMealTokenAmount() == null) {
+                user.setMealTokenAmount(request.tokenAmount() + 0);
+            } else {
+                user.setMealTokenAmount(request.tokenAmount() + user.getMealTokenAmount());
+            }
+
             userRepo.save(user);
             return mealTokenInformationRepo.save(mealTokenInformation);
         } catch (Exception e) {

@@ -107,6 +107,6 @@ public class User {
     @JsonBackReference
     private List<MealTokenInformation> mealTokenInformations;
 
-    public Integer mealTokenAmount;
+    public Integer mealTokenAmount=0;
     private Boolean blocked = false;
 }

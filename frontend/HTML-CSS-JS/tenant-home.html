@@ -70,7 +70,7 @@
                 <span id="p_mealTokens" class="ml-2 text-xl">0</span>
               </div>
               <div
-                class="badge badge-secondary badge-lg text-white font-bold mb-4 p-4 mt-2"
+                class="badge badge-secondary badge-lg text-white  mb-4 p-4 mt-2"
               >
                 For every meal, 30 meal tokens will be used.
               </div>
@@ -135,24 +135,55 @@
               </div>
             </div>
             <div class="card bg-green-600 text-white shadow-xl">
-                        <div class="card-body p-5">
-                            <h2 class="card-title text-lg">🍛 Take a Meal</h2>
-                            
-                            <div class="form-control mb-1">
-                                <select id="m_roomNo" class="select select-bordered select-sm text-black w-full" required>
-                                    <option value="" disabled selected>Loading active room...</option>
-                                </select>
-                            </div>
+              <div class="card-body p-5">
+                <h2 class="card-title text-lg">🍛 Take a Meal</h2>
 
-                            <div class="grid grid-cols-2 gap-2 mt-2">
-                                <button class="btn btn-sm btn-outline text-white border-white" onclick="consumeMeal('Breakfast', 30)">Breakfast</button>
-                                <button class="btn btn-sm btn-outline text-white border-white" onclick="consumeMeal('Lunch', 30)">Lunch</button>
-                                <button class="btn btn-sm btn-outline text-white border-white" onclick="consumeMeal('Snack', 30)">Snack</button>
-                                <button class="btn btn-sm btn-outline text-white border-white" onclick="consumeMeal('Dinner', 30)">Dinner</button>
-                            </div>
-                            <button class="btn btn-xs btn-ghost mt-2 underline" onclick="openMealHistoryModal()">View Meal Logs</button>
-                        </div>
-                    </div>
+                <div class="form-control mb-1">
+                  <select
+                    id="m_roomNo"
+                    class="select select-bordered select-sm text-black w-full"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Loading active room...
+                    </option>
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                  <button
+                    class="btn btn-sm btn-outline text-white border-white"
+                    onclick="consumeMeal('Breakfast', 30)"
+                  >
+                    Breakfast
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline text-white border-white"
+                    onclick="consumeMeal('Lunch', 30)"
+                  >
+                    Lunch
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline text-white border-white"
+                    onclick="consumeMeal('Snack', 30)"
+                  >
+                    Snack
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline text-white border-white"
+                    onclick="consumeMeal('Dinner', 30)"
+                  >
+                    Dinner
+                  </button>
+                </div>
+                <!-- <button
+                  class="btn btn-xs btn-ghost mt-2 underline"
+                  onclick="openMealHistoryModal()"
+                >
+                  View Meal Logs
+                </button> -->
+              </div>
+            </div>
             <div class="card bg-red-600 text-white shadow-lg">
               <div class="card-body p-6">
                 <h2 class="card-title text-xl">⚠️ Complaints</h2>
@@ -397,7 +428,7 @@
               required
             />
           </div>
-          <div class="form-control">
+          <!-- <div class="form-control">
             <label class="label"
               ><span class="label-text">How many tokens?</span></label
             ><input
@@ -406,6 +437,20 @@
               class="input input-bordered"
               placeholder="Enter amount"
               min="1"
+              required
+              oninput="document.getElementById('t_amount').value = this.value"
+            />
+          </div>
+           -->
+          <div class="form-control">
+            <label class="label"
+              ><span class="label-text">How many tokens?</span></label
+            ><input
+              type="number"
+              id="t_tokenAmount"
+              class="input input-bordered"
+              placeholder="Enter amount (Minimum 50)"
+              min="50"
               required
               oninput="document.getElementById('t_amount').value = this.value"
             />
@@ -790,126 +835,142 @@
           document.getElementById("p_mealTokens").textContent = 0;
         }
       }
-    //   async function loadMyBookings() {
-    //     const username = getLoggedInUsername();
-    //     const tbody = document.getElementById("myBookingsTableBody");
-    //     try {
-    //       const res = await fetch(
-    //         `http://localhost:8001/roomBooking/get/userName/${username}`,
-    //         { method: "GET", headers: getHeaders() },
-    //       );
-    //       if (!res.ok && res.status !== 302) throw new Error("");
-    //       const raw = await res.json();
-    //       const myBookings = Array.isArray(raw) ? raw.flat() : raw.data || [];
-    //       const activeBooking = myBookings.find((b) => b.active === true);
-    //       const roomInput = document.getElementById("t_roomNo");
-    //       if (activeBooking && activeBooking.room) {
-    //         activeAllocatedRoom = activeBooking.room.roomNo;
-    //         roomInput.value = activeAllocatedRoom;
-    //       } else {
-    //         activeAllocatedRoom = null;
-    //         roomInput.placeholder = "No active room found!";
-    //       }
-    //       if (myBookings.length === 0)
-    //         return (tbody.innerHTML =
-    //           '<tr><td colspan="5" class="text-center text-gray-500">No bookings yet.</td></tr>');
-    //       let html = "";
-    //       myBookings.forEach((b) => {
-    //         const statusBadge = b.active
-    //           ? '<span class="badge badge-success text-white badge-sm">Active</span>'
-    //           : '<span class="badge badge-neutral badge-sm">Past</span>';
-    //         const amount =
-    //           b.transaction && b.transaction.amount
-    //             ? parseFloat(b.transaction.amount).toFixed(2)
-    //             : b.amount
-    //               ? parseFloat(b.amount).toFixed(2)
-    //               : "0.00";
-    //         const roomNo = b.room ? b.room.roomNo : "-";
-    //         html += `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="font-bold text-primary">Room ${roomNo}</td><td>${b.startDate} to ${b.endDate}</td><td class="font-bold">৳ ${amount}</td><td>${statusBadge}</td></tr>`;
-    //       });
-    //       tbody.innerHTML = html;
-    //     } catch (error) {
-    //       tbody.innerHTML =
-    //         '<tr><td colspan="5" class="text-center">Error</td></tr>';
-    //     }
-    //   }
-    async function loadMyBookings() {
-            const username = getLoggedInUsername();
-            const tbody = document.getElementById('myBookingsTableBody');
-            try {
-                const res = await fetch(`http://localhost:8001/roomBooking/get/userName/${username}`, { method: "GET", headers: getHeaders() });
-                const raw = await res.json();
-                const myBookings = Array.isArray(raw) ? raw.flat() : (raw.data || []);
-                
-                // 💡 FIX: Meal deduction এর ড্রপডাউনে কারেন্ট অ্যাক্টিভ রুম লোড করা
-                const mealRoomSelect = document.getElementById('m_roomNo');
-                if (mealRoomSelect) mealRoomSelect.innerHTML = '<option value="" disabled selected>Select Room</option>';
-                let hasActiveRoom = false;
+      //   async function loadMyBookings() {
+      //     const username = getLoggedInUsername();
+      //     const tbody = document.getElementById("myBookingsTableBody");
+      //     try {
+      //       const res = await fetch(
+      //         `http://localhost:8001/roomBooking/get/userName/${username}`,
+      //         { method: "GET", headers: getHeaders() },
+      //       );
+      //       if (!res.ok && res.status !== 302) throw new Error("");
+      //       const raw = await res.json();
+      //       const myBookings = Array.isArray(raw) ? raw.flat() : raw.data || [];
+      //       const activeBooking = myBookings.find((b) => b.active === true);
+      //       const roomInput = document.getElementById("t_roomNo");
+      //       if (activeBooking && activeBooking.room) {
+      //         activeAllocatedRoom = activeBooking.room.roomNo;
+      //         roomInput.value = activeAllocatedRoom;
+      //       } else {
+      //         activeAllocatedRoom = null;
+      //         roomInput.placeholder = "No active room found!";
+      //       }
+      //       if (myBookings.length === 0)
+      //         return (tbody.innerHTML =
+      //           '<tr><td colspan="5" class="text-center text-gray-500">No bookings yet.</td></tr>');
+      //       let html = "";
+      //       myBookings.forEach((b) => {
+      //         const statusBadge = b.active
+      //           ? '<span class="badge badge-success text-white badge-sm">Active</span>'
+      //           : '<span class="badge badge-neutral badge-sm">Past</span>';
+      //         const amount =
+      //           b.transaction && b.transaction.amount
+      //             ? parseFloat(b.transaction.amount).toFixed(2)
+      //             : b.amount
+      //               ? parseFloat(b.amount).toFixed(2)
+      //               : "0.00";
+      //         const roomNo = b.room ? b.room.roomNo : "-";
+      //         html += `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="font-bold text-primary">Room ${roomNo}</td><td>${b.startDate} to ${b.endDate}</td><td class="font-bold">৳ ${amount}</td><td>${statusBadge}</td></tr>`;
+      //       });
+      //       tbody.innerHTML = html;
+      //     } catch (error) {
+      //       tbody.innerHTML =
+      //         '<tr><td colspan="5" class="text-center">Error</td></tr>';
+      //     }
+      //   }
+      async function loadMyBookings() {
+        const username = getLoggedInUsername();
+        const tbody = document.getElementById("myBookingsTableBody");
+        try {
+          const res = await fetch(
+            `http://localhost:8001/roomBooking/get/userName/${username}`,
+            { method: "GET", headers: getHeaders() },
+          );
+          const raw = await res.json();
+          const myBookings = Array.isArray(raw) ? raw.flat() : raw.data || [];
 
-                if (myBookings.length === 0) return tbody.innerHTML = '<tr><td colspan="5" class="text-center">No bookings yet.</td></tr>';
-                
-                tbody.innerHTML = myBookings.map(b => {
-                    const status = b.active ? '<span class="badge badge-success text-white badge-sm">Active</span>' : '<span class="badge badge-neutral badge-sm">Past</span>';
-                    const amt = b.transaction?.amount || b.amount || 0;
-                    
-                    // যদি বুকিংটি Active হয়, তবে সেটি ড্রপডাউনে অ্যাড হবে
-                    if (b.active && b.room) {
-                        activeAllocatedRoom = b.room.roomNo;
-                        if(document.getElementById('t_roomNo')) document.getElementById('t_roomNo').value = activeAllocatedRoom;
-                        if(mealRoomSelect) mealRoomSelect.innerHTML += `<option value="${b.room.roomNo}" selected>Room ${b.room.roomNo}</option>`;
-                        hasActiveRoom = true;
-                    }
+          // 💡 FIX: Meal deduction এর ড্রপডাউনে কারেন্ট অ্যাক্টিভ রুম লোড করা
+          const mealRoomSelect = document.getElementById("m_roomNo");
+          if (mealRoomSelect)
+            mealRoomSelect.innerHTML =
+              '<option value="" disabled selected>Select Room</option>';
+          let hasActiveRoom = false;
 
-                    return `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="text-primary font-bold">Room ${b.room?.roomNo || '-'}</td><td>${b.startDate} to ${b.endDate}</td><td class="font-bold">৳${amt}</td><td>${status}</td></tr>`;
-                }).join('');
+          if (myBookings.length === 0)
+            return (tbody.innerHTML =
+              '<tr><td colspan="5" class="text-center">No bookings yet.</td></tr>');
 
-                if (!hasActiveRoom && mealRoomSelect) {
-                    mealRoomSelect.innerHTML = '<option value="" disabled selected>No Active Room Found</option>';
-                }
-            } catch (e) { 
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center">Error loading bookings</td></tr>'; 
-            }
+          tbody.innerHTML = myBookings
+            .map((b) => {
+              const status = b.active
+                ? '<span class="badge badge-success text-white badge-sm">Active</span>'
+                : '<span class="badge badge-neutral badge-sm">Past</span>';
+              const amt = b.transaction?.amount || b.amount || 0;
+
+              // যদি বুকিংটি Active হয়, তবে সেটি ড্রপডাউনে অ্যাড হবে
+              if (b.active && b.room) {
+                activeAllocatedRoom = b.room.roomNo;
+                if (document.getElementById("t_roomNo"))
+                  document.getElementById("t_roomNo").value =
+                    activeAllocatedRoom;
+                if (mealRoomSelect)
+                  mealRoomSelect.innerHTML += `<option value="${b.room.roomNo}" selected>Room ${b.room.roomNo}</option>`;
+                hasActiveRoom = true;
+              }
+
+              return `<tr><td class="font-bold">#${b.roomRentInformationId}</td><td class="text-primary font-bold">Room ${b.room?.roomNo || "-"}</td><td>${b.startDate} to ${b.endDate}</td><td class="font-bold">৳${amt}</td><td>${status}</td></tr>`;
+            })
+            .join("");
+
+          if (!hasActiveRoom && mealRoomSelect) {
+            mealRoomSelect.innerHTML =
+              '<option value="" disabled selected>No Active Room Found</option>';
+          }
+        } catch (e) {
+          tbody.innerHTML =
+            '<tr><td colspan="5" class="text-center">Error loading bookings</td></tr>';
         }
-    //   async function openTokenHistoryModal() {
-    //     token_history_modal.showModal();
-    //     const tbody = document.getElementById("tokenHistoryTableBody");
-    //     tbody.innerHTML =
-    //       '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
-    //     try {
-    //       const username = getLoggedInUsername();
-    //       const res = await fetch(
-    //         `http://localhost:8001/mealToken/get/userName/${username}`,
-    //         { method: "GET", headers: getHeaders() },
-    //       );
-    //       if (!res.ok && res.status !== 302) throw new Error("");
-    //       let raw = await res.json();
-    //       const tokens = Array.isArray(raw) ? raw.flat() : raw.data || [];
-    //       if (tokens.length === 0)
-    //         return (tbody.innerHTML =
-    //           '<tr><td colspan="6" class="text-center text-gray-500">No token history found.</td></tr>');
-    //       let html = "";
-    //       tokens.reverse().forEach((t) => {
-    //         const date = t.createdAt
-    //           ? new Date(t.createdAt).toLocaleDateString()
-    //           : "N/A";
-    //         const amount =
-    //           t.transaction && t.transaction.amount
-    //             ? parseFloat(t.transaction.amount).toFixed(2)
-    //             : t.amount
-    //               ? parseFloat(t.amount).toFixed(2)
-    //               : "0.00";
-    //         const method =
-    //           t.transaction && t.transaction.paymentMethod
-    //             ? t.transaction.paymentMethod.paymentMethod
-    //             : "-";
-    //         html += `<tr><td class="font-bold">#${t.mealTokenInformationId || "-"}</td><td class="text-sm">${date}</td><td class="font-bold">Room ${t.room ? t.room.roomNo : "-"}</td><td class="font-bold text-secondary text-lg">+${t.tokenAmount}</td><td class="text-green-600 font-bold">৳ ${amount}</td><td class="uppercase text-xs font-bold">${method}</td></tr>`;
-    //       });
-    //       tbody.innerHTML = html;
-    //     } catch (e) {
-    //       tbody.innerHTML =
-    //         '<tr><td colspan="6" class="text-center text-error">Error loading history</td></tr>';
-    //     }
-    //   }
+      }
+      //   async function openTokenHistoryModal() {
+      //     token_history_modal.showModal();
+      //     const tbody = document.getElementById("tokenHistoryTableBody");
+      //     tbody.innerHTML =
+      //       '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
+      //     try {
+      //       const username = getLoggedInUsername();
+      //       const res = await fetch(
+      //         `http://localhost:8001/mealToken/get/userName/${username}`,
+      //         { method: "GET", headers: getHeaders() },
+      //       );
+      //       if (!res.ok && res.status !== 302) throw new Error("");
+      //       let raw = await res.json();
+      //       const tokens = Array.isArray(raw) ? raw.flat() : raw.data || [];
+      //       if (tokens.length === 0)
+      //         return (tbody.innerHTML =
+      //           '<tr><td colspan="6" class="text-center text-gray-500">No token history found.</td></tr>');
+      //       let html = "";
+      //       tokens.reverse().forEach((t) => {
+      //         const date = t.createdAt
+      //           ? new Date(t.createdAt).toLocaleDateString()
+      //           : "N/A";
+      //         const amount =
+      //           t.transaction && t.transaction.amount
+      //             ? parseFloat(t.transaction.amount).toFixed(2)
+      //             : t.amount
+      //               ? parseFloat(t.amount).toFixed(2)
+      //               : "0.00";
+      //         const method =
+      //           t.transaction && t.transaction.paymentMethod
+      //             ? t.transaction.paymentMethod.paymentMethod
+      //             : "-";
+      //         html += `<tr><td class="font-bold">#${t.mealTokenInformationId || "-"}</td><td class="text-sm">${date}</td><td class="font-bold">Room ${t.room ? t.room.roomNo : "-"}</td><td class="font-bold text-secondary text-lg">+${t.tokenAmount}</td><td class="text-green-600 font-bold">৳ ${amount}</td><td class="uppercase text-xs font-bold">${method}</td></tr>`;
+      //       });
+      //       tbody.innerHTML = html;
+      //     } catch (e) {
+      //       tbody.innerHTML =
+      //         '<tr><td colspan="6" class="text-center text-error">Error loading history</td></tr>';
+      //     }
+      //   }
       async function openComplaintHistoryModal() {
         complaint_history_modal.showModal();
         const tbody = document.getElementById("complaintHistoryTableBody");
@@ -950,37 +1011,45 @@
             '<tr><td colspan="5" class="text-center text-error">Error loading history</td></tr>';
         }
       }
-    async function openTokenHistoryModal() {
-            token_history_modal.showModal();
-            const tbody = document.getElementById("tokenHistoryTableBody");
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
-            try {
-                const username = getLoggedInUsername();
-                const res = await fetch(
-                    `http://localhost:8001/mealToken/get/userName/${username}`,
-                    { method: "GET", headers: getHeaders() },
-                );
-                if (!res.ok && res.status !== 302) throw new Error("");
-                let raw = await res.json();
-                const tokens = Array.isArray(raw) ? raw.flat() : raw.data || [];
-                if (tokens.length === 0)
-                    return (tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-500">No token history found.</td></tr>');
-                
-                let html = "";
-                tokens.reverse().forEach((t) => {
-                    // Date and Time parsing
-                    const d = t.createdAt ? new Date(t.createdAt) : new Date();
-                    const dateStr = d.toLocaleDateString();
-                    const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    const fullDateTime = `${dateStr} <br><span class="text-xs opacity-50">${timeStr}</span>`;
+      async function openTokenHistoryModal() {
+        token_history_modal.showModal();
+        const tbody = document.getElementById("tokenHistoryTableBody");
+        tbody.innerHTML =
+          '<tr><td colspan="6" class="text-center"><span class="loading loading-spinner"></span> Loading history...</td></tr>';
+        try {
+          const username = getLoggedInUsername();
+          const res = await fetch(
+            `http://localhost:8001/mealToken/get/userName/${username}`,
+            { method: "GET", headers: getHeaders() },
+          );
+          if (!res.ok && res.status !== 302) throw new Error("");
+          let raw = await res.json();
+          const tokens = Array.isArray(raw) ? raw.flat() : raw.data || [];
+          if (tokens.length === 0)
+            return (tbody.innerHTML =
+              '<tr><td colspan="6" class="text-center text-gray-500">No token history found.</td></tr>');
 
-                    // Amount check logic
-                    const rawAmount = t.transaction && t.transaction.amount ? parseFloat(t.transaction.amount) : 0;
-                    const isConsumed = rawAmount === 0;
+          let html = "";
+          tokens.reverse().forEach((t) => {
+            // Date and Time parsing
+            const d = t.createdAt ? new Date(t.createdAt) : new Date();
+            const dateStr = d.toLocaleDateString();
+            const timeStr = d.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            const fullDateTime = `${dateStr} <br><span class="text-xs opacity-50">${timeStr}</span>`;
 
-                    if (isConsumed) {
-                        // 🔴 Meal Deduction Logic (Amount is 0)
-                        html += `<tr>
+            // Amount check logic
+            const rawAmount =
+              t.transaction && t.transaction.amount
+                ? parseFloat(t.transaction.amount)
+                : 0;
+            const isConsumed = rawAmount === 0;
+
+            if (isConsumed) {
+              // 🔴 Meal Deduction Logic (Amount is 0)
+              html += `<tr>
                             <td class="font-bold">#${t.mealTokenInformationId || "-"}</td>
                             <td class="text-sm">${fullDateTime}</td>
                             <td class="font-bold">Room ${t.room ? t.room.roomNo : "-"}</td>
@@ -988,10 +1057,13 @@
                             <td class="text-gray-400 font-bold">-</td>
                             <td class="uppercase text-xs font-bold text-gray-400">Consumed</td>
                         </tr>`;
-                    } else {
-                        // 🟢 Token Purchase Logic (Amount > 0)
-                        const method = t.transaction && t.transaction.paymentMethod ? t.transaction.paymentMethod.paymentMethod : "-";
-                        html += `<tr>
+            } else {
+              // 🟢 Token Purchase Logic (Amount > 0)
+              const method =
+                t.transaction && t.transaction.paymentMethod
+                  ? t.transaction.paymentMethod.paymentMethod
+                  : "-";
+              html += `<tr>
                             <td class="font-bold">#${t.mealTokenInformationId || "-"}</td>
                             <td class="text-sm">${fullDateTime}</td>
                             <td class="font-bold">Room ${t.room ? t.room.roomNo : "-"}</td>
@@ -999,13 +1071,14 @@
                             <td class="text-green-600 font-bold">৳ ${rawAmount.toFixed(2)}</td>
                             <td class="uppercase text-xs font-bold">${method}</td>
                         </tr>`;
-                    }
-                });
-                tbody.innerHTML = html;
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-error">Error loading history</td></tr>';
             }
+          });
+          tbody.innerHTML = html;
+        } catch (e) {
+          tbody.innerHTML =
+            '<tr><td colspan="6" class="text-center text-error">Error loading history</td></tr>';
         }
+      }
       async function openDiscussionsModal() {
         discussion_list_modal.showModal();
         const container = document.getElementById("discussionsContainer");
@@ -1184,6 +1257,57 @@
           localStorage.setItem("returnTo", "/tenant-home.html");
           window.location.href = "/payment.html";
         });
+      // 💡 পেজ সম্পূর্ণ লোড হওয়ার পর ইভেন্ট লিসেনারটি রেজিস্টার হবে
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     const buyForm = document.getElementById("formBuyToken");
+        
+    //     if (buyForm) {
+    //         buyForm.addEventListener("submit", (e) => {
+    //             e.preventDefault();
+    //             console.log("Token purchase form submitted!");
+    //             console.log("Current Active Room:", activeAllocatedRoom);
+
+    //             // ১. একটিভ রুম ভ্যালিডেশন
+    //             if (!activeAllocatedRoom) {
+    //                 showToast("You need an active room booking to buy meal tokens!", "error");
+    //                 return;
+    //             }
+
+    //             // ২. সর্বনিম্ন ৫০ টোকেন ভ্যালিডেশন
+    //             const tokenAmountInput = document.getElementById("t_tokenAmount");
+    //             const tokenAmount = tokenAmountInput ? parseInt(tokenAmountInput.value) : 0;
+                
+    //             if (tokenAmount < 50) {
+    //                 showToast("Minimum purchase limit is 50 tokens!", "error");
+    //                 return;
+    //             }
+
+    //             // ৩. পে-লোড তৈরি
+    //             const amountInput = document.getElementById("t_amount");
+    //             const paymentMethodSelect = document.getElementById("t_paymentMethod");
+
+    //             const payload = {
+    //                 userName: getLoggedInUsername(),
+    //                 roomNo: parseInt(activeAllocatedRoom),
+    //                 tokenAmount: tokenAmount,
+    //                 amount: amountInput ? parseFloat(amountInput.value) : 0,
+    //                 paymentMethod: paymentMethodSelect ? paymentMethodSelect.value : "visa",
+    //             };
+
+    //             console.log("Payload generated successfully:", payload);
+
+    //             // ৪. লোকাল স্টোরেজে ডাটা সেভ এবং রিডাইরেক্ট
+    //             localStorage.setItem("pendingBookingInfo", JSON.stringify(payload));
+    //             localStorage.setItem("paymentApiUrl", "http://localhost:8001/mealToken/create");
+    //             localStorage.setItem("returnTo", "/tenant-home.html");
+                
+    //             console.log("Redirecting to payment.html...");
+    //             window.location.href = "/payment.html";
+    //         });
+    //     } else {
+    //         console.error("Error: #formBuyToken element could not be found in the DOM!");
+    //     }
+    // });
       document
         .getElementById("formAddComplaint")
         .addEventListener("submit", async (e) => {
@@ -1222,6 +1346,7 @@
             btn.disabled = false;
           }
         });
+      
       async function loadRoomsForBooking() {
         try {
           const res = await fetch("http://localhost:8001/room/get/all", {
@@ -1311,42 +1436,45 @@
         loadTokenBalance();
       });
 
-
       async function consumeMeal(type, amount) {
-            const currentTokens = parseInt(document.getElementById('p_mealTokens').textContent) || 0;
-            
-            if (currentTokens < amount) {
-                return showToast(`Insufficient Tokens! You need ${amount} tokens for ${type}.`, "error");
-            }
-            if (!confirm(`Take ${type} and deduct ${amount} tokens?`)) return;
+        const currentTokens =
+          parseInt(document.getElementById("p_mealTokens").textContent) || 0;
 
-            // 💡 FIX: নতুন MealTokenInformationRequest অনুযায়ী বডি সাজানো হলো
-            const payload = { 
-                userName: getLoggedInUsername(), 
-                roomNo: activeAllocatedRoom ? parseInt(activeAllocatedRoom) : 0, // ইউজারের বর্তমান রুম
-                tokenAmount: amount, // কত টোকেন কাটবে (30)
-                amount: 0.00, // যেহেতু টোকেন দিয়ে কিনছে, তাই টাকা 0
-                paymentMethod: "Token"
-            };
-
-            try {
-                const res = await fetch(`http://localhost:8001/mealToken/consume`, {
-                    method: "POST",
-                    headers: getHeaders(),
-                    body: JSON.stringify(payload)
-                });
-                
-                if (res.ok || res.status === 302) {
-                    showToast(`${type} recorded successfully!`, "success");
-                    loadTokenBalance(); // ব্যালেন্স আপডেট
-                } else {
-                    const errorMsg = await res.text();
-                    showToast(errorMsg || "Failed to consume token", "error");
-                }
-            } catch (e) { 
-                showToast("Server error occurred", "error"); 
-            }
+        if (currentTokens < amount) {
+          return showToast(
+            `Insufficient Tokens! You need ${amount} tokens for ${type}.`,
+            "error",
+          );
         }
+        if (!confirm(`Take ${type} and deduct ${amount} tokens?`)) return;
+
+        // 💡 FIX: নতুন MealTokenInformationRequest অনুযায়ী বডি সাজানো হলো
+        const payload = {
+          userName: getLoggedInUsername(),
+          roomNo: activeAllocatedRoom ? parseInt(activeAllocatedRoom) : 0, // ইউজারের বর্তমান রুম
+          tokenAmount: amount, // কত টোকেন কাটবে (30)
+          amount: 0.0, // যেহেতু টোকেন দিয়ে কিনছে, তাই টাকা 0
+          paymentMethod: "Token",
+        };
+
+        try {
+          const res = await fetch(`http://localhost:8001/mealToken/consume`, {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify(payload),
+          });
+
+          if (res.ok || res.status === 302) {
+            showToast(`${type} recorded successfully!`, "success");
+            loadTokenBalance(); // ব্যালেন্স আপডেট
+          } else {
+            const errorMsg = await res.text();
+            showToast(errorMsg || "Failed to consume token", "error");
+          }
+        } catch (e) {
+          showToast("Server error occurred", "error");
+        }
+      }
     </script>
   </body>
 </html>
