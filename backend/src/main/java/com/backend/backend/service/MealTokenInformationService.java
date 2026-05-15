@@ -110,4 +110,64 @@ public class MealTokenInformationService {
         }
     }
 
+    @Transactional
+    public @Nullable Object consumeMealToken(MealTokenInformationRequest request) throws Exception {
+        try {
+            // 1. User find kora
+            User user = userRepo.findByUserName(request.userName())
+                    .orElseThrow(() -> new Exception("User not found: " + request.userName()));
+
+            // 2. Room find kora (Request theke roomNo newa hocche)
+            Room room = roomRepo.findByRoomNo(request.roomNo())
+                    .orElseThrow(() -> new Exception("Room not found: " + request.roomNo()));
+
+            // 3. Token balance check kora
+            Integer currentTokens = user.getMealTokenAmount();
+            if (currentTokens == null || currentTokens < request.tokenAmount()) {
+                throw new Exception("Insufficient tokens! Balance: " + (currentTokens == null ? 0 : currentTokens));
+            }
+
+            // 4. Types find kora
+            TransactionType type = transactionTypeRepo.findAll().stream()
+                    .filter(t -> t.getTransactionType().equalsIgnoreCase("debit"))
+                    .findFirst().orElse(null);
+
+            PaymentMethod method = paymentMethodRepo.findAll().stream()
+                    .filter(m -> m.getPaymentMethod().equalsIgnoreCase("visa"))
+                    .findFirst().orElse(null);
+
+            PaymentPurpose purpose = paymentPurposeRepo.findAll().stream()
+                    .filter(p -> p.getPaymentPurpose().equalsIgnoreCase("meal token"))
+                    .findFirst().orElse(null);
+
+            // 5. Transaction toiri kora (Amount 0 ebang Debit type)
+            Transaction transaction = Transaction.builder()
+                    .user(user)
+                    .transactionType(type)
+                    .paymentMethod(method)
+                    .paymentPurpose(purpose)
+                    .amount(java.math.BigDecimal.ZERO) // Deduction er jonno amount 0 thakbe
+                    .build();
+            transactionRepo.save(transaction);
+
+            // 6. Notun MealTokenInformation row toiri kora (availableToken update shoho)
+            MealTokenInformation mealTokenInformation = MealTokenInformation.builder()
+                    .transaction(transaction)
+                    .user(user)
+                    .room(room)
+                    .tokenAmount(request.tokenAmount()) // Koyta token deduct holo
+                    .availableToken(currentTokens - request.tokenAmount()) // Remaining balance
+                    .build();
+            mealTokenInformationRepo.save(mealTokenInformation);
+
+            // 7. User table e balance update kora
+            user.setMealTokenAmount(currentTokens - request.tokenAmount());
+            userRepo.save(user);
+
+            return "Meal recorded successfully. Deducted: " + request.tokenAmount();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
 }
