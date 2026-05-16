@@ -68,15 +68,73 @@ flowchart TD
 ## 🛠️ Tech Stack
 
 * **Backend:** Spring Boot (Java) 
-* **Frontend:** Next.js (Tailwind CSS, Daisy UI) 
+* **Frontend:** HTML5, CSS3, JavaScript (Tailwind CSS & DaisyUI via CDN)
 <!-- * **AI Integration:** Spring AI & Ollama -->
 * **Database:** PostgreSQL 
-* **Tools:** Git, Ubuntu, VS Code 
+* **Tools:** Git, Ubuntu, VS Code (with Live Server extension)
 
-<!-- ---
+
+
+
+
 
 ## 📂 Getting Started
 
+Follow these setup instructions to get a local copy of the project up and running on your machine.
+
+### 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+- **Git**
+- **Java Development Kit (JDK 17 or higher)**
+- **Apache Maven**
+- **PostgreSQL Database Engine**
+- **VS Code** (with the *Live Server* extension active)
+
+---
+
+### 🛠️ Installation & Execution Steps
+
+#### 1. Clone the Repository & Switch Branch
+Open your terminal or command prompt and execute the following commands to clone the repository and switch to the development branch:
+```bash
+git clone git@github.com:Water-Pot/SMART-DIGITAL-HOSTEL-ECOSYSTEM.git
+cd SMART-DIGITAL-HOSTEL-ECOSYSTEM
+git checkout aranna
+
+```
+
+#### 2. Database Configuration (PostgreSQL)
+
+Log in to your preferred PostgreSQL client (such as pgAdmin, DBeaver, or your terminal console) and create the application database by running:
+
+```sql
+CREATE DATABASE smart_hostel_management;
+
+```
+
+> 📌 **Note:** If your local PostgreSQL instance uses custom credentials, remember to update the username and password details inside the backend's configuration file (`src/main/resources/application.properties`).
+
+#### 3. Run the Backend Server (Spring Boot)
+
+Navigate to the module directory where your backend `pom.xml` file resides, then launch the server via Maven:
+
+```bash
+mvn spring-boot:run
+
+```
+
+*Once successfully initialized, the backend API layer will serve endpoints on its default port (`http://localhost:8001`).*
+
+#### 4. Launch the Frontend Application (Live Server)
+
+1. Launch **VS Code** and open the workspace folder housing your frontend HTML/CSS/JS ecosystem assets.
+2. Verify that the **Live Server** extension is enabled.
+3. Open the `login.html` file within the editor window.
+4. Right-click anywhere inside the file editor and choose **"Open with Live Server"**, or alternatively click the wireless **Go Live** button located along the bottom-right status bar of the VS Code window.
+
+
+<!-- ---
 ### **Prerequisites**
 * Java 17+
 * Node.js & npm
