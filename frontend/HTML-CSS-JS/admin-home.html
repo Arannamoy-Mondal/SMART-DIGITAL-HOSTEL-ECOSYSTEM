@@ -1450,7 +1450,7 @@
             tokenCount = 0,
             tokenSold = 0;
 
-          // 💡 FIX: Amount check kore shudhu Credit/Buy transaction gulo kora hocche
+          // FIX: Amount check kore shudhu Credit/Buy transaction gulo kora hocche
           t.forEach((x) => {
             if (!x) return;
             
@@ -1690,7 +1690,7 @@
         } catch (e) {}
       }
       // async function openViewAllTokensModal() { all_tokens_list_modal.showModal(); const tbody = document.getElementById('allTokenTableBody'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8"><span class="loading loading-spinner"></span></td></tr>'; try { const tokens = await fetch("http://localhost:8001/mealToken/get/all", { headers: getHeaders() }).then(parseData); tbody.innerHTML = tokens.reverse().map(t => `<tr><td class="font-bold">#${t.mealTokenInformationId}</td><td class="font-semibold text-primary">@${t.user?.userName || '-'}</td><td class="font-bold">Room ${t.room?.roomNo || '-'}</td><td class="font-bold text-lg text-secondary">+${t.tokenAmount}</td><td class="font-bold text-green-700">৳ ${extractMoney(t).toFixed(2)}</td><td class="text-sm">${new Date(t.createdAt).toLocaleDateString()}</td></tr>`).join(''); } catch (e) { } }
-// 💡 আপগ্রেডেড ফাংশন: Amount এর কন্ডিশন চেক করে প্লাস/মাইনাস এবং Consumed লেবেল দেখাবে
+
         async function openViewAllTokensModal() {
             all_tokens_list_modal.showModal();
             const tbody = document.getElementById('allTokenTableBody');
@@ -1705,18 +1705,18 @@
                 }
 
                 tbody.innerHTML = tokens.reverse().map(t => {
-                    // Date এবং Time আলাদাভাবে ফরম্যাট করা হচ্ছে
+                    
                     const d = t.createdAt ? new Date(t.createdAt) : new Date();
                     const dateStr = d.toLocaleDateString();
                     const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     const fullDateTime = `${dateStr} <br><span class="text-xs opacity-50">${timeStr}</span>`;
 
-                    // Amount চেক লজিক (০ টাকা মানেই কনজিউমড বা ডেবিট)
+                    
                     const rawAmount = t.transaction && t.transaction.amount ? parseFloat(t.transaction.amount) : 0;
                     const isConsumed = rawAmount === 0;
 
                     if (isConsumed) {
-                        // 🔴 Meal Consumed Row (টোকেন মাইনাস, মেথড "Consumed")
+                  
                         return `<tr>
                             <td class="font-bold">#${t.mealTokenInformationId || "-"}</td>
                             <td class="font-semibold text-primary">@${t.user?.userName || '-'}</td>
@@ -1727,7 +1727,7 @@
                             <td class="uppercase text-xs font-bold text-gray-400">Consumed</td>
                         </tr>`;
                     } else {
-                        // 🟢 Token Bought Row (টোকেন প্লাস, টাকা এবং মেথড দেখাবে)
+                   
                         const method = t.transaction && t.transaction.paymentMethod ? t.transaction.paymentMethod.paymentMethod : "-";
                         return `<tr>
                             <td class="font-bold">#${t.mealTokenInformationId || "-"}</td>

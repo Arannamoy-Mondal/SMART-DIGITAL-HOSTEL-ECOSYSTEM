@@ -803,7 +803,7 @@
       async function loadTokenBalance() {
         try {
           const username = getLoggedInUsername();
-          // 💡 FIX: MealToken history theke jog na kore, sorasori User table theke synced token amount anbe
+          // FIX: MealToken history theke jog na kore, sorasori User table theke synced token amount anbe
           const res = await fetch(
             `http://localhost:8001/user/get/${username}`,
             {
@@ -889,7 +889,7 @@
           const raw = await res.json();
           const myBookings = Array.isArray(raw) ? raw.flat() : raw.data || [];
 
-          // 💡 FIX: Meal deduction এর ড্রপডাউনে কারেন্ট অ্যাক্টিভ রুম লোড করা
+     
           const mealRoomSelect = document.getElementById("m_roomNo");
           if (mealRoomSelect)
             mealRoomSelect.innerHTML =
@@ -907,7 +907,7 @@
                 : '<span class="badge badge-neutral badge-sm">Past</span>';
               const amt = b.transaction?.amount || b.amount || 0;
 
-              // যদি বুকিংটি Active হয়, তবে সেটি ড্রপডাউনে অ্যাড হবে
+            
               if (b.active && b.room) {
                 activeAllocatedRoom = b.room.roomNo;
                 if (document.getElementById("t_roomNo"))
@@ -1048,7 +1048,7 @@
             const isConsumed = rawAmount === 0;
 
             if (isConsumed) {
-              // 🔴 Meal Deduction Logic (Amount is 0)
+              // Meal Deduction Logic (Amount is 0)
               html += `<tr>
                             <td class="font-bold">#${t.mealTokenInformationId || "-"}</td>
                             <td class="text-sm">${fullDateTime}</td>
@@ -1058,7 +1058,7 @@
                             <td class="uppercase text-xs font-bold text-gray-400">Consumed</td>
                         </tr>`;
             } else {
-              // 🟢 Token Purchase Logic (Amount > 0)
+              // Token Purchase Logic (Amount > 0)
               const method =
                 t.transaction && t.transaction.paymentMethod
                   ? t.transaction.paymentMethod.paymentMethod
@@ -1257,57 +1257,7 @@
           localStorage.setItem("returnTo", "/tenant-home.html");
           window.location.href = "/payment.html";
         });
-      // 💡 পেজ সম্পূর্ণ লোড হওয়ার পর ইভেন্ট লিসেনারটি রেজিস্টার হবে
-    // document.addEventListener("DOMContentLoaded", () => {
-    //     const buyForm = document.getElementById("formBuyToken");
-        
-    //     if (buyForm) {
-    //         buyForm.addEventListener("submit", (e) => {
-    //             e.preventDefault();
-    //             console.log("Token purchase form submitted!");
-    //             console.log("Current Active Room:", activeAllocatedRoom);
-
-    //             // ১. একটিভ রুম ভ্যালিডেশন
-    //             if (!activeAllocatedRoom) {
-    //                 showToast("You need an active room booking to buy meal tokens!", "error");
-    //                 return;
-    //             }
-
-    //             // ২. সর্বনিম্ন ৫০ টোকেন ভ্যালিডেশন
-    //             const tokenAmountInput = document.getElementById("t_tokenAmount");
-    //             const tokenAmount = tokenAmountInput ? parseInt(tokenAmountInput.value) : 0;
-                
-    //             if (tokenAmount < 50) {
-    //                 showToast("Minimum purchase limit is 50 tokens!", "error");
-    //                 return;
-    //             }
-
-    //             // ৩. পে-লোড তৈরি
-    //             const amountInput = document.getElementById("t_amount");
-    //             const paymentMethodSelect = document.getElementById("t_paymentMethod");
-
-    //             const payload = {
-    //                 userName: getLoggedInUsername(),
-    //                 roomNo: parseInt(activeAllocatedRoom),
-    //                 tokenAmount: tokenAmount,
-    //                 amount: amountInput ? parseFloat(amountInput.value) : 0,
-    //                 paymentMethod: paymentMethodSelect ? paymentMethodSelect.value : "visa",
-    //             };
-
-    //             console.log("Payload generated successfully:", payload);
-
-    //             // ৪. লোকাল স্টোরেজে ডাটা সেভ এবং রিডাইরেক্ট
-    //             localStorage.setItem("pendingBookingInfo", JSON.stringify(payload));
-    //             localStorage.setItem("paymentApiUrl", "http://localhost:8001/mealToken/create");
-    //             localStorage.setItem("returnTo", "/tenant-home.html");
-                
-    //             console.log("Redirecting to payment.html...");
-    //             window.location.href = "/payment.html";
-    //         });
-    //     } else {
-    //         console.error("Error: #formBuyToken element could not be found in the DOM!");
-    //     }
-    // });
+    
       document
         .getElementById("formAddComplaint")
         .addEventListener("submit", async (e) => {
@@ -1448,12 +1398,12 @@
         }
         if (!confirm(`Take ${type} and deduct ${amount} tokens?`)) return;
 
-        // 💡 FIX: নতুন MealTokenInformationRequest অনুযায়ী বডি সাজানো হলো
+  
         const payload = {
           userName: getLoggedInUsername(),
-          roomNo: activeAllocatedRoom ? parseInt(activeAllocatedRoom) : 0, // ইউজারের বর্তমান রুম
-          tokenAmount: amount, // কত টোকেন কাটবে (30)
-          amount: 0.0, // যেহেতু টোকেন দিয়ে কিনছে, তাই টাকা 0
+          roomNo: activeAllocatedRoom ? parseInt(activeAllocatedRoom) : 0, 
+          tokenAmount: amount, 
+          amount: 0.0, 
           paymentMethod: "Token",
         };
 
@@ -1466,7 +1416,7 @@
 
           if (res.ok || res.status === 302) {
             showToast(`${type} recorded successfully!`, "success");
-            loadTokenBalance(); // ব্যালেন্স আপডেট
+            loadTokenBalance(); 
           } else {
             const errorMsg = await res.text();
             showToast(errorMsg || "Failed to consume token", "error");

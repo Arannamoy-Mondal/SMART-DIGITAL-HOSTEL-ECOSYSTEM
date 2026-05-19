@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -9,36 +9,102 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
-    <div class="navbar bg-base-100 shadow-sm">
+<body class="bg-base-100 flex flex-col min-h-screen">
+    
+    <div class="navbar bg-primary text-primary-content shadow-lg sticky top-0 z-50 px-4 lg:px-8">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="/index.html">Smart Hostel Ecosystem</a>
+            <a class="btn btn-ghost text-2xl font-bold gap-2" href="/index.html">
+                🏨 Smart Hostel Ecosystem
+            </a>
         </div>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-1">
-                <li><a>Signup</a></li>
-                <li><a href="/login.html">Login</a></li>
+        <div class="flex-none hidden md:flex">
+            <ul class="menu menu-horizontal px-1 font-semibold text-base">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
+        <div class="flex-none gap-2 ml-4">
+            <a href="/signup.html" class="btn btn-ghost border-white hover:bg-white hover:text-primary">Signup</a>
+            <a href="/login.html" class="btn btn-warning text-black font-bold shadow-md">Login ➔</a>
+        </div>
     </div>
-</body>
 
-<script>
+    <div class="hero bg-base-200 flex-grow py-20 lg:py-32">
+        <div class="hero-content text-center">
+            <div class="max-w-3xl">
+                <h1 class="text-5xl lg:text-6xl font-extrabold text-primary mb-6">Modern Living, Digital Management.</h1>
+                <p class="py-6 text-lg lg:text-xl text-gray-600">
+                    Experience a seamless hostel life with our automated ecosystem. Manage room bookings, purchase meal tokens instantly, track daily consumption, and connect with your hostel community—all from one smart dashboard.
+                </p>
+                <div class="flex justify-center gap-4 mt-4">
+                    <a href="/login.html" class="btn btn-primary btn-lg shadow-xl">Get Started Now</a>
+                    <a href="#features" class="btn btn-outline btn-primary btn-lg">Explore Features</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    const checkAuthorization = () => {
+    <div id="features" class="container mx-auto px-4 py-20">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-base-content mb-4">Everything You Need</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto">Our ecosystem provides top-tier facilities managed digitally to ensure maximum comfort and transparency for all tenants.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="card bg-base-100 shadow-xl border-t-4 border-indigo-500 hover:-translate-y-2 transition-transform duration-300">
+                <div class="card-body items-center text-center">
+                    <div class="text-5xl mb-4">🛏️</div>
+                    <h2 class="card-title text-2xl">Smart Room Booking</h2>
+                    <p class="text-gray-600">Browse available rooms, check pricing, and book your stay seamlessly with automated duration calculation.</p>
+                </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-xl border-t-4 border-rose-500 hover:-translate-y-2 transition-transform duration-300">
+                <div class="card-body items-center text-center">
+                    <div class="text-5xl mb-4">🎟️</div>
+                    <h2 class="card-title text-2xl">Digital Meal Tokens</h2>
+                    <p class="text-gray-600">Buy meal tokens online, track your daily consumption, and view complete transaction history without any hassle.</p>
+                </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-xl border-t-4 border-cyan-500 hover:-translate-y-2 transition-transform duration-300">
+                <div class="card-body items-center text-center">
+                    <div class="text-5xl mb-4">💬</div>
+                    <h2 class="card-title text-2xl">Community Forum</h2>
+                    <p class="text-gray-600">Engage with other tenants, participate in discussions, and stay updated with hostel events on the community board.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact" class="footer footer-center p-10 bg-neutral text-neutral-content rounded-t-3xl mt-auto">
+        <aside>
+            <div class="text-4xl mb-2">🏨</div>
+            <p class="font-bold text-lg">
+                Smart Digital Hostel Ecosystem <br>
+                <span class="text-sm font-normal text-gray-400">Providing automated hostel management since 2026</span>
+            </p>
+            <p class="mt-4">Copyright © 2026 - All right reserved by Smart Hostel</p>
+        </aside>
+    </footer>
+
+    <script>
+        const checkAuthorization = () => {
             const token = localStorage.getItem("jwtToken");
-            const role = localStorage.getItem("userRole")
-            if (token && role == "tenant") {
-                window.location.href = "/tenant-home.html"
+            const role = localStorage.getItem("userRole");
+            
+            // If user is already logged in, redirect them to their dashboard
+            if (token && role === "tenant") {
+                window.location.href = "/tenant-home.html";
             }
-            else if (token && role == "admin") {
-                window.location.href = "/admin-home.html"
+            else if (token && role === "admin") {
+                window.location.href = "/admin-home.html";
             }
-            // else {
-            //     window.location.href = "/login.html"
-            // }
-        }
+        };
+
+        // Run check on page load
         window.onload = checkAuthorization;
-</script>
+    </script>
+</body>
 
 </html>
