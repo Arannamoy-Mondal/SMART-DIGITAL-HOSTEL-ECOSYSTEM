@@ -480,7 +480,7 @@
         async function loadTokenBalance() {
             try {
                 const username = getLoggedInUsername();
-                // 💡 FIX: MealToken history theke jog na kore, sorasori User table theke synced token amount anbe
+  
                 const res = await fetch(`http://localhost:8001/user/get/${username}`, {
                     method: "GET",
                     headers: getHeaders()
@@ -510,7 +510,7 @@
                 const raw = await res.json();
                 const myBookings = Array.isArray(raw) ? raw.flat() : (raw.data || []);
 
-                // 💡 FIX: Meal deduction এর ড্রপডাউনে কারেন্ট অ্যাক্টিভ রুম লোড করা
+  
                 const mealRoomSelect = document.getElementById('m_roomNo');
                 if (mealRoomSelect) mealRoomSelect.innerHTML = '<option value="" disabled selected>Select Room</option>';
                 let hasActiveRoom = false;
@@ -521,7 +521,7 @@
                     const status = b.active ? '<span class="badge badge-success text-white badge-sm">Active</span>' : '<span class="badge badge-neutral badge-sm">Past</span>';
                     const amt = b.transaction?.amount || b.amount || 0;
 
-                    // যদি বুকিংটি Active হয়, তবে সেটি ড্রপডাউনে অ্যাড হবে
+         
                     if (b.active && b.room) {
                         activeAllocatedRoom = b.room.roomNo;
                         if (document.getElementById('t_roomNo')) document.getElementById('t_roomNo').value = activeAllocatedRoom;
@@ -556,7 +556,6 @@
                 let raw = await res.json();
                 const tokens = Array.isArray(raw) ? raw.flat() : (raw.data || []);
 
-                // 💡 শুধুমাত্র কেনা টোকেন ফিল্টার করা হচ্ছে (Amount > 0)
                 const buyHistory = tokens.filter(t => t.transaction && parseFloat(t.transaction.amount) > 0);
 
                 if (buyHistory.length === 0) {
@@ -630,7 +629,7 @@ async function consumeMeal(type, amount) {
                 userName: getLoggedInUsername(), 
                 roomNo: selectedRoom,
                 tokenAmount: amount,
-                amount: 0.00, // 💡 Deduction এর জন্য আমরা টাকা পাঠাবো না
+                amount: 0.00, 
                 paymentMethod: "Token"
             };
 
@@ -664,7 +663,7 @@ async function openMealHistoryModal() {
                 let rawData = await res.json();
                 let tokens = Array.isArray(rawData) ? rawData.flat() : (rawData.data || []);
 
-                // 💡 শুধুমাত্র মিল খাওয়ার রেকর্ড ফিল্টার করা হচ্ছে (Amount == 0)
+               
                 const usageLogs = tokens.filter(t => t.transaction && parseFloat(t.transaction.amount) === 0);
 
                 if (usageLogs.length === 0) {
